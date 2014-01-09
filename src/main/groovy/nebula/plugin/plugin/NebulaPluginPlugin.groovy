@@ -1,5 +1,7 @@
 package nebula.plugin.plugin
 
+import nebula.core.ClassHelper
+import nebula.core.GradleHelper
 import nebula.plugin.publishing.NebulaPublishingPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Plugin
