@@ -2,19 +2,27 @@ package nebula.plugin.plugin
 
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
+import nebula.plugin.publishing.NebulaBaseMavenPublishingPlugin
 import nebula.plugin.publishing.NebulaPublishingPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
+import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.XmlProvider
+import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.plugins.GroovyPlugin
 import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.tasks.GradleBuild
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.wrapper.Wrapper
+import release.ReleasePlugin
+import release.ReleasePluginConvention
 
 import java.text.SimpleDateFormat
 
@@ -26,7 +34,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
     private static Logger logger = Logging.getLogger(NebulaPluginPlugin);
 
     protected Project project
-
 
     @Override
     void apply(Project project) {
@@ -45,7 +52,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         // Relevant plugins
         project.plugins.apply(NebulaResponsiblePlugin)
+
         project.plugins.apply(NebulaPublishingPlugin)
+        refreshPom()
 
         addIntegrationTests(project)
 
@@ -60,29 +69,37 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         // Capture our version, so that we can add aligned versions of nebula-core
         // TODO We need a special case for when we're building ourselves, without releasing twice.
+        // TODO Maybe just a property to trigger this behavior
+        // TODO We're only using this for nebula-core, which will be versioned separately, we want this configurable from a property file
+        // TODO a plugin which lets arbitrary dependencies be overriden, would let us override this as needed
         // Fallback is just while we bootstrap ourselves, since we want to build ourselves with our current version
-        def special = ['nebula-tests', 'nebula-plugin-plugin', 'nebula-publishing', 'nebula-responsible']
+        def special = ['nebula-core', 'nebula-test', 'nebula-plugin-plugin', 'nebula-publishing-plugin', 'nebula-project-plugin']
         def nebulaCoreVersion = special.contains(project.name) ? project.version : (ClassHelper.findSpecificationVersion(NebulaPluginPlugin.class) ?: 'latest.release')
 
         // Need testing support
-        project.dependencies.add('testCompile', "com.netflix.nebula:nebula-tests:${nebulaCoreVersion}")
+        project.dependencies.add('testCompile', "com.netflix.nebula:nebula-test:${nebulaCoreVersion}")
 
+
+        configureRelease(project)
+    }
+
+    def configureRelease(AbstractProject project) {
         // Release, to be replaced by our own in the future.
-//        project.plugins.apply(ReleasePlugin)
-//        project.ext.'gradle.release.useAutomaticVersion' = "true"
-//
-//        ReleasePluginConvention releaseConvention = project.convention.getByType(ReleasePluginConvention)
-//        releaseConvention.failOnUnversionedFiles = false
-//        releaseConvention.failOnCommitNeeded = false
-//
-//        // We routinely release from different branches, which aren't master
-//        releaseConvention.git.requireBranch = null
-//
-//        def spawnBintrayUpload = project.task('spawnBintrayUpload', description: 'Create GradleBuild to run BintrayUpload to use a new version', group: 'Release', type: GradleBuild) {
-//            startParameter = project.getGradle().startParameter.newInstance()
-//            tasks = ['bintrayUpload']
-//        }
-//        project.tasks.createReleaseTag.dependsOn spawnBintrayUpload
+        project.plugins.apply(ReleasePlugin)
+        project.ext.'gradle.release.useAutomaticVersion' = "true"
+
+        ReleasePluginConvention releaseConvention = project.convention.getPlugin(ReleasePluginConvention)
+        releaseConvention.failOnUnversionedFiles = false
+        releaseConvention.failOnCommitNeeded = false
+
+        // We routinely release from different branches, which aren't master
+        releaseConvention.git.requireBranch = null
+
+        def spawnBintrayUpload = project.task('spawnBintrayUpload', description: 'Create GradleBuild to run BintrayUpload to use a new version', group: 'Release', type: GradleBuild) {
+            startParameter = project.getGradle().startParameter.newInstance()
+            tasks = ['bintrayUpload']
+        }
+        project.tasks.createReleaseTag.dependsOn spawnBintrayUpload
     }
 
     /**
@@ -197,6 +214,47 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             def wrapperTask = (Wrapper) project.rootProject.tasks.create(name: 'createWrapper', type: Wrapper)
             wrapperTask.gradleVersion = gradleVersion
+        }
+    }
+
+    /**
+     * Handle adding SCM, url and licenses to pom. It's purely constructive, so if someone else try to add these fields the build will break
+     * TODO Make this conditionally additive, so that projects can override
+     * @return
+     */
+    def refreshPom() {
+        def repoName = project.name.startsWith('nebula') ? "${project.name}-plugin" : "gradle-${project.name}-plugin"
+        if (['nebula-core', 'nebula-test'].contains(project.name)) {
+            repoName = project.name
+        }
+        def pomConfig = {
+            // TODO Call scmprovider plugin for values
+            url "https://github.com/nebula-plugins/${repoName}"
+
+            scm {
+                url "scm:git://github.com/nebula-plugins/${repoName}.git"
+                connection "scm:git://github.com/nebula-plugins/${repoName}.git"
+            }
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+        }
+
+        project.plugins.withType(NebulaBaseMavenPublishingPlugin) { basePlugin ->
+            basePlugin.withMavenPublication { MavenPublication t ->
+                t.pom.withXml(new Action<XmlProvider>() {
+                    @Override
+                    void execute(XmlProvider x) {
+                        def root = x.asNode()
+                        root.children().last() + pomConfig
+                    }
+                })
+            }
         }
     }
 
