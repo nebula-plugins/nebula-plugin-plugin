@@ -79,7 +79,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // Need testing support
         project.dependencies.add('testCompile', "com.netflix.nebula:nebula-test:${nebulaCoreVersion}")
 
-
         configureRelease(project)
     }
 
@@ -223,10 +222,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
      * @return
      */
     def refreshPom() {
-        def repoName = project.name.startsWith('nebula') ? "${project.name}-plugin" : "gradle-${project.name}-plugin"
-        if (['nebula-core', 'nebula-test'].contains(project.name)) {
-            repoName = project.name
-        }
+        def repoName = project.name
         def pomConfig = {
             // TODO Call scmprovider plugin for values
             url "https://github.com/nebula-plugins/${repoName}"
