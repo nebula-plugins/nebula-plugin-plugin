@@ -26,35 +26,10 @@ buildscript {
     dependencies { classpath "com.netflix.nebula:nebula-plugin-plugin:1.9.+" }
 }
 
-description 'Gradle plugin to setup nebula-plugin'
+description 'Example Gradle plugin'
 apply plugin: 'nebula-plugin'
 
 dependencies {
     // will get nebula-test into testCompile
-}
-
-def pomConfig = {
-    inceptionYear '2014'
-
-    developers {
-        developer {
-            id 'quidryan'
-            name 'Justin Ryan'
-            email 'justin@halfempty.org'
-            roles{
-                role 'Developer'
-            }
-            timezone '-8'
-        }
-    }
-}
-
-import nebula.plugin.publishing.NebulaBaseMavenPublishingPlugin
-plugins.withType(NebulaBaseMavenPublishingPlugin) {
-    withMavenPublication {
-        pom.withXml {
-            asNode().children().last() + pomConfig
-        }
-    }
 }
 ```
