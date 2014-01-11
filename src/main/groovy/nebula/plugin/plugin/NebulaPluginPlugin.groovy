@@ -67,19 +67,44 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // Add jcenter, they'll have had to already include jcenter into buildscipt, at least we can do this for them.
         project.repositories.jcenter()
 
-        // Capture our version, so that we can add aligned versions of nebula-core
+        // Add nebula-plugins, since new plugins won't necessarily be in jcenter()
+        project.repositories.maven {
+            name: 'Bintray Nebula Plugins repo'
+            url 'http://dl.bintray.com/nebula/gradle-plugins'
+        }
+
+        addNebulaTest(project)
+
+        configureRelease(project)
+    }
+
+    private void addNebulaTest(AbstractProject project) {
+        if (project.name == 'nebula-test') {
+            return
+        }
+
         // TODO We need a special case for when we're building ourselves, without releasing twice.
         // TODO Maybe just a property to trigger this behavior
         // TODO We're only using this for nebula-core, which will be versioned separately, we want this configurable from a property file
         // TODO a plugin which lets arbitrary dependencies be overriden, would let us override this as needed
         // Fallback is just while we bootstrap ourselves, since we want to build ourselves with our current version
-        def special = ['nebula-core', 'nebula-test', 'nebula-plugin-plugin', 'nebula-publishing-plugin', 'nebula-project-plugin']
-        def nebulaCoreVersion = special.contains(project.name) ? project.version : (ClassHelper.findSpecificationVersion(NebulaPluginPlugin.class) ?: 'latest.release')
+
+        Properties properties = new Properties();
+        InputStream is = this.getClass().getResourceAsStream('/nebula.properties');
+        if (is) {
+            // The Gradle daemon can cache the class, and it'll prevent nebula.properties from being available.
+            logger.info("Able to load properties from nebula.properties")
+            properties.load(is);
+        }
+
+        def majorMinor = project.version.toString().substring(0, project.version.toString().lastIndexOf('.'))
+        def key = 'com.netflix.nebula.nebula-test.rev'
+        def nebulaTestVersion = project.rootProject.hasProperty(key) ? project.rootProject.property(key) : (properties.get(key) ?: "${majorMinor}.+")
+        logger.info("Nebula Test Version: ${nebulaTestVersion}")
 
         // Need testing support
-        project.dependencies.add('testCompile', "com.netflix.nebula:nebula-test:${nebulaCoreVersion}")
 
-        configureRelease(project)
+        project.dependencies.add('testCompile', "com.netflix.nebula:nebula-test:${nebulaTestVersion}")
     }
 
     def configureRelease(AbstractProject project) {
