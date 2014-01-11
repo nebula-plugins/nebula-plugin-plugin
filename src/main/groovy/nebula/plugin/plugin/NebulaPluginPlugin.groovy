@@ -52,7 +52,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         // Relevant plugins
         project.plugins.apply(NebulaResponsiblePlugin)
-
+        project.plugins.apply(NebulaBintrayPublishingPlugin)
         project.plugins.apply(NebulaPublishingPlugin)
         refreshPom()
 

@@ -58,6 +58,7 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         }
         bintray.publications = ['mavenJava'] // TODO Assuming this from the other plugin
         bintray.pkg.repo = 'gradle-plugins'
+        bintray.pkg.desc = project.description
         bintray.pkg.userOrg = 'nebula'
         bintray.pkg.name = project.name
         bintray.pkg.licenses = ['Apache-2.0']
