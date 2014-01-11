@@ -97,9 +97,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             properties.load(is);
         }
 
-        def majorMinor = project.version.toString().substring(0, project.version.toString().lastIndexOf('.'))
         def key = 'com.netflix.nebula.nebula-test.rev'
-        def nebulaTestVersion = project.rootProject.hasProperty(key) ? project.rootProject.property(key) : (properties.get(key) ?: "${majorMinor}.+")
+        def nebulaTestVersion = project.rootProject.hasProperty(key) ? project.rootProject.property(key) : (properties.get(key) ?: "${project.gradle.gradleVersion}.+")
         logger.info("Nebula Test Version: ${nebulaTestVersion}")
 
         // Need testing support
