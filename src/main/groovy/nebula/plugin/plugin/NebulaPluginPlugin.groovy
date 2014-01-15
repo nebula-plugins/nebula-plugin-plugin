@@ -9,6 +9,7 @@ import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.XmlProvider
+import org.gradle.api.artifacts.ResolvedDependency
 import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
@@ -45,15 +46,16 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // before applying this plugin.
         new GradleHelper(project).addDefaultGroup('com.netflix.nebula')
 
+        // Relevant plugins
+        project.plugins.apply(NebulaResponsiblePlugin)
+        project.plugins.apply(NebulaBintrayPublishingPlugin)
+        project.plugins.apply(NebulaPublishingPlugin)
+
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)
         project.dependencies.add('compile', project.dependencies.gradleApi()) // We are a plugin after all
         project.dependencies.add('compile', project.dependencies.localGroovy())
 
-        // Relevant plugins
-        project.plugins.apply(NebulaResponsiblePlugin)
-        project.plugins.apply(NebulaBintrayPublishingPlugin)
-        project.plugins.apply(NebulaPublishingPlugin)
         refreshPom()
 
         addIntegrationTests(project)
@@ -75,7 +77,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         addNebulaTest(project)
         addNebulaCore(project)
-        
+
         configureRelease(project)
     }
 
