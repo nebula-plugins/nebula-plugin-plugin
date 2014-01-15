@@ -2,7 +2,7 @@ package nebula.plugin.plugin
 
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
-import nebula.plugin.publishing.NebulaBaseMavenPublishingPlugin
+import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import nebula.plugin.publishing.NebulaPublishingPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action

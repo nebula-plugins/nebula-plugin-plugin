@@ -3,7 +3,7 @@ package nebula.plugin.plugin
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import com.jfrog.bintray.gradle.BintrayUploadTask
-import nebula.plugin.publishing.NebulaBaseMavenPublishingPlugin
+import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
