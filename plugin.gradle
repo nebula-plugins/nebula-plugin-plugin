@@ -1,21 +1,6 @@
-
 buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-
-    dependencies {
-        classpath "com.netflix.nebula:nebula-plugin-plugin:1.9.+"
-    }
-
-    configurations.all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'hours'
-    }
-}
-
-repositories {
-    mavenLocal()
+    repositories { jcenter() }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.9.+' }
 }
 
 description 'Gradle plugin to setup nebula-plugin'
@@ -43,12 +28,14 @@ dependencies {
 task latest << {
     def latestDeps = configurations.latest.resolvedConfiguration.firstLevelModuleDependencies
     def depVers = latestDeps.collect { it.module.id }
-    file('build/latest.properties').text = depVers.collect {"${it.group}.${it.name}.rev=${it.version}"}.join('\n') + '\n'
+    def props = file('build/latest/nebula.properties')
+    props.parentFile.mkdirs()
+    props.text = depVers.collect {"${it.group}.${it.name}.rev=${it.version}"}.join('\n') + '\n'
 }
 
 jar {
-    from('build/latest.properties') {
-        into('nebula/plugin/plugin')
+    from('build/latest/') {
+        into('/')
     }
     dependsOn(latest)
 }
