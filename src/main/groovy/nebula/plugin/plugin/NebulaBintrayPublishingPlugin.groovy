@@ -3,7 +3,21 @@ package nebula.plugin.plugin
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import com.jfrog.bintray.gradle.BintrayUploadTask
+import groovyx.net.http.EncoderRegistry
+import groovyx.net.http.HTTPBuilder
+import org.apache.http.HttpRequest
+import org.apache.http.HttpResponse
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.client.methods.HttpPut
+import org.apache.http.client.methods.HttpUriRequest
+import static groovyx.net.http.ContentType.JSON
+import static groovyx.net.http.Method.*
+import org.apache.http.protocol.HttpContext
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
+import org.apache.http.client.methods.HttpHead
+import org.apache.http.entity.InputStreamEntity
+import org.apache.http.impl.client.DefaultHttpRequestRetryHandler
+import org.apache.http.impl.client.DefaultRedirectStrategy
 import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -65,29 +79,84 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         bintray.pkg.labels = ['gradle', 'nebula']
         //dryRun = project.hasProperty('dry')?project.dry:true // whether to run this as dry-run, without deploying
 
+        // Modify bintrayUpload task
         BintrayUploadTask bintrayUpload = (BintrayUploadTask) project.tasks.find { it instanceof BintrayUploadTask }
         bintrayUpload.group = 'publishing'
         bintrayUpload.doLast {
-//                // Bintray uploads are not marked published, that has to be manually done.
-//                bintrayUpload.with {
-//                    def http = bintrayUpload.createHttpClient()
-//                    def repoPath = "${userOrg ?: user}/$repoName"
-//                    def uploadUri = "/content/$repoPath/$packageName/$version/publish"
-//                    println "Package path: $uploadUri"
-//                    http.request(POST, JSON) {
-//                        uri.path = uploadUri
-//                        body = [discard: 'false']
-//
-//                        response.success = { resp ->
-//                            logger.info("Published package $packageName.")
-//                        }
-//                        response.failure = { resp ->
-//                            throw new GradleException("Could not publish package $packageName")
-//                        }
-//                    }
-//                }
+            // Bintray uploads are not marked published, that has to be manually done.
+            bintrayUpload.with {
+                def http = createHttpClient(bintrayUpload)
+                def repoPath = "${userOrg ?: user}/$repoName"
+                def uploadUri = "/content/$repoPath/$packageName/${project.version}/publish"
+                println "Package path: $uploadUri"
+                http.request(POST, JSON) {
+                    uri.path = uploadUri
+                    body = [discard: 'false']
+
+                    response.success = { resp ->
+                        logger.info("Published package $packageName.")
+                    }
+                    response.failure = { resp ->
+                        throw new GradleException("Could not publish package $packageName")
+                    }
+                }
+            }
         }
 
         bintrayUpload
     }
+
+    /**
+     * Copied from https://github.com/bintray/gradle-bintray-plugin/blob/0.3/src/main/groovy/com/jfrog/bintray/gradle/BintrayUploadTask.groovy
+     *
+     * It's private on the original class, so until it's public this works.
+     */
+    HTTPBuilder createHttpClient(BintrayUploadTask bintrayUpload) {
+        def http = new HTTPBuilder(bintrayUpload.apiUrl)
+
+        // Must use preemptive auth for non-repeatable upload requests
+        http.headers.Authorization = "Basic ${"$bintrayUpload.user:$bintrayUpload.apiKey".toString().bytes.encodeBase64()}"
+
+        //Set an entity with a length for a stream that has the totalBytes method on it
+        def er = new EncoderRegistry() {
+            @Override
+            InputStreamEntity encodeStream(Object data, Object contentType) throws UnsupportedEncodingException {
+                if (data.metaClass.getMetaMethod("totalBytes")) {
+                    InputStreamEntity entity = new InputStreamEntity((InputStream) data, data.totalBytes())
+                    entity.setContentType(contentType.toString())
+                    entity
+                } else {
+                    super.encodeStream(data, contentType)
+                }
+            }
+        }
+        http.encoders = er
+
+        //No point in retrying non-repeatable upload requests
+        http.client.httpRequestRetryHandler = new DefaultHttpRequestRetryHandler(0, false)
+
+        //Follow permanent redirects for PUTs
+        http.client.setRedirectStrategy(new DefaultRedirectStrategy() {
+            @Override
+            boolean isRedirected(HttpRequest request, HttpResponse response, HttpContext context) {
+                def redirected = super.isRedirected(request, response, context)
+                return redirected || response.getStatusLine().getStatusCode() == 301
+            }
+
+            @Override
+            HttpUriRequest getRedirect(HttpRequest request, HttpResponse response, HttpContext context) throws org.apache.http.ProtocolException {
+                URI uri = getLocationURI(request, response, context)
+                String method = request.requestLine.method
+                if (method.equalsIgnoreCase(HttpHead.METHOD_NAME)) {
+                    return new HttpHead(uri)
+                } else if (method.equalsIgnoreCase(HttpPut.METHOD_NAME)) {
+                    return new HttpPut(uri)
+                } else {
+                    return new HttpGet(uri)
+                }
+            }
+        })
+        http
+    }
+
 }
