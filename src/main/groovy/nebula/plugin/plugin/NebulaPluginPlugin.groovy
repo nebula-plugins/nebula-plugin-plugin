@@ -9,7 +9,6 @@ import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.XmlProvider
-import org.gradle.api.artifacts.ResolvedDependency
 import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
@@ -124,7 +123,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         def key = 'com.netflix.nebula.nebula-core.rev'
         def nebulaCoreVersion = project.rootProject.hasProperty(key) ? project.rootProject.property(key) : (properties.get(key) ?: "${project.gradle.gradleVersion}.+")
-        logger.info("Nebula Core Version: ${nebulaCoreVersion}")
+        logger.info("Nebula Core Version: ${nebulaCoreVersion} (${properties.get(key)}/${project.gradle.gradleVersion}.+)")
 
         // Need testing support
 
@@ -258,7 +257,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             // TODO Remove default when it's reliably there
             def gradleVersion = ClassHelper.findManifestValue(NebulaPluginPlugin.class, 'Gradle-Version', '1.9')
 
-            project.logger.lifecycle("Adding createWrapper task to ${gradleVersion}")
+            logger.info("Adding createWrapper task to ${gradleVersion}")
 
             def wrapperTask = (Wrapper) project.rootProject.tasks.create(name: 'createWrapper', type: Wrapper)
             wrapperTask.gradleVersion = gradleVersion
