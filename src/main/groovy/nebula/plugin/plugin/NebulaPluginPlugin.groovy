@@ -74,7 +74,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
         }
 
         addNebulaTest(project)
-
+        addNebulaCore(project)
+        
         configureRelease(project)
     }
 
@@ -104,6 +105,28 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // Need testing support
 
         project.dependencies.add('testCompile', "com.netflix.nebula:nebula-test:${nebulaTestVersion}")
+    }
+
+    private void addNebulaCore(AbstractProject project) {
+        if (project.name == 'nebula-core') {
+            return
+        }
+
+        Properties properties = new Properties();
+        InputStream is = this.getClass().getResourceAsStream('/nebula.properties');
+        if (is) {
+            // The Gradle daemon can cache the class, and it'll prevent nebula.properties from being available.
+            logger.info("Able to load properties from nebula.properties")
+            properties.load(is);
+        }
+
+        def key = 'com.netflix.nebula.nebula-core.rev'
+        def nebulaCoreVersion = project.rootProject.hasProperty(key) ? project.rootProject.property(key) : (properties.get(key) ?: "${project.gradle.gradleVersion}.+")
+        logger.info("Nebula Core Version: ${nebulaCoreVersion}")
+
+        // Need testing support
+
+        project.dependencies.add('compile', "com.netflix.nebula:nebula-core:${nebulaCoreVersion}")
     }
 
     def configureRelease(AbstractProject project) {
