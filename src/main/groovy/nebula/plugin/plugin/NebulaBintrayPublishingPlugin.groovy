@@ -10,6 +10,8 @@ import org.apache.http.HttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.client.methods.HttpPut
 import org.apache.http.client.methods.HttpUriRequest
+import org.gradle.api.publish.maven.internal.publication.MavenPublicationInternal
+
 import static groovyx.net.http.ContentType.JSON
 import static groovyx.net.http.Method.*
 import org.apache.http.protocol.HttpContext
@@ -40,7 +42,7 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         def bintrayUpload = addBintray(project)
 
         project.plugins.withType(NebulaBaseMavenPublishingPlugin) { NebulaBaseMavenPublishingPlugin mavenPublishingPlugin ->
-            mavenPublishingPlugin.withMavenPublication { MavenPublication mavenJava ->
+            mavenPublishingPlugin.withMavenPublication { MavenPublicationInternal mavenJava ->
                 // Ensure everything is built before uploading
                 bintrayUpload.dependsOn(mavenJava.publishableFiles)
             }
