@@ -109,7 +109,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
     }
 
     private void addNebulaCore(AbstractProject project) {
-        if (project.name == 'nebula-core') {
+        if (project.name == 'nebula-core' || project.name == 'nebula-test') {
             return
         }
 
