@@ -4,6 +4,7 @@ import nebula.core.ClassHelper
 import nebula.core.GradleHelper
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import nebula.plugin.publishing.NebulaPublishingPlugin
+import nebula.plugin.publishing.sign.NebulaSignPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
@@ -49,6 +50,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.plugins.apply(NebulaResponsiblePlugin)
         project.plugins.apply(NebulaBintrayPublishingPlugin)
         project.plugins.apply(NebulaPublishingPlugin)
+        project.plugins.apply(NebulaSignPlugin)
 
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)
