@@ -7,8 +7,8 @@ description 'Gradle plugin to setup nebula-plugin'
 apply plugin: 'nebula-plugin'
 
 dependencies {
-    compile 'com.netflix.nebula:nebula-project-plugin:1.9.+'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.+'
+    compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
+    compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.1'
     compile 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
     compile 'com.github.townsfolk:gradle-release:1.2'
 
@@ -21,8 +21,8 @@ configurations {
 }
 
 dependencies {
-    latest 'com.netflix.nebula:nebula-core:1.9.+'
-    latest 'com.netflix.nebula:nebula-test:1.9.+'
+    latest 'com.netflix.nebula:nebula-core:latest.release'
+    latest 'com.netflix.nebula:nebula-test:latest.release'
 }
 
 task latest << {
