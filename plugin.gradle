@@ -9,7 +9,13 @@ apply plugin: 'nebula-plugin'
 dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
     compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.1'
-    compile 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+    compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
+        exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
+    }
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.6') {
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+        exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'
+    }
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin
@@ -21,6 +27,7 @@ configurations {
 }
 
 dependencies {
+    // TODO Lock into 1.9.+ only
     latest 'com.netflix.nebula:nebula-core:latest.release'
     latest 'com.netflix.nebula:nebula-test:latest.release'
 }
