@@ -86,6 +86,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         addNebulaCore(project)
 
         configureRelease(project)
+        configureSnapshot(project)
     }
 
     private void addNebulaTest(AbstractProject project) {
@@ -136,6 +137,12 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // Need testing support
 
         project.dependencies.add('compile', "com.netflix.nebula:nebula-core:${nebulaCoreVersion}")
+    }
+
+    def configureSnapshot(AbstractProject project) {
+        project.tasks.matching { it.name == 'artifactoryPublish' }.all {
+            project.tasks.create('snapshot').dependsOn(it)
+        }
     }
 
     def configureRelease(AbstractProject project) {
