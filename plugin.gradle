@@ -16,6 +16,7 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
         exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'
     }
+    compile('org.jfrog.buildinfo:build-info-extractor-gradle:2.2.2') // Way too many dependencies. :-(
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin

@@ -49,13 +49,14 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         }
 
         // Ensure our versions look like the project status before publishing
-        def verifyStatus = project.tasks.create('verifyStatus')
+        def verifyStatus = project.tasks.create('verifyReleaseStatus')
         verifyStatus.doFirst {
-            def hasSnapshot = project.version.contains('-SNAPSHOT')
-            if (project.status == 'snapshot' && !hasSnapshot) {
-                throw new GradleException("Version (${project.version}) needs -SNAPSHOT if publishing snapshot")
+            if(project.status != 'release') {
+                throw new GradleException("Project should have a status of release when uploading to bintray")
             }
-            if (project.status == 'release' && hasSnapshot) {
+
+            def hasSnapshot = project.version.contains('-SNAPSHOT')
+            if (hasSnapshot) {
                 throw new GradleException("Version (${project.version}) can not have -SNAPSHOT if publishing release")
             }
         }

@@ -46,9 +46,14 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // before applying this plugin.
         new GradleHelper(project).addDefaultGroup('com.netflix.nebula')
 
+        // Status can effect a few things in an Ivy publish, so try to set status early. Assumes version is already set,
+        // somewhere like gradle.properties
+        project.status = project.version.toString().endsWith('-SNAPSHOT')?'integration':'release'
+
         // Relevant plugins
         project.plugins.apply(NebulaResponsiblePlugin)
         project.plugins.apply(NebulaBintrayPublishingPlugin)
+        project.plugins.apply(NebulaOJOPublishingPlugin)
         project.plugins.apply(NebulaPublishingPlugin)
         project.plugins.apply(NebulaSignPlugin)
 
@@ -71,6 +76,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.repositories.jcenter()
 
         // Add nebula-plugins, since new plugins won't necessarily be in jcenter()
+        // TODO Remove this when plugins are nicely flowing to jcenter()
         project.repositories.maven {
             name: 'Bintray Nebula Plugins repo'
             url 'http://dl.bintray.com/nebula/gradle-plugins'
