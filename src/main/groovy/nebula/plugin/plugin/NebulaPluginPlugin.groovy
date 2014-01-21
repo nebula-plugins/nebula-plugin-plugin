@@ -83,7 +83,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         }
 
         addNebulaTest(project)
-        addNebulaCore(project)
+        //addNebulaCore(project)
 
         configureRelease(project)
         configureSnapshot(project)

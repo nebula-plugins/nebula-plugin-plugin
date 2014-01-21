@@ -37,9 +37,10 @@ plugins.withType(JavaPlugin) {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.netflix.nebula:nebula-core:1.9.+'
-    compile 'com.netflix.nebula:nebula-project-plugin:1.9.+'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.+'
+    compile 'com.netflix.nebula:nebula-core:1.9.1'
+    compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
+    compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.3'
+    compile 'org.jfrog.buildinfo:build-info-extractor-gradle:2.2.2'
     compile 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
     compile 'com.github.townsfolk:gradle-release:1.2'
     testCompile 'com.netflix.nebula:nebula-test:1.9.+'
