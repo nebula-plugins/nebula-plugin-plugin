@@ -29,8 +29,8 @@ configurations {
 
 dependencies {
     // TODO Lock into 1.9.+ only once bintray can generate maven-metadata for linked repos
-    latest 'com.netflix.nebula:nebula-core:latest.release'
-    latest 'com.netflix.nebula:nebula-test:latest.release'
+    latest 'com.netflix.nebula:nebula-core:1.9.1'
+    latest 'com.netflix.nebula:nebula-test:1.9.1'
 }
 
 task latest << {
