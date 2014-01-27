@@ -53,6 +53,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         // Relevant plugins
         project.plugins.apply(NebulaResponsiblePlugin)
         project.plugins.apply(NebulaBintrayPublishingPlugin)
+        project.plugins.apply(NebulaBintraySyncPublishingPlugin)
         project.plugins.apply(NebulaOJOPublishingPlugin)
         project.plugins.apply(NebulaPublishingPlugin)
         project.plugins.apply(NebulaSignPlugin)

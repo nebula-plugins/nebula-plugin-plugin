@@ -86,7 +86,8 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         BintrayUploadTask bintrayUpload = (BintrayUploadTask) project.tasks.find { it instanceof BintrayUploadTask }
         bintrayUpload.group = 'publishing'
         bintrayUpload.doLast {
-            // Bintray uploads are not marked published, that has to be manually done.
+            // Bintray uploads are not marked published, that has to be manually done. I don't for-see a scenario where
+            // we wouldn't want these published.
             bintrayUpload.with {
                 def http = createHttpClient(bintrayUpload)
                 def repoPath = "${userOrg ?: user}/$repoName"
