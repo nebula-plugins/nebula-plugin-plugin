@@ -20,7 +20,7 @@ dependencies {
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin, but we should control the version here
-    latest 'com.netflix.nebula:nebula-test:1.9.3'
+    compile 'com.netflix.nebula:nebula-test:1.9.3'
 }
 
 // Temporary until we can get locking into its own plugin

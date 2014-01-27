@@ -57,12 +57,13 @@ class NebulaBintraySyncPublishingPlugin implements Plugin<Project> {
                     println "Package Sync: $uploadUri"
                     http.request(POST, JSON) {
                         uri.path = uploadUri
-                        body = [username: sonatypeUsername, password: sonatypePassword, close: 1]
+                        uri.query = [username: sonatypeUsername, password: sonatypePassword, close: 1]
 
                         response.success = { resp ->
                             logger.info("Synced package $packageName.")
                         }
                         response.failure = { resp ->
+                            logger.error(resp)
                             throw new GradleException("Could not publish package $packageName")
                         }
                     }
