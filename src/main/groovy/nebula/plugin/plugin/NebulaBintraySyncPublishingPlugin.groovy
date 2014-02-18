@@ -5,6 +5,7 @@ import com.jfrog.bintray.gradle.BintrayPlugin
 import com.jfrog.bintray.gradle.BintrayUploadTask
 import groovyx.net.http.EncoderRegistry
 import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.HttpResponseDecorator
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import org.apache.http.HttpRequest
 import org.apache.http.HttpResponse
@@ -62,8 +63,8 @@ class NebulaBintraySyncPublishingPlugin implements Plugin<Project> {
                         response.success = { resp ->
                             logger.info("Synced package $packageName.")
                         }
-                        response.failure = { resp ->
-                            logger.error(resp)
+                        response.failure = { HttpResponseDecorator resp ->
+                            logger.error(resp.toString())
                             throw new GradleException("Could not publish package $packageName")
                         }
                     }
