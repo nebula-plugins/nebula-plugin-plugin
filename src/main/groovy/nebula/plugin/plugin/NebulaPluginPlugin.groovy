@@ -174,41 +174,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
      * @return
      */
     def addManifestAttributes(Project project) {
-        project.tasks.withType(Jar) { Jar jar ->
-            jar.doFirst {
-                // Delay, in case these values, like version are changed after this plugin is applied.
-
-                // A arbitrary calculation of a current build version
-                // TODO Remove hostname execution
-                // TODO Tie in with a SCM plugin
-                String impVersion
-                if (System.env['BUILD_TAG']) {
-                    impVersion = "${System.env['BUILD_TAG']}"
-                } else {
-                    def formatter = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-                    def dateStr = formatter.format(new Date());
-                    def hostname = "hostname".execute().text.trim()
-                    impVersion = "${dateStr}-${hostname}"
-                }
-                // Sample
-                // Manifest-Version: 1.0
-                // Ant-Version: Apache Ant 1.7.0
-                // Created-By: 1.5.0_13-119 (Apple Inc.)
-                // Package: org.apache.commons.lang
-                // Extension-Name: commons-lang
-                // Specification-Version: 2.4
-                // Specification-Vendor: Apache Software Foundation
-                // Specification-Title: Commons Lang
-                // Implementation-Version: 2.4
-                // Implementation-Vendor: Apache Software Foundation
-                // Implementation-Title: Commons Lang
-                // Implementation-Vendor-Id: org.apache
-                // X-Compile-Source-JDK: 1.3
-                // X-Compile-Target-JDK: 1.2
-
-                jar.manifest.attributes("Implementation-Title": project.name, "Specification-Version": project.version, "Implementation-Version": "${project.version} (${impVersion})", 'Gradle-Version': project.gradle.gradleVersion)
-            }
-        }
+        // Could use InfoBrokerPlugin
     }
 
     /**

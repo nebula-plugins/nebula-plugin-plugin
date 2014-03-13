@@ -9,6 +9,7 @@ apply plugin: 'nebula-plugin'
 dependencies {
     compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.6'
     compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
+    compile 'com.netflix.nebula:gradle-info-plugin:1.9.1'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
