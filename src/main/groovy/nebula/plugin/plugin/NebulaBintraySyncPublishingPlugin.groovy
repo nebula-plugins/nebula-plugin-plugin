@@ -64,8 +64,9 @@ class NebulaBintraySyncPublishingPlugin implements Plugin<Project> {
                             logger.info("Synced package $packageName.")
                         }
                         response.failure = { HttpResponseDecorator resp ->
-                            logger.error(resp.toString())
-                            throw new GradleException("Could not publish package $packageName")
+                            logger.error("Unable to sync to Maven Central, please do manually at https://bintray.com/nebula/gradle-plugins/${project.name}/${project.version}/view/central")
+                            logger.error(resp.data)
+                            //throw new GradleException("Could not publish package $packageName")
                         }
                     }
                 }
