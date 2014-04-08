@@ -1,7 +1,9 @@
 package nebula.plugin.plugin
 
+import com.sun.xml.internal.bind.v2.TODO
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
+import nebula.plugin.info.InfoBrokerPlugin
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import nebula.plugin.publishing.NebulaPublishingPlugin
 import nebula.plugin.publishing.sign.NebulaSignPlugin
@@ -166,15 +168,18 @@ class NebulaPluginPlugin implements Plugin<Project> {
     }
 
     /**
-     * TODO Until we have a plugin to sprinkle Manifest fields in automatically, this is an easy work around
-     * TODO Incorporate via an extension what version of Gradle this plugin works with
-     * TODO This is more part of responsible plugin
-     * TODO Incorporate some Gradle-version compatibility feature
+     * Sprinkle Manifest fields to use for compatibility detection
      * @param project
      * @return
      */
     def addManifestAttributes(Project project) {
-        // Could use InfoBrokerPlugin
+        project.plugins.withType(InfoBrokerPlugin) { InfoBrokerPlugin broker ->
+            // Gradle-Version is part of the BasicInfoPlugin
+            // TODO Incorporate via an extension what version of Gradle this plugin works with
+            // TODO This is more part of responsible plugin
+            // TODO Incorporate some Gradle-version compatibility feature
+
+        }
     }
 
     /**

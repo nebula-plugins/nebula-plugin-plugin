@@ -9,7 +9,7 @@ apply plugin: 'nebula-plugin'
 dependencies {
     compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.6'
     compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
-    compile 'com.netflix.nebula:gradle-info-plugin:1.9.1'
+    compile 'com.netflix.nebula:gradle-info-plugin:1.9.3'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
@@ -17,11 +17,11 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
         exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'
     }
-    compile('org.jfrog.buildinfo:build-info-extractor-gradle:2.2.2') // Way too many dependencies. :-(
+    compile('org.jfrog.buildinfo:build-info-extractor-gradle:2.2.4') // Way too many dependencies. :-(
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin, but we should control the version here
-    compile 'com.netflix.nebula:nebula-test:1.9.3'
+    compile 'com.netflix.nebula:nebula-test:1.9.4'
 }
 
 // Temporary until we can get locking into its own plugin
@@ -31,8 +31,8 @@ configurations {
 
 dependencies {
     // TODO Lock into 1.9.+ only once bintray can generate maven-metadata for linked repos
-    latest 'com.netflix.nebula:nebula-core:1.9.3'
-    latest 'com.netflix.nebula:nebula-test:1.9.3'
+    latest 'com.netflix.nebula:nebula-core:1.9.+'
+    latest 'com.netflix.nebula:nebula-test:1.9.+'
 }
 
 task latest << {
