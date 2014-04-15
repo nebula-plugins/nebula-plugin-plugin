@@ -1,12 +1,9 @@
 package nebula.plugin.plugin
 
-import com.sun.xml.internal.bind.v2.TODO
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
 import nebula.plugin.info.InfoBrokerPlugin
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
-import nebula.plugin.publishing.NebulaPublishingPlugin
-import nebula.plugin.publishing.sign.NebulaSignPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
@@ -21,13 +18,10 @@ import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.GradleBuild
 import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.wrapper.Wrapper
 import release.ReleasePlugin
 import release.ReleasePluginConvention
-
-import java.text.SimpleDateFormat
 
 /**
  * Provide an environment for a Gradle plugin
@@ -57,8 +51,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.plugins.apply(NebulaBintrayPublishingPlugin)
         project.plugins.apply(NebulaBintraySyncPublishingPlugin)
         project.plugins.apply(NebulaOJOPublishingPlugin)
-        project.plugins.apply(NebulaPublishingPlugin)
-        project.plugins.apply(NebulaSignPlugin)
 
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)

@@ -1,28 +1,11 @@
 package nebula.plugin.plugin
 
-import com.jfrog.bintray.gradle.BintrayExtension
-import com.jfrog.bintray.gradle.BintrayPlugin
 import com.jfrog.bintray.gradle.BintrayUploadTask
-import groovyx.net.http.EncoderRegistry
-import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.HttpResponseDecorator
-import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
-import org.apache.http.HttpRequest
-import org.apache.http.HttpResponse
-import org.apache.http.client.methods.HttpGet
-import org.apache.http.client.methods.HttpHead
-import org.apache.http.client.methods.HttpPut
-import org.apache.http.client.methods.HttpUriRequest
-import org.apache.http.entity.InputStreamEntity
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler
-import org.apache.http.impl.client.DefaultRedirectStrategy
-import org.apache.http.protocol.HttpContext
-import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
-import org.gradle.api.publish.maven.internal.publication.MavenPublicationInternal
 
 import static groovyx.net.http.ContentType.JSON
 import static groovyx.net.http.Method.POST
