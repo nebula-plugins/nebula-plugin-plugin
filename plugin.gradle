@@ -16,7 +16,7 @@ contacts {
 }
 
 dependencies {
-    compile 'com.netflix.nebula:nebula-project-plugin:1.9.4'
+    compile 'com.netflix.nebula:nebula-project-plugin:1.9.+'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
@@ -28,7 +28,7 @@ dependencies {
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin, but we should control the version here
-    compile 'com.netflix.nebula:nebula-test:1.9.6'
+    compile 'com.netflix.nebula:nebula-test:1.9.+'
 }
 
 // Temporary until we can get locking into its own plugin
