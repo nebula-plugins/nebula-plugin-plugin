@@ -20,6 +20,7 @@ import org.gradle.api.tasks.GradleBuild
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.wrapper.Wrapper
+import release.GitReleasePluginConvention
 import release.ReleasePlugin
 import release.ReleasePluginConvention
 
@@ -150,7 +151,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
         releaseConvention.failOnCommitNeeded = false
 
         // We routinely release from different branches, which aren't master
-        releaseConvention.git.requireBranch = null
+        def gitReleaseConvention = (GitReleasePluginConvention) releaseConvention.git
+        gitReleaseConvention.requireBranch = null
+        gitReleaseConvention.pushToCurrentBranch = true
 
         def spawnBintrayUpload = project.task('spawnBintrayUpload', description: 'Create GradleBuild to run BintrayUpload to use a new version', group: 'Release', type: GradleBuild) {
             startParameter = project.getGradle().startParameter.newInstance()
