@@ -1,14 +1,9 @@
 buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
+    repositories { jcenter() }
+    dependencies { classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3' }
 }
 
-repositories {
-    mavenLocal()
-    jcenter()
-}
+repositories { jcenter() }
 
 apply plugin: 'groovy'
 apply plugin: 'idea'
@@ -25,6 +20,22 @@ publishing {
     }
 }
 
+apply plugin: 'bintray'
+def packageName = name
+bintray {
+    user = bintrayUser
+    key = bintrayKey
+    publications = ['mavenJava']
+    pkg {
+        repo = 'gradle-plugins'
+        userOrg = 'nebula'
+        name = packageName
+        licenses = ['Apache-2.0']
+    }
+    // Will have to manually publish on bintray.com
+}
+bintrayUpload.dependsOn(build)
+
 task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal') << {
     logger.info "Installed $project.name"
 }
@@ -37,15 +48,22 @@ plugins.withType(JavaPlugin) {
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.netflix.nebula:nebula-core:1.9.1'
-    compile 'com.netflix.nebula:nebula-project-plugin:1.9.3'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:1.9.3'
-    compile 'org.jfrog.buildinfo:build-info-extractor-gradle:2.2.2'
-    compile 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+
+    compile 'com.netflix.nebula:nebula-project-plugin:1.11.0'
+    compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
+        exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
+    }
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
+        exclude group: 'org.codehaus.groovy', module: 'groovy'
+        exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'
+    }
+    compile('org.jfrog.buildinfo:build-info-extractor-gradle:2.2.4') // Way too many dependencies. :-(
     compile 'com.github.townsfolk:gradle-release:1.2'
-    testCompile 'com.netflix.nebula:nebula-test:1.9.+'
+
+    // will get nebula-test from ourselves, the plugin, but we should control the version here
+    testCompile 'com.netflix.nebula:nebula-test:1.11.0'
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.9'
+    gradleVersion = '1.11'
 }
