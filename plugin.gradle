@@ -29,28 +29,3 @@ dependencies {
     // will get nebula-test from ourselves, the plugin, but we should control the version here
     testCompile 'com.netflix.nebula:nebula-test:1.12.+'
 }
-
-// Temporary until we can get locking into its own plugin
-configurations {
-    latest
-}
-
-dependencies {
-    latest 'com.netflix.nebula:nebula-core:1.12.+'
-    latest 'com.netflix.nebula:nebula-test:1.12.+'
-}
-
-task latest << {
-    def latestDeps = configurations.latest.resolvedConfiguration.firstLevelModuleDependencies
-    def depVers = latestDeps.collect { it.module.id }
-    def props = file('build/latest/nebula.properties')
-    props.parentFile.mkdirs()
-    props.text = depVers.collect {"${it.group}.${it.name}.rev=${it.version}"}.join('\n') + '\n'
-}
-
-jar {
-    from('build/latest/') {
-        into('/')
-    }
-    dependsOn(tasks.latest)
-}
