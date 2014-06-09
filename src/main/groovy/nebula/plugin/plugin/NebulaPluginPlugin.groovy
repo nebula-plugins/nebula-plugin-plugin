@@ -78,7 +78,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             url 'http://dl.bintray.com/nebula/gradle-plugins'
         }
 
-        addNebulaTest(project)
+        //addNebulaTest(project)
         //addNebulaCore(project)
 
         configureRelease(project)
@@ -237,12 +237,14 @@ class NebulaPluginPlugin implements Plugin<Project> {
     def addWrapper(Project project) {
         if(!project.rootProject.tasks.findByName('createWrapper')) {
             // TODO Remove default when it's reliably there
-            def gradleVersion = ClassHelper.findManifestValue(NebulaPluginPlugin.class, 'Gradle-Version', '1.9')
+            def gradleVersion = ClassHelper.findManifestValue(NebulaPluginPlugin.class, 'Gradle-Version', '1.12')
 
             logger.info("Adding createWrapper task to ${gradleVersion}")
 
             def wrapperTask = (Wrapper) project.rootProject.tasks.create(name: 'createWrapper', type: Wrapper)
             wrapperTask.gradleVersion = gradleVersion
+            wrapperTask.distributionUrl = "http://dl.bintray.com/nebula/gradle-distributions/${gradleVersion}/gradle-${gradleVersion}-bin.zip"
+
         }
     }
 
