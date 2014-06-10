@@ -14,4 +14,12 @@ class NebulaPluginPluginSpec extends ProjectSpec{
         project.tasks.getByName('testLocal') != null
         project.tasks.getByName('createWrapper') != null
     }
+
+    def 'create generateQualifiedPlugins task'() {
+        when:
+        project.apply plugin: 'nebula-plugin'
+
+        then:
+        project.tasks.getByName('generateQualifiedPlugins') != null
+    }
 }
