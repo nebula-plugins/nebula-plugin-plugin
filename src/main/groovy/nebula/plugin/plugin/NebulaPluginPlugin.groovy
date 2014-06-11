@@ -3,6 +3,7 @@ package nebula.plugin.plugin
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
 import nebula.plugin.info.InfoBrokerPlugin
+import nebula.plugin.plugin.tasks.CreateQualifiedPluginPropertiesTask
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
@@ -67,6 +68,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
         addWrapper(project)
 
         addManifestAttributes(project)
+
+        resourcesCopyQualifiedPluginNames()
 
         // Add jcenter, they'll have had to already include jcenter into buildscipt, at least we can do this for them.
         project.repositories.jcenter()
@@ -283,6 +286,26 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     }
                 })
             }
+        }
+    }
+
+    def resourcesCopyQualifiedPluginNames() {
+        project.plugins.withType(JavaBasePlugin) {
+            def qualifiedPlugins = "${project.buildDir}/qualifed-resources"
+            def outputDirName = "${qualifiedPlugins}/META-INF/gradle-plugins"
+            def generateTaskName = 'generateQualifiedPlugins'
+            def generateTask = project.tasks.create(generateTaskName, CreateQualifiedPluginPropertiesTask)
+
+            def resourceDir = project.sourceSets.main.resources.srcDirs.find { new File(it, 'META-INF/gradle-plugins').exists() }
+
+            if (resourceDir) {
+                generateTask.pluginPropertiesDir = new File(resourceDir, 'META-INF/gradle-plugins')
+                generateTask.outputDir = new File(outputDirName)
+
+                project.sourceSets.main {
+                    output.dir(qualifiedPlugins, builtBy: generateTask)
+                }
+            }   
         }
     }
 

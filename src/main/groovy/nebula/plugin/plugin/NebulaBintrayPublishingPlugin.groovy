@@ -90,6 +90,9 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
             bintrayUpload.with {
                 def http = createHttpClient(bintrayUpload)
                 def repoPath = "${userOrg ?: user}/$repoName"
+                
+                // https://bintray.com/docs/api.html#_publish_discard_uploaded_content
+                // POST /content/:subject/:repo/:package/:version/publish
                 def uploadUri = "/content/$repoPath/$packageName/${project.version}/publish"
                 println "Package path: $uploadUri"
                 http.request(POST, JSON) {
@@ -103,10 +106,46 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
                         throw new GradleException("Could not publish package $packageName")
                     }
                 }
+                
+                def attributesUri = "/packages/$repoPath/$packageName/versions/${project.version}/attributes"
+                addAttributes(http, attributesUri, packageName)
             }
         }
 
         bintrayUpload
+    }
+
+    void addAttributes(HTTPBuilder http, String attributesUri, String packageName) {
+        def resourceDir = project.sourceSets.main.resources.srcDirs.find { new File(it, 'META-INF/gradle-plugins').exists() }
+        if (!resourceDir) {
+            return
+        }
+
+        def files = new File(resourceDir, 'META-INF/gradle-plugins').list() as List
+        def plugins = files.findAll { it.endsWith('.properties') }
+        def attributes = plugins.collect { "nebula.${it[0..-12]}:${project.group}:${project.name}".toString() }
+
+        // https://bintray.com/docs/api.html#_set_attributes
+        // POST /packages/:subject/:repo/:package/versions/:version/attributes
+        def successful = false
+        def retries = 0
+        while (!successful && retries < 3) {
+            http.request(POST, JSON) {
+                uri.path = attributesUri
+                body = [[name: 'gradle-plugins', values: attributes, type: 'string']]
+                response.success = { resp ->
+                    logger.info("Added gradle-plugins attribute to package $packageName.")
+                    successful = true
+                }
+                response.failure = { resp ->
+                    logger.info("${resp.status} try $retries")
+                    retries++
+                }
+            }
+        }
+        if (retries == 3) {
+            throw new GradleException("Could not add attribute to package $packageName")
+        }
     }
 
     /**

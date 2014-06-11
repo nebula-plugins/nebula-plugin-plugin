@@ -1,6 +1,6 @@
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.0-RC2' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.0' }
 }
 
 description 'Gradle plugin to setup nebula-plugin'
@@ -11,6 +11,10 @@ contacts {
     'justin@halfempty.org' {
         moniker 'Justin Ryan'
         github 'quidryan'
+    }
+    'rob.spieldenner@gmail.com' {
+        moniker 'Rob Spieldenner'
+        github 'rspieldenner'
     }
 }
 
