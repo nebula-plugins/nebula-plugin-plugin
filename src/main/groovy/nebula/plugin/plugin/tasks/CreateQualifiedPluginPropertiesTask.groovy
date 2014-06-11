@@ -19,10 +19,6 @@ class CreateQualifiedPluginPropertiesTask extends DefaultTask {
 
     @TaskAction
     void create(IncrementalTaskInputs inputs) {
-        /*if (!outputDir.exists()) {
-            outputDir.mkdirs()
-        }*/
-
         inputs.outOfDate { changed ->
             logger.debug("Changed: ${changed.file.name}")
             // nebula hardcoded as the prefix

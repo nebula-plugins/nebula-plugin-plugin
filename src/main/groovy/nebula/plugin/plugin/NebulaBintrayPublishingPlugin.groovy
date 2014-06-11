@@ -108,7 +108,6 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
                 }
                 
                 def attributesUri = "/packages/$repoPath/$packageName/versions/${project.version}/attributes"
-                logger.lifecycle(attributesUri)
                 addAttributes(http, attributesUri, packageName)
             }
         }
@@ -121,14 +120,13 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         if (!resourceDir) {
             return
         }
-        logger.lifecycle('in add atributes')
+
         def files = new File(resourceDir, 'META-INF/gradle-plugins').list() as List
         def plugins = files.findAll { it.endsWith('.properties') }
         def attributes = plugins.collect { "nebula.${it[0..-12]}:${project.group}:${project.name}".toString() }
-        logger.lifecycle(attributes.toString())
+
         // https://bintray.com/docs/api.html#_set_attributes
         // POST /packages/:subject/:repo/:package/versions/:version/attributes
-        
         def successful = false
         def retries = 0
         while (!successful && retries < 3) {
@@ -140,7 +138,7 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
                     successful = true
                 }
                 response.failure = { resp ->
-                    logger.info(resp.status + ' ' + resp.data.toString())
+                    logger.info("${resp.status} try $retries")
                     retries++
                 }
             }
