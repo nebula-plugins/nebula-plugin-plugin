@@ -19,18 +19,20 @@ class CreateQualifiedPluginPropertiesTask extends DefaultTask {
 
     @TaskAction
     void create(IncrementalTaskInputs inputs) {
-        if (!outputDir.exists()) {
+        /*if (!outputDir.exists()) {
             outputDir.mkdirs()
-        }
+        }*/
 
         inputs.outOfDate { changed ->
             logger.debug("Changed: ${changed.file.name}")
+            // nebula hardcoded as the prefix
             def target = new File(outputDir, "nebula.${changed.file.name}")
             target.text = changed.file.text
         }
 
         inputs.removed { changed ->
             logger.debug("Deleted: ${changed.file.name}")
+            // nebula hardcoded as the prefix
             def target = new File(outputDir, "nebula.${changed.file.name}")
             target.delete()
         }
