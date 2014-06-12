@@ -1,3 +1,9 @@
+1.12.2 / 2014-06-11
+===================
+
+* Using updated nebula plugins
+* Correct spelling of gradle-plugin attribute
+
 1.12.1 / 2014-06-11
 ===================
 

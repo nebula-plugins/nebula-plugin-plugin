@@ -132,7 +132,7 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         while (!successful && retries < 3) {
             http.request(POST, JSON) {
                 uri.path = attributesUri
-                body = [[name: 'gradle-plugins', values: attributes, type: 'string']]
+                body = [[name: 'gradle-plugin', values: attributes, type: 'string']]
                 response.success = { resp ->
                     logger.info("Added gradle-plugins attribute to package $packageName.")
                     successful = true
