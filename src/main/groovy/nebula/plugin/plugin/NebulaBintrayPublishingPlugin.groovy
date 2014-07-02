@@ -41,9 +41,9 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
         def bintrayUpload = addBintray(project)
 
         project.plugins.withType(NebulaBaseMavenPublishingPlugin) { NebulaBaseMavenPublishingPlugin mavenPublishingPlugin ->
-            mavenPublishingPlugin.withMavenPublication { MavenPublicationInternal mavenJava ->
+            mavenPublishingPlugin.withMavenPublication { MavenPublicationInternal mavenNebula ->
                 // Ensure everything is built before uploading
-                bintrayUpload.dependsOn(mavenJava.publishableFiles)
+                bintrayUpload.dependsOn(mavenNebula.publishableFiles)
             }
         }
 
@@ -72,7 +72,7 @@ class NebulaBintrayPublishingPlugin implements Plugin<Project> {
             bintray.user = project.property('bintrayUser')
             bintray.key = project.property('bintrayKey')
         }
-        bintray.publications = ['mavenJava'] // TODO Assuming this from the other plugin
+        bintray.publications = ['mavenNebula'] // TODO Assuming this from the other plugin
         bintray.pkg.repo = 'gradle-plugins'
         bintray.pkg.desc = project.description
         bintray.pkg.userOrg = 'nebula'
