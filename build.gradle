@@ -1,6 +1,6 @@
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.1' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.3' }
 }
 
 description 'Gradle plugin to setup nebula-plugin'
@@ -18,11 +18,13 @@ contacts {
     }
 }
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:1.12.+'
-    compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
-        exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
-    }
+    compile 'com.netflix.nebula:nebula-bintray:1.12.+'
     compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
         exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'

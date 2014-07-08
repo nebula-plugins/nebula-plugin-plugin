@@ -2,6 +2,7 @@ package nebula.plugin.plugin
 
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
+import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.info.InfoBrokerPlugin
 import nebula.plugin.plugin.tasks.CreateQualifiedPluginPropertiesTask
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
@@ -27,10 +28,9 @@ import release.ReleasePluginConvention
 
 /**
  * Provide an environment for a Gradle plugin
- * TODO This is already too big, break apart. Most looks like it would be part of other plugins an part of the responsible plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
-    private static Logger logger = Logging.getLogger(NebulaPluginPlugin);
+    private static Logger logger = Logging.getLogger(NebulaPluginPlugin)
 
     protected Project project
 
@@ -46,13 +46,11 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         // Status can effect a few things in an Ivy publish, so try to set status early. Assumes version is already set,
         // somewhere like gradle.properties
-        project.status = project.version.toString().endsWith('-SNAPSHOT')?'integration':'release'
+        project.status = project.version.toString().endsWith('-SNAPSHOT') ? 'integration' : 'release'
 
         // Relevant plugins
-        project.plugins.apply(NebulaResponsiblePlugin)
-        project.plugins.apply(NebulaBintrayPublishingPlugin)
-        project.plugins.apply(NebulaBintraySyncPublishingPlugin)
-        project.plugins.apply(NebulaOJOPublishingPlugin)
+        project.plugins.apply(BintrayPlugin)
+        new NebulaBintrayPluginConfiguration().configure(project)
 
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)
