@@ -52,6 +52,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.plugins.apply(BintrayPlugin)
         new NebulaBintrayPluginConfiguration().configure(project)
 
+        project.plugins.apply(NebulaResponsiblePlugin)
+
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)
         project.dependencies.add('compile', project.dependencies.gradleApi()) // We are a plugin after all
