@@ -5,6 +5,7 @@ buildscript {
 
 description 'Gradle plugin to setup nebula-plugin'
 apply plugin: 'nebula-plugin'
+apply plugin: 'idea'
 
 apply plugin: 'contacts'
 contacts {

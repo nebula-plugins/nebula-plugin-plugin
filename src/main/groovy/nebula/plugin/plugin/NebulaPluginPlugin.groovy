@@ -22,6 +22,7 @@ import org.gradle.api.tasks.GradleBuild
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.testing.Test
 import org.gradle.api.tasks.wrapper.Wrapper
+import org.gradle.plugins.ide.idea.IdeaPlugin
 import release.GitReleasePluginConvention
 import release.ReleasePlugin
 import release.ReleasePluginConvention
@@ -201,6 +202,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 runtimeClasspath += parentSourceSet.output
             }
 
+            configureIdeaPlugin(project, integrationTestSourceSet)
+
             def intTestTask = project.task(type: Test, 'integrationTest', group: 'verification') {
                 description 'Test classes which run the GradleLauncher'
                 testClassesDir = integrationTestSourceSet.output.classesDir
@@ -211,6 +214,28 @@ class NebulaPluginPlugin implements Plugin<Project> {
             // Establish some ordering
             intTestTask.mustRunAfter(project.tasks.getByName('test'))
             project.tasks.getByName('check').dependsOn(intTestTask)
+        }
+    }
+
+    /**
+     * Configures IDEA plugin to add given SourceSet to test source directories and implicit configurations to the TEST
+     * scope.
+     *
+     * @param project Project
+     * @param testSourceSet Test SourceSet
+     */
+    private void configureIdeaPlugin(Project project, SourceSet testSourceSet) {
+        project.plugins.withType(IdeaPlugin) {
+            project.idea {
+                module {
+                    testSourceSet.allSource.srcDirs.each { srcDir ->
+                        testSourceDirs += srcDir
+                    }
+
+                    scopes.TEST.plus += project.configurations.getByName("${testSourceSet.name}Compile")
+                    scopes.TEST.plus += project.configurations.getByName("${testSourceSet.name}Runtime")
+                }
+            }
         }
     }
 
