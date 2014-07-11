@@ -54,7 +54,7 @@ class NebulaBintrayPluginConfiguration {
                         }
                     }
                     if (retries == 3) {
-                        throw new GradleException("Could not add attribute to package $packageName")
+                        throw new RuntimeException("Could not add attribute to package $packageName")
                     }
                 }
             }

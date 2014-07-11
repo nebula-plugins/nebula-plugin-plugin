@@ -18,14 +18,10 @@ contacts {
     }
 }
 
-repositories {
-    mavenLocal()
-}
-
 dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:1.12.+'
-    compile 'com.netflix.nebula:nebula-bintray:1.12.+'
-    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {
+    compile 'com.netflix.nebula:nebula-bintray-plugin:1.12.+'
+    compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.2') {
         exclude group: 'org.codehaus.groovy', module: 'groovy'
         exclude group: 'net.sourceforge.nekohtml', module: 'nekohtml'
     }
