@@ -6,6 +6,7 @@ import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.info.InfoBrokerPlugin
 import nebula.plugin.plugin.tasks.CreateQualifiedPluginPropertiesTask
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
+import nebula.plugin.responsible.NebulaIntegTestPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
@@ -61,7 +62,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         refreshPom()
 
-        addIntegrationTests(project)
+        project.plugins.apply(NebulaIntegTestPlugin)
 
         addLocalTests(project)
 
@@ -177,40 +178,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             // TODO This is more part of responsible plugin
             // TODO Incorporate some Gradle-version compatibility feature
 
-        }
-    }
-
-    /**
-     * Add Gradle Integration tests, via a conf, sourceSet and task
-     * TODO Implement in Java-esque syntax
-     * @param project
-     */
-    private void addIntegrationTests(Project project) {
-        project.plugins.withType(JavaBasePlugin) { // Conditionalize usage of convention
-            JavaPluginConvention javaConvention = project.getConvention().getPlugin(JavaPluginConvention) // Always exists, since we're applying java-base
-
-            project.configurations {
-                integrationTestCompile.extendsFrom testCompile
-                integrationTestRuntime.extendsFrom testRuntime
-            }
-
-            def sourceSets = javaConvention.sourceSets
-            SourceSet parentSourceSet = sourceSets.getByName('test') // TBD Should this be main or test
-            def integrationTestSourceSet = sourceSets.create('integrationTest') {
-                compileClasspath += parentSourceSet.output
-                runtimeClasspath += parentSourceSet.output
-            }
-
-            def intTestTask = project.task(type: Test, 'integrationTest', group: 'verification') {
-                description 'Test classes which run the GradleLauncher'
-                testClassesDir = integrationTestSourceSet.output.classesDir
-                classpath = integrationTestSourceSet.runtimeClasspath
-                testSrcDirs = integrationTestSourceSet.allJava.srcDirs as List
-            }
-
-            // Establish some ordering
-            intTestTask.mustRunAfter(project.tasks.getByName('test'))
-            project.tasks.getByName('check').dependsOn(intTestTask)
         }
     }
 

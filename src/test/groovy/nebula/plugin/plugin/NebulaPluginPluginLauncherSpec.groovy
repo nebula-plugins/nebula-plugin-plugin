@@ -55,4 +55,24 @@ class NebulaPluginPluginLauncherSpec extends IntegrationSpec {
         files.contains 'META-INF/gradle-plugins/pluginone.properties'
     }
 
+    def "Can run integration tests with sample test"() {
+        when:
+        buildFile << """
+apply plugin: 'nebula-plugin'
+
+dependencies {
+    integTestCompile 'junit:junit:4.8.2'
+}
+"""
+
+        writeHelloWorld('nebula.plugin.plugin')
+        writeTest('src/integTest/java/', 'nebula.plugin.plugin', false)
+        runTasksSuccessfully('integrationTest')
+
+        then:
+        File integrationTestClassFile = new File(projectDir, 'build/classes/integTest/nebula/plugin/plugin/HelloWorldTest.class')
+        integrationTestClassFile.exists()
+        File integrationTestTestResultsFile = new File(projectDir, 'build/integTest-results/TEST-nebula.plugin.plugin.HelloWorldTest.xml')
+        integrationTestTestResultsFile.exists()
+    }
 }

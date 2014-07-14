@@ -5,8 +5,9 @@ buildscript {
 
 description 'Gradle plugin to setup nebula-plugin'
 apply plugin: 'nebula-plugin'
-
 apply plugin: 'contacts'
+apply plugin: 'idea'
+
 contacts {
     'justin@halfempty.org' {
         moniker 'Justin Ryan'
