@@ -9,8 +9,9 @@ class NebulaPluginPluginSpec extends ProjectSpec{
 
         then:
         project.plugins.getPlugin('groovy')
-        project.configurations.getByName('integrationTestRuntime')
-        project.sourceSets.getByName('integrationTest')
+        project.configurations.getByName('integTestCompile')
+        project.configurations.getByName('integTestRuntime')
+        project.sourceSets.getByName('integTest')
         project.tasks.getByName('testLocal') != null
         project.tasks.getByName('createWrapper') != null
     }
