@@ -28,8 +28,8 @@ class NebulaBintraySyncPublishingPlugin implements Plugin<Project> {
         BintrayUploadTask bintrayUpload = (BintrayUploadTask) project.tasks.find { it instanceof BintrayUploadTask }
 
         if (project.hasProperty('sonatypeUsername') && project.hasProperty('sonatypePassword')) {
-            def sonatypeUsername = project.sonatypeUsername
-            def sonatypePassword = project.sonatypePassword
+            def sonatypeUsername = project.properties['sonatypeUsername']
+            def sonatypePassword = project.properties['sonatypePassword']
             bintrayUpload.doLast {
                 // Bintray uploads are not marked published, that has to be manually done. I don't for-see a scenario where
                 // we wouldn't want these published.
