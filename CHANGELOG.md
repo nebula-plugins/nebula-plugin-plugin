@@ -1,6 +1,7 @@
-1.12.4 / 2014-07-11
+1.12.4 / 2014-08-15
 ===================
 
+* Internal test cleanup
 * Extract bintray functionality to [nebula-bintray-plugin](https://github.com/nebula-plugins/nebula-bintray-plugin)
 
 1.12.3 / 2014-07-02
