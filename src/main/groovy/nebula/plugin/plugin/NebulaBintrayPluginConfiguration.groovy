@@ -1,6 +1,7 @@
 package nebula.plugin.plugin
 
 import com.jfrog.bintray.gradle.BintrayExtension
+import com.jfrog.bintray.gradle.BintrayHttpClientFactory
 import com.jfrog.bintray.gradle.BintrayUploadTask
 import org.gradle.api.Project
 
