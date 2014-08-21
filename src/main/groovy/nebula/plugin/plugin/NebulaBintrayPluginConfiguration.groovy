@@ -4,6 +4,8 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayHttpClientFactory
 import com.jfrog.bintray.gradle.BintrayUploadTask
 import org.gradle.api.Project
+import static groovyx.net.http.Method.POST
+import static groovyx.net.http.ContentType.JSON
 
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging

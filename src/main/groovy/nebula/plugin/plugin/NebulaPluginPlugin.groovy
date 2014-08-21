@@ -140,9 +140,11 @@ class NebulaPluginPlugin implements Plugin<Project> {
     }
 
     def configureSnapshot(AbstractProject project) {
+        def snapshotTask = project.tasks.create('snapshot')
         project.tasks.matching { it.name == 'artifactoryPublish' }.all {
-            project.tasks.create('snapshot').dependsOn(it)
+            snapshotTask.dependsOn(it)
         }
+        snapshotTask.dependsOn 'preparePublish'
     }
 
     def configureRelease(AbstractProject project) {
@@ -164,6 +166,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             tasks = ['bintrayUpload']
         }
         project.tasks.createReleaseTag.dependsOn spawnBintrayUpload
+
+        project.tasks.getByName('release').dependsOn 'preparePublish'
     }
 
     /**
