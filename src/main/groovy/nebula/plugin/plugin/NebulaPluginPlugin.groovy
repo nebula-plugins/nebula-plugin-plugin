@@ -11,6 +11,7 @@ import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.XmlProvider
 import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
@@ -141,8 +142,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     def configureSnapshot(AbstractProject project) {
         def snapshotTask = project.tasks.create('snapshot')
-        project.tasks.matching { it.name == 'artifactoryPublish' }.all {
-            snapshotTask.dependsOn(it)
+        project.tasks.matching { it.name == 'artifactoryPublish' }.all { Task artifactoryTask ->
+            snapshotTask.dependsOn(artifactoryTask)
+            artifactoryTask.mustRunAfter('preparePublish')
         }
         snapshotTask.dependsOn 'preparePublish'
     }
