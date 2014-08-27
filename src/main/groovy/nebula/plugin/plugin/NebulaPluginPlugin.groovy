@@ -230,16 +230,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
      * @return
      */
     def refreshPom() {
-        def repoName = project.name
         def pomConfig = {
-            // TODO Call scmprovider plugin for values
-            url "https://github.com/nebula-plugins/${repoName}"
-
-            scm {
-                url "scm:git://github.com/nebula-plugins/${repoName}.git"
-                connection "scm:git://github.com/nebula-plugins/${repoName}.git"
-            }
-
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
