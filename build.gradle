@@ -1,12 +1,13 @@
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.1' }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.+' }
 }
 
 description 'Gradle plugin to setup nebula-plugin'
 apply plugin: 'nebula-plugin'
-
 apply plugin: 'contacts'
+apply plugin: 'idea'
+
 contacts {
     'justin@halfempty.org' {
         moniker 'Justin Ryan'
@@ -20,6 +21,7 @@ contacts {
 
 dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:2.0.+'
+    compile 'com.netflix.nebula:nebula-bintray-plugin:2.0.+'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }

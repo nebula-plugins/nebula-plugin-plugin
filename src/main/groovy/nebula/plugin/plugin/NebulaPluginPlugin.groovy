@@ -2,13 +2,16 @@ package nebula.plugin.plugin
 
 import nebula.core.ClassHelper
 import nebula.core.GradleHelper
+import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.info.InfoBrokerPlugin
 import nebula.plugin.plugin.tasks.CreateQualifiedPluginPropertiesTask
 import nebula.plugin.publishing.maven.NebulaBaseMavenPublishingPlugin
+import nebula.plugin.responsible.NebulaIntegTestPlugin
 import nebula.plugin.responsible.NebulaResponsiblePlugin
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.XmlProvider
 import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
@@ -27,10 +30,9 @@ import release.ReleasePluginConvention
 
 /**
  * Provide an environment for a Gradle plugin
- * TODO This is already too big, break apart. Most looks like it would be part of other plugins an part of the responsible plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
-    private static Logger logger = Logging.getLogger(NebulaPluginPlugin);
+    private static Logger logger = Logging.getLogger(NebulaPluginPlugin)
 
     protected Project project
 
@@ -46,13 +48,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         // Status can effect a few things in an Ivy publish, so try to set status early. Assumes version is already set,
         // somewhere like gradle.properties
-        project.status = project.version.toString().endsWith('-SNAPSHOT')?'integration':'release'
+        project.status = project.version.toString().endsWith('-SNAPSHOT') ? 'integration' : 'release'
 
         // Relevant plugins
+        project.plugins.apply(BintrayPlugin)
+        new NebulaBintrayPluginConfiguration().configure(project)
+
         project.plugins.apply(NebulaResponsiblePlugin)
-        project.plugins.apply(NebulaBintrayPublishingPlugin)
-        project.plugins.apply(NebulaBintraySyncPublishingPlugin)
-        project.plugins.apply(NebulaOJOPublishingPlugin)
 
         // These projects need to be Groovy enabled, even if they don't actually write groovy code. This assumption makes it easier for this infrastructure
         project.plugins.apply(GroovyPlugin)
@@ -61,7 +63,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         refreshPom()
 
-        addIntegrationTests(project)
+        project.plugins.apply(NebulaIntegTestPlugin)
 
         addLocalTests(project)
 
@@ -139,9 +141,12 @@ class NebulaPluginPlugin implements Plugin<Project> {
     }
 
     def configureSnapshot(AbstractProject project) {
-        project.tasks.matching { it.name == 'artifactoryPublish' }.all {
-            project.tasks.create('snapshot').dependsOn(it)
+        def snapshotTask = project.tasks.create('snapshot')
+        project.tasks.matching { it.name == 'artifactoryPublish' }.all { Task artifactoryTask ->
+            snapshotTask.dependsOn(artifactoryTask)
+            artifactoryTask.mustRunAfter('preparePublish')
         }
+        snapshotTask.dependsOn 'preparePublish'
     }
 
     def configureRelease(AbstractProject project) {
@@ -163,6 +168,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             tasks = ['bintrayUpload']
         }
         project.tasks.createReleaseTag.dependsOn spawnBintrayUpload
+
+        project.tasks.getByName('release').dependsOn 'preparePublish'
     }
 
     /**
@@ -177,40 +184,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             // TODO This is more part of responsible plugin
             // TODO Incorporate some Gradle-version compatibility feature
 
-        }
-    }
-
-    /**
-     * Add Gradle Integration tests, via a conf, sourceSet and task
-     * TODO Implement in Java-esque syntax
-     * @param project
-     */
-    private void addIntegrationTests(Project project) {
-        project.plugins.withType(JavaBasePlugin) { // Conditionalize usage of convention
-            JavaPluginConvention javaConvention = project.getConvention().getPlugin(JavaPluginConvention) // Always exists, since we're applying java-base
-
-            project.configurations {
-                integrationTestCompile.extendsFrom testCompile
-                integrationTestRuntime.extendsFrom testRuntime
-            }
-
-            def sourceSets = javaConvention.sourceSets
-            SourceSet parentSourceSet = sourceSets.getByName('test') // TBD Should this be main or test
-            def integrationTestSourceSet = sourceSets.create('integrationTest') {
-                compileClasspath += parentSourceSet.output
-                runtimeClasspath += parentSourceSet.output
-            }
-
-            def intTestTask = project.task(type: Test, 'integrationTest', group: 'verification') {
-                description 'Test classes which run the GradleLauncher'
-                testClassesDir = integrationTestSourceSet.output.classesDir
-                classpath = integrationTestSourceSet.runtimeClasspath
-                testSrcDirs = integrationTestSourceSet.allJava.srcDirs as List
-            }
-
-            // Establish some ordering
-            intTestTask.mustRunAfter(project.tasks.getByName('test'))
-            project.tasks.getByName('check').dependsOn(intTestTask)
         }
     }
 
@@ -257,16 +230,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
      * @return
      */
     def refreshPom() {
-        def repoName = project.name
         def pomConfig = {
-            // TODO Call scmprovider plugin for values
-            url "https://github.com/nebula-plugins/${repoName}"
-
-            scm {
-                url "scm:git://github.com/nebula-plugins/${repoName}.git"
-                connection "scm:git://github.com/nebula-plugins/${repoName}.git"
-            }
-
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
