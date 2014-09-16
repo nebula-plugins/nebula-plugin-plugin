@@ -20,7 +20,7 @@ publishing {
     }
 }
 
-apply plugin: 'bintray'
+apply plugin: 'com.jfrog.bintray'
 def packageName = name
 bintray {
     user = bintrayUser
@@ -50,7 +50,8 @@ dependencies {
     compile localGroovy()
 
     compile 'com.netflix.nebula:nebula-project-plugin:2.0.0-SNAPSHOT'
-    compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
+    compile 'com.netflix.nebula:nebula-bintray-plugin:2.0.0-SNAPSHOT'
+    compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
     compile('org.codehaus.groovy.modules.http-builder:http-builder:0.7.1') {

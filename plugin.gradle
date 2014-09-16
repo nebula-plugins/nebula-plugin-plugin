@@ -16,6 +16,7 @@ contacts {
 
 dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:2.0.+'
+    compile 'com.netflix.nebula:nebula-bintray-plugin:2.0.+'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
