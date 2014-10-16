@@ -1,3 +1,43 @@
+1.12.12 / 2014-10-16
+====================
+
+* Update nebula-project and nebula-bintray plugin versions
+
+1.12.11 / 2014-09-15
+====================
+
+* Updating nebula-project-plugin version
+
+1.12.10 / 2014-09-12
+====================
+
+* Defer url and scm calculation to publishing plugin
+
+1.12.9 / 2014-08-22
+===================
+
+* Fix signing order
+
+1.12.8 / 2014-08-22
+===================
+
+* Update nebula-publishing plugin version
+
+1.12.7 / 2014-08-21
+===================
+
+* Fix ordering of preparePublish
+
+1.12.6 / 2014-08-21
+===================
+
+* Add preparePublish
+
+1.12.5 / 2014-08-21
+===================
+
+* Signing fix
+
 1.12.4 / 2014-08-15
 ===================
 

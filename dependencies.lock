@@ -1,8 +1,8 @@
 {
   "com.github.townsfolk:gradle-release": { "locked": "1.2", "requested": "1.2" },
-  "com.netflix.nebula:nebula-bintray-plugin": { "locked": "1.12.3", "requested": "1.12.+" },
-  "com.netflix.nebula:nebula-project-plugin": { "locked": "1.12.16", "requested": "1.12.+" },
-  "com.netflix.nebula:nebula-test": { "locked": "1.12.2", "requested": "1.12.+" },
+  "com.netflix.nebula:nebula-bintray-plugin": { "locked": "1.12.4", "requested": "1.12.+" },
+  "com.netflix.nebula:nebula-project-plugin": { "locked": "1.12.17", "requested": "1.12.+" },
+  "com.netflix.nebula:nebula-test": { "locked": "1.12.4", "requested": "1.12.+" },
   "org.codehaus.groovy.modules.http-builder:http-builder": { "locked": "0.7.2", "requested": "0.7.2" },
   "org.jfrog.buildinfo:build-info-extractor-gradle": { "locked": "2.2.4", "requested": "2.2.4" }
 }
