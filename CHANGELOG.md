@@ -1,3 +1,14 @@
+2.0.1 / 2014-10-16
+==================
+
+* Update nebula-bintray and nebula-test versions
+* Gets gradle-bintray-plugin 0.6
+
+2.0.0 / 2014-09-15
+==================
+
+* Update to gradle-2.0
+
 1.12.12 / 2014-10-16
 ====================
 
