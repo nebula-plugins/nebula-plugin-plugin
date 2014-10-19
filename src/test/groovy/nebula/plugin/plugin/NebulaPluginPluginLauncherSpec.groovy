@@ -75,4 +75,21 @@ dependencies {
         File integrationTestTestResultsFile = new File(projectDir, 'build/integTest-results/TEST-nebula.plugin.plugin.HelloWorldTest.xml')
         integrationTestTestResultsFile.exists()
     }
+
+    def 'exclude all versions of groovy since we depend on localGroovy provided by gradle'() {
+        buildFile << """\
+            //${applyPlugin(NebulaPluginPlugin)}
+            apply plugin: 'java'
+            dependencies {
+                compile 'org.spockframework:spock-core:0.7-groovy-1.8'
+            }
+        """.stripIndent()
+
+        when:
+        def result = runTasksSuccessfully('dependencies', '--configuration', 'compile')
+
+        then:
+        !result.standardOutput.contains('groovy-all')
+
+    }
 }
