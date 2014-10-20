@@ -28,6 +28,7 @@ dependencies {
     }
     compile('org.jfrog.buildinfo:build-info-extractor-gradle:2.2.4') // Way too many dependencies. :-(
     compile 'com.github.townsfolk:gradle-release:1.2'
+    runtime 'org.codehaus.groovy:groovy-backports-compat23:2.+'
 
     // will get nebula-test from ourselves, the plugin, but we should control the version here
     testCompile 'com.netflix.nebula:nebula-test:1.12.+'
