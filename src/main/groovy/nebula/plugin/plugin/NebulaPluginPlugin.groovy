@@ -13,6 +13,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.XmlProvider
+import org.gradle.api.artifacts.DependencyResolveDetails
 import org.gradle.api.internal.project.AbstractProject
 import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
@@ -60,6 +61,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.plugins.apply(GroovyPlugin)
         project.dependencies.add('compile', project.dependencies.gradleApi()) // We are a plugin after all
         project.dependencies.add('compile', project.dependencies.localGroovy())
+
+        project.configurations.all {
+            resolutionStrategy {
+                exclude group: 'org.codehaus.groovy', module: 'groovy'
+                exclude group: 'org.codehaus.groovy', module: 'groovy-all'
+            }
+        }
 
         refreshPom()
 

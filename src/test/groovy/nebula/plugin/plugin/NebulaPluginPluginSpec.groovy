@@ -2,7 +2,7 @@ package nebula.plugin.plugin
 
 import nebula.test.ProjectSpec
 
-class NebulaPluginPluginSpec extends ProjectSpec{
+class NebulaPluginPluginSpec extends ProjectSpec {
     def 'Execute plugin'() {
         when:
         project.apply plugin: 'nebula-plugin'
