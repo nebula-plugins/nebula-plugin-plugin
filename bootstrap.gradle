@@ -49,8 +49,8 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
 
-    compile 'com.netflix.nebula:nebula-project-plugin:2.0.0-SNAPSHOT'
-    compile 'com.netflix.nebula:nebula-bintray-plugin:2.0.0-SNAPSHOT'
+    compile 'com.netflix.nebula:nebula-project-plugin:2.2.0-SNAPSHOT'
+    compile 'com.netflix.nebula:nebula-bintray-plugin:2.2.0-SNAPSHOT'
     compile('com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5') {
         exclude group: 'org.codehaus.groovy.modules.http-builder', module: 'http-builder'
     }
@@ -62,11 +62,11 @@ dependencies {
     compile 'com.github.townsfolk:gradle-release:1.2'
 
     // will get nebula-test from ourselves, the plugin, but we should control the version here
-    testCompile('com.netflix.nebula:nebula-test:2.0.0-SNAPSHOT') {
+    testCompile('com.netflix.nebula:nebula-test:2.2.0-SNAPSHOT') {
         exclude group: 'org.codehaus.groovy'
     }
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '2.2.1'
 }
