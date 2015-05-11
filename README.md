@@ -23,7 +23,7 @@ Usages
 ```
 buildscript {
     repositories { jcenter() }
-    dependencies { classpath "com.netflix.nebula:nebula-plugin-plugin:1.9.+" }
+    dependencies { classpath "com.netflix.nebula:nebula-plugin-plugin:2.4.+" }
 }
 
 description 'Example Gradle plugin'
