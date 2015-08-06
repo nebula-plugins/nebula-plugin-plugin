@@ -1,5 +1,7 @@
 Nebula Plugin Plugin
 ====================
+
+[![Join the chat at https://gitter.im/nebula-plugins/nebula-plugin-plugin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/nebula-plugin-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Plugin to establish conventions for a nebula-plugins plugin, e.g. publishing, licenses. The goal is to require the absolute minimum configuration to 
 get start writing a plugin, without sacrificing known best practices.
 
