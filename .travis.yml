@@ -1,0 +1,21 @@
+language: java
+sudo: false
+jdk:
+- oraclejdk7
+install: "./installViaTravis.sh"
+script: "./buildViaTravis.sh"
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/dists/gradle-2.4-bin/"
+before_install:
+- test $TRAVIS_PULL_REQUEST = false && openssl aes-256-cbc -K $encrypted_90ab3804b7e3_key -iv $encrypted_90ab3804b7e3_iv -in gradle.properties.enc -out gradle.properties -d || true
+after_success:
+- ./gradlew jacocoTestReport coveralls
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/bb06ddbc2f1ed0c5ad2e
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false

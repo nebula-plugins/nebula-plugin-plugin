@@ -1,5 +1,10 @@
-2.2.0 / 2015-1-30
-===================
+3.0.0 / 2015-08-11
+==================
+
+* Simplify to just setting up and wiring publishing via travis through bintray.
+
+2.2.0 / 2015-01-30
+==================
 
 * Move to gradle 2.2.1
 
