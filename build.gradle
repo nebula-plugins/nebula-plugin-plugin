@@ -82,6 +82,11 @@ pluginBundle {
     }
 }
 
+// while using 2.2.x branch of nebula-bintray-plugin, and 3.x of nebula-publishing-plugin need to configure publication
+bintray {
+    publications = ['nebula']
+}
+
 // Wire up build and publishing process
 project.tasks.getByName('verifyReleaseStatus').actions.clear()
 project.tasks.getByName('verifySnapshotStatus').actions.clear()
