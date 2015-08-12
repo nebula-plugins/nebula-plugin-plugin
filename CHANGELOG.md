@@ -1,4 +1,4 @@
-3.0.0 / 2015-08-11
+3.0.0 / 2015-08-12
 ==================
 
 * Simplify to just setting up and wiring publishing via travis through bintray.

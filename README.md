@@ -1,8 +1,9 @@
 Nebula Plugin Plugin
 ====================
 
-
+[![Build Status](https://travis-ci.org/nebula-plugins/nebula-plugin-plugin.svg)](https://travis-ci.org/nebula-plugins/nebula-plugin-plugin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/nebula-plugin-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-plugin-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Plugin to establish conventions for a nebula-plugins plugin, e.g. publishing, licenses.
 
@@ -21,7 +22,7 @@ To apply this plugin if using Gradle 2.1 or newer
 
 
     plugins {
-	  id 'nebula.plugin-plugin' version '3.0.0'
+      id 'nebula.plugin-plugin' version '3.0.0'
     }
 
 If using an older version of Gradle
