@@ -67,8 +67,8 @@ jacocoTestReport {
 }
 
 pluginBundle {
-    website = 'https://github.com/nebula-plugins/nebula-publishing-plugin'
-    vcsUrl = 'https://github.com/nebula-plugins/nebula-publishing-plugin.git'
+    website = 'https://github.com/nebula-plugins/nebula-plugin-plugin'
+    vcsUrl = 'https://github.com/nebula-plugins/nebula-plugin-plugin.git'
 
     plugins {
         pluginplugin {
