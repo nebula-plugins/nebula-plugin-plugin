@@ -1,3 +1,8 @@
+3.0.2 / 2015-08-14
+==================
+
+* Apply nebula.apache-license-pom to allow sync with maven central
+
 3.0.1 / 2015-08-14
 ==================
 
