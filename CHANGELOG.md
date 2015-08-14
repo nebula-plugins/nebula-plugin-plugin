@@ -1,3 +1,8 @@
+3.0.1 / 2015-08-14
+==================
+
+* Fix to some publishing steps so that this will sync with maven central
+
 3.0.0 / 2015-08-12
 ==================
 
