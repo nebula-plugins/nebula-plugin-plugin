@@ -15,6 +15,7 @@
  */
 package nebula.plugin.plugin
 
+import com.jfrog.bintray.gradle.BintrayExtension
 import nebula.test.PluginProjectSpec
 import org.ajoberstar.grgit.Grgit
 
@@ -22,6 +23,16 @@ class NebulaPluginPluginSpec extends PluginProjectSpec {
     String pluginName = 'nebula.plugin-plugin'
 
     def setup() {
-        Grgit.init(dir: projectDir)
+        def grgit = Grgit.init(dir: projectDir)
+        grgit.commit(message: 'initial commit')
+    }
+
+    def 'check version is properly set'() {
+        when:
+        project.plugins.apply NebulaPluginPlugin
+
+        then:
+        def bintrayExt = project.extensions.findByType(BintrayExtension)
+        bintrayExt.pkg.version.name.contains('0.1.0-dev.')
     }
 }

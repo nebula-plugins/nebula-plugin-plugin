@@ -30,8 +30,8 @@ import org.gradle.api.execution.TaskExecutionGraph
 class NebulaPluginPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        project.plugins.apply(BintrayPlugin)
         project.plugins.apply(ReleasePlugin)
+        project.plugins.apply(BintrayPlugin)
 
         project.logger.lifecycle("Enabling Nebula for this project ${project.name}")
 

@@ -1,3 +1,8 @@
+3.0.5 / 2015-08-17
+==================
+
+* Switch order of plugins to fix ordering issue until we can get back around to nebula-bintray
+
 3.0.4 / 2015-08-14
 ==================
 
