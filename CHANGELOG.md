@@ -1,3 +1,10 @@
+3.1.0 / 2015-08-21
+==================
+
+* switch publication to be nebula instead of mavenNebula
+* move to gradle 2.6
+* move to nebula.release version 2.2.7
+
 3.0.5 / 2015-08-17
 ==================
 

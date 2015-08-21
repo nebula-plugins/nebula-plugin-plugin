@@ -15,6 +15,7 @@
  */
 package nebula.plugin.plugin
 
+import nebula.core.ProjectType
 import nebula.plugin.bintray.BintrayPlugin
 import nebula.plugin.release.ReleaseExtension
 import nebula.plugin.release.ReleasePlugin
@@ -44,7 +45,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
         project.tasks.matching { it.name == 'bintrayUpload' || it.name == 'artifactoryPublish'}.all { Task task ->
             task.mustRunAfter('build')
-            project.tasks.release.dependsOn(task)
+            project.rootProject.tasks.release.dependsOn(task)
         }
 
         project.tasks.matching { it.name == 'bintrayUpload' }.all { Task task ->
@@ -63,19 +64,23 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
         }
 
-        ReleasePluginExtension releaseExtension = project.extensions.findByType(ReleasePluginExtension)
-        releaseExtension.with {
-            defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
-        }
+        ProjectType type = new ProjectType(project)
 
-        if (project.hasProperty('release.travisci') && project.property('release.travisci').toBoolean()) {
-            project.tasks.release.deleteAllActions()
-            project.tasks.prepare.deleteAllActions()
-            ReleaseExtension nebulaRelease = project.extensions.findByType(ReleaseExtension)
-            nebulaRelease.with {
-                addReleaseBranchPattern(/HEAD/)
-                addReleaseBranchPattern(/v?\d+\.\d+\.\d+/)
-                addReleaseBranchPattern(/gradle-\d+\.\d+/)
+        if (type.isRootProject) {
+            ReleasePluginExtension releaseExtension = project.extensions.findByType(ReleasePluginExtension)
+            releaseExtension.with {
+                defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
+            }
+
+            if (project.hasProperty('release.travisci') && project.property('release.travisci').toBoolean()) {
+                project.tasks.release.deleteAllActions()
+                project.tasks.prepare.deleteAllActions()
+                ReleaseExtension nebulaRelease = project.extensions.findByType(ReleaseExtension)
+                nebulaRelease.with {
+                    addReleaseBranchPattern(/HEAD/)
+                    addReleaseBranchPattern(/v?\d+\.\d+\.\d+/)
+                    addReleaseBranchPattern(/gradle-\d+\.\d+/)
+                }
             }
         }
     }
