@@ -43,10 +43,10 @@ Gradle Compatibility Tested
 | Gradle Version | Works |
 | -------------- | ----- |
 | 2.2.1          | yes   |
-| 2.3            | ??    |
+| 2.3            | yes   |
 | 2.4            | yes   |
-| 2.5            | ??    |
-| 2.6            | ??    |
+| 2.5            | yes   |
+| 2.6            | yes   |
 
 LICENSE
 =======
