@@ -1,3 +1,9 @@
+3.1.1 / 2015-08-25
+==================
+
+* move to nebula-bintray-plugin 3.0.1
+    * fixes oss.jfrog.org publications to use nebula instead of mavenNebula
+
 3.1.0 / 2015-08-21
 ==================
 
