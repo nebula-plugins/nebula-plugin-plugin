@@ -23,7 +23,7 @@ To apply this plugin if using Gradle 2.1 or newer
 
 
     plugins {
-      id 'nebula.plugin-plugin' version '3.1.0'
+      id 'nebula.plugin-plugin' version '3.1.1'
     }
 
 If using an older version of Gradle
@@ -31,7 +31,7 @@ If using an older version of Gradle
     buildscript {
       repositories { jcenter() }
       dependencies {
-        classpath 'com.netflix.nebula:nebula-plugin-plugin:3.1.0'
+        classpath 'com.netflix.nebula:nebula-plugin-plugin:3.1.1'
       }
     }
 
@@ -40,11 +40,11 @@ If using an older version of Gradle
 Gradle Compatibility Tested
 ---------------------------
 
-Built with Oracle JDK7
-Tested with Oracle JDK8
+* Built with Oracle JDK7
+* Tested with Oracle JDK8
 
 | Gradle Version | Works |
-| -------------- | ----- |
+| :------------: | :---: |
 | 2.2.1          | yes   |
 | 2.3            | yes   |
 | 2.4            | yes   |
