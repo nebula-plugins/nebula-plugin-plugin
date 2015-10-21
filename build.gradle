@@ -45,7 +45,7 @@ dependencies {
     compile 'com.netflix.nebula:nebula-release-plugin:2.2.7'
     compile 'org.ajoberstar:gradle-git' // using these but just want the version used by nebula-release-plugin
     testCompile 'org.ajoberstar:grgit'
-    testCompile('com.netflix.nebula:nebula-test:3.0.0') {
+    testCompile('com.netflix.nebula:nebula-test:4.0.0') {
         exclude group: 'org.codehaus.groovy'
     }
 }
