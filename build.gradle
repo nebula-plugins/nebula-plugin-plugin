@@ -16,7 +16,7 @@ plugins {
     id 'nebula.contacts' version '3.0.1'
     id 'nebula.nebula-release' version '3.1.1'
     id 'nebula.nebula-bintray' version '3.1.0'
-    id 'com.gradle.plugin-publish' version '0.9.1'
+    id 'com.gradle.plugin-publish' version '0.9.2'
     id 'com.github.kt3k.coveralls' version '2.4.0'
     id 'org.ysb33r.gradletest' version '0.5.4'
 }
