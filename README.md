@@ -6,14 +6,14 @@ Nebula Plugin Plugin
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/nebula-plugin-plugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-plugin-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
-Plugin to establish conventions for a nebula-plugins plugin, e.g. publishing, licenses.
+Plugin to establish conventions for a nebula-plugins plugin, e.g. publishing, licenses. This plugin is used to help setup our other plugins. It can be used as an example of setting up similar conventions for an organization's gradle plugins.
 
 ![Yo Dawg](https://s3.amazonaws.com/uploads.hipchat.com/25234/334670/CgbXYbDuUzuV3JP/plugins.png)
 
 Conventions
 -----------
 * Defaults group to com.netflix.nebula
-* Applies nebula.maven-publishing
+* Applies nebula.maven-publish
 * Applies and configures nebula.nebula-release and nebula.nebula-bintray
 
 Usages
@@ -23,7 +23,7 @@ To apply this plugin if using Gradle 2.1 or newer
 
 
     plugins {
-      id 'nebula.plugin-plugin' version '3.1.1'
+      id 'nebula.plugin-plugin' version '3.2.1'
     }
 
 If using an older version of Gradle
@@ -31,7 +31,7 @@ If using an older version of Gradle
     buildscript {
       repositories { jcenter() }
       dependencies {
-        classpath 'com.netflix.nebula:nebula-plugin-plugin:3.1.1'
+        classpath 'com.netflix.nebula:nebula-plugin-plugin:3.2.1'
       }
     }
 
@@ -50,6 +50,10 @@ Gradle Compatibility Tested
 | 2.4            | yes   |
 | 2.5            | yes   |
 | 2.6            | yes   |
+| 2.7            | yes   |
+| 2.8            | yes   |
+| 2.9            | yes   |
+| 2.10           | yes   |
 
 LICENSE
 =======

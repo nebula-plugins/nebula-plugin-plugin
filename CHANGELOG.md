@@ -1,3 +1,15 @@
+3.2.1 / 2015-12-22
+==================
+
+* republish to get on plugin portal
+
+3.2.0 / 2015-12-22
+==================
+
+* Publishing plugins 3.0.2 - > 4.4.4
+* nebula.nebula-bintray 3.0.1 -> 3.1.0
+* nebula.nebula-release 2.2.7 -> 3.1.1
+
 3.1.1 / 2015-08-25
 ==================
 

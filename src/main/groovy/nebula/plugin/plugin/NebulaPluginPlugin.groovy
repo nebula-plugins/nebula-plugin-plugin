@@ -40,9 +40,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             project.group = 'com.netflix.nebula'
         }
 
-        project.tasks.getByName('verifyReleaseStatus').actions.clear()
-        project.tasks.getByName('verifySnapshotStatus').actions.clear()
-
         project.tasks.matching { it.name == 'bintrayUpload' || it.name == 'artifactoryPublish'}.all { Task task ->
             task.mustRunAfter('build')
             project.rootProject.tasks.release.dependsOn(task)
