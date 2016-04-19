@@ -35,14 +35,16 @@ contacts {
         moniker 'Rob Spieldenner'
         github 'rspieldenner'
     }
+    'dmthomas@gmail.com' {
+        moniker 'Danny Thomas'
+        github 'DanielThomas'
+    }
 }
+
+// This logic should be kept in sync with NebulaPluginPlugin
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-
-repositories {
-    jcenter()
-}
 
 dependencies {
     compile gradleApi()
@@ -54,10 +56,18 @@ dependencies {
     compile 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
-    testCompile 'org.ajoberstar:grgit'
     testCompile('com.netflix.nebula:nebula-test:latest.release') {
         exclude group: 'org.codehaus.groovy'
     }
+}
+
+repositories {
+    jcenter()
+}
+
+
+test {
+    jvmArgs "-XX:MaxPermSize=256m"
 }
 
 jacocoTestReport {
@@ -67,12 +77,16 @@ jacocoTestReport {
     }
 }
 
+tasks.withType(Test) { task ->
+    jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
+}
+
 pluginBundle {
     website = 'https://github.com/nebula-plugins/nebula-plugin-plugin'
     vcsUrl = 'https://github.com/nebula-plugins/nebula-plugin-plugin.git'
 
     plugins {
-        pluginplugin {
+        pluginPlugin {
             id = 'nebula.plugin-plugin'
             displayName = 'Nebula Plugin Plugin'
             description = 'Sets up publishing and release process for all of the other nebula plugins'
@@ -86,41 +100,11 @@ pluginBundle {
     }
 }
 
-// Wire up build and publishing process
-
-tasks.matching { it.name == 'bintrayUpload' || it.name == 'artifactoryPublish'}.all { Task task ->
-    task.mustRunAfter('build')
-    tasks.release.dependsOn(task)
-}
-
-tasks.matching { it.name == 'bintrayUpload' }.all { Task task ->
-    project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-        task.onlyIf {
-            graph.hasTask(':final') || graph.hasTask(':candidate')
-        }
+project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+    project.tasks.bintrayUpload.onlyIf {
+        graph.hasTask(':final') || graph.hasTask(':candidate')
     }
-}
-
-project.tasks.matching { it.name == 'artifactoryPublish'}.all { Task task ->
-    project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-        task.onlyIf {
-            graph.hasTask(':snapshot')
-        }
-    }
-}
-
-import org.ajoberstar.gradle.git.release.base.ReleasePluginExtension
-ReleasePluginExtension releaseExtension = project.extensions.findByType(ReleasePluginExtension)
-releaseExtension.with {
-    defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
-}
-
-if (project.hasProperty('release.travisci') && project.property('release.travisci').toBoolean()) {
-    project.tasks.release.deleteAllActions()
-    project.tasks.prepare.deleteAllActions()
-    nebulaRelease {
-        addReleaseBranchPattern(/HEAD/)
-        addReleaseBranchPattern(/v?\d+\.\d+\.\d+/)
-        addReleaseBranchPattern(/gradle-\d+\.\d+/)
+    project.tasks.artifactoryPublish.onlyIf {
+        graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
     }
 }
