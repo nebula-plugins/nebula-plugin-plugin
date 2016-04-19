@@ -15,70 +15,93 @@
  */
 package nebula.plugin.plugin
 
-import nebula.core.ProjectType
-import nebula.plugin.bintray.BintrayPlugin
-import nebula.plugin.release.ReleaseExtension
-import nebula.plugin.release.ReleasePlugin
-import org.ajoberstar.gradle.git.release.base.ReleasePluginExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.api.execution.TaskExecutionGraph
+import org.gradle.api.tasks.testing.Test
 
 /**
  * Provide an environment for a Gradle plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
+    static
+    final DEFAULT_PLUGINS = ['groovy',
+                             'idea',
+                             'jacoco',
+                             'nebula.info',
+                             'nebula.contacts',
+                             'nebula.maven-publish',
+                             'nebula.nebula-release',
+                             'nebula.nebula-bintray',
+                             'com.gradle.plugin-publish',
+                             'nebula.javadoc-jar',
+                             'nebula.source-jar',
+                             'nebula.maven-apache-license',
+                             'com.github.kt3k.coveralls']
+
     @Override
     void apply(Project project) {
-        project.plugins.apply(ReleasePlugin)
-        project.plugins.apply(BintrayPlugin)
+        assertHasPlugin(project, 'com.gradle.plugin-publish')
+        project.with {
+            DEFAULT_PLUGINS.each { plugins.apply(it) }
 
-        project.logger.lifecycle("Enabling Nebula for this project ${project.name}")
+            if (!group) {
+                group = 'com.netflix.nebula'
+            }
 
-        if (!project.group) {
-            project.group = 'com.netflix.nebula'
-        }
+            dependencies {
+                compile localGroovy()
+                compile gradleApi()
+                testCompile('com.netflix.nebula:nebula-test:4.0.0') {
+                    exclude group: 'org.codehaus.groovy'
+                }
+            }
 
-        project.tasks.matching { it.name == 'bintrayUpload' || it.name == 'artifactoryPublish'}.all { Task task ->
-            task.mustRunAfter('build')
-            project.rootProject.tasks.release.dependsOn(task)
-        }
+            sourceCompatibility = 1.7
+            targetCompatibility = 1.7
 
-        project.tasks.matching { it.name == 'bintrayUpload' }.all { Task task ->
+            repositories {
+                jcenter()
+            }
+
+            test {
+                jvmArgs "-XX:MaxPermSize=256m"
+            }
+
+            jacocoTestReport {
+                reports {
+                    xml.enabled = true // coveralls plugin depends on xml format report
+                    html.enabled = true
+                }
+            }
+
+            tasks.withType(Test) { task ->
+                jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
+            }
+
+            pluginBundle {
+                website = "https://github.com/nebula-plugins/${project.name}"
+                vcsUrl = "https://github.com/nebula-plugins/${project.name}.git"
+                description = project.description
+
+                mavenCoordinates {
+                    groupId = project.group
+                    artifactId = project.name
+                }
+            }
+
             project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-                task.onlyIf {
+                project.tasks.bintrayUpload.onlyIf {
                     graph.hasTask(':final') || graph.hasTask(':candidate')
                 }
-            }
-        }
-
-        project.tasks.matching { it.name == 'artifactoryPublish'}.all { Task task ->
-            project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-                task.onlyIf {
-                    graph.hasTask(':snapshot')
+                project.tasks.artifactoryPublish.onlyIf {
+                    graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                 }
             }
         }
+    }
 
-        ProjectType type = new ProjectType(project)
-
-        if (type.isRootProject) {
-            ReleasePluginExtension releaseExtension = project.extensions.findByType(ReleasePluginExtension)
-            releaseExtension.with {
-                defaultVersionStrategy = nebula.plugin.release.NetflixOssStrategies.SNAPSHOT
-            }
-
-            if (project.hasProperty('release.travisci') && project.property('release.travisci').toBoolean()) {
-                project.tasks.release.deleteAllActions()
-                project.tasks.prepare.deleteAllActions()
-                ReleaseExtension nebulaRelease = project.extensions.findByType(ReleaseExtension)
-                nebulaRelease.with {
-                    addReleaseBranchPattern(/HEAD/)
-                    addReleaseBranchPattern(/v?\d+\.\d+\.\d+/)
-                    addReleaseBranchPattern(/gradle-\d+\.\d+/)
-                }
-            }
-        }
+    static def assertHasPlugin(Project project, String id) {
+        assert project.plugins.findPlugin(id) : "The ${id} plugin must be applied before this plugin"
     }
 }
