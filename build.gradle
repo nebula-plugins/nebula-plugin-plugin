@@ -41,25 +41,27 @@ contacts {
     }
 }
 
-// This logic should be kept in sync with NebulaPluginPlugin
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
 dependencies {
     compile gradleApi()
 
-    compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-release-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
+    compile 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
+    compile 'com.netflix.nebula:nebula-project-plugin:latest.release'
+    compile 'com.netflix.nebula:nebula-release-plugin:latest.release'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testCompile('com.netflix.nebula:nebula-test:latest.release') {
         exclude group: 'org.codehaus.groovy'
     }
 }
+
+// This logic should be kept in sync with NebulaPluginPlugin
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
     jcenter()

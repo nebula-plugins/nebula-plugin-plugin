@@ -24,26 +24,31 @@ import org.gradle.api.tasks.testing.Test
  * Provide an environment for a Gradle plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
-    static
-    final DEFAULT_PLUGINS = ['groovy',
-                             'idea',
-                             'jacoco',
-                             'nebula.info',
-                             'nebula.contacts',
-                             'nebula.maven-publish',
-                             'nebula.nebula-release',
-                             'nebula.nebula-bintray',
-                             'com.gradle.plugin-publish',
-                             'nebula.javadoc-jar',
-                             'nebula.source-jar',
-                             'nebula.maven-apache-license',
-                             'com.github.kt3k.coveralls']
+    static final CORE_PLUGIN_IDS = ['groovy',
+                                    'idea',
+                                    'jacoco']
+
+    static final THIRDPARTY_PLUGIN_IDS = ['com.gradle.plugin-publish', 'com.github.kt3k.coveralls']
+
+    static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
+                                      'nebula.facet',
+                                      'nebula.info',
+                                      'nebula.javadoc-jar',
+                                      'nebula.maven-apache-license',
+                                      'nebula.maven-publish',
+                                      'nebula.nebula-bintray',
+                                      'nebula.nebula-release',
+                                      'nebula.optional-base',
+                                      'nebula.provided-base',
+                                      'nebula.source-jar']
+
+    static final PLUGIN_IDS = CORE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
     @Override
     void apply(Project project) {
         assertHasPlugin(project, 'com.gradle.plugin-publish')
         project.with {
-            DEFAULT_PLUGINS.each { plugins.apply(it) }
+            PLUGIN_IDS.each { plugins.apply(it) }
 
             if (!group) {
                 group = 'com.netflix.nebula'
@@ -102,6 +107,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
     }
 
     static def assertHasPlugin(Project project, String id) {
-        assert project.plugins.findPlugin(id) : "The ${id} plugin must be applied before this plugin"
+        assert project.plugins.findPlugin(id): "The ${id} plugin must be applied before this plugin"
     }
 }
