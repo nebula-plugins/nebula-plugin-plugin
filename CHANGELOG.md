@@ -1,3 +1,8 @@
+4.1.1 / 2016-04-27
+==================
+
+* swap ordering of nebula-release and nebula-bintray since the underlying gradle-bintray-plugin is not lazy on picking up project version
+
 3.2.1 / 2015-12-22
 ==================
 
