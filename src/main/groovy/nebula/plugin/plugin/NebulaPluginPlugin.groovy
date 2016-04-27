@@ -36,8 +36,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.javadoc-jar',
                                       'nebula.maven-apache-license',
                                       'nebula.maven-publish',
-                                      'nebula.nebula-bintray',
                                       'nebula.nebula-release',
+                                      'nebula.nebula-bintray', // nebula-bintray needs to happend after nebula-release since version isn't lazy in the bintray extension
                                       'nebula.optional-base',
                                       'nebula.provided-base',
                                       'nebula.source-jar']
