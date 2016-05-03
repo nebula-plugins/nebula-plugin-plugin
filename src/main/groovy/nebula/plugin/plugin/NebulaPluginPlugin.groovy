@@ -70,7 +70,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             test {
-                jvmArgs '-Xmx256m -XX:MaxPermSize=256m'
+                jvmArgs '-Xmx256m', '-XX:MaxPermSize=256m'
             }
 
             jacocoTestReport {
