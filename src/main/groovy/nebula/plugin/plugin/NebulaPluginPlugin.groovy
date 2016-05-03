@@ -69,10 +69,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 jcenter()
             }
 
-            test {
-                jvmArgs '-Xmx256m', '-XX:MaxPermSize=256m'
-            }
-
             jacocoTestReport {
                 reports {
                     xml.enabled = true // coveralls plugin depends on xml format report
@@ -81,6 +77,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             tasks.withType(Test) { task ->
+                minHeapSize = '32m'
+                maxHeapSize = '256m'
+                jvmArgs "-XX:MaxPermSize=512m"
                 jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
             }
 
