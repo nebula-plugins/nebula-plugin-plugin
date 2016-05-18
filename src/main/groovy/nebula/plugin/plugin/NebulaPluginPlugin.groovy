@@ -81,23 +81,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 maxHeapSize = '256m'
                 jvmArgs "-XX:MaxPermSize=512m"
                 jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
-
-                if (gradle.startParameter.taskRequests.find { it.args.contains('--debug-jvm') }) {
-                    logger.warn('--debug-jvm was specified, disabling test parallelism for {} task to avoid port binding conflicts', name)
-                } else {
-                    conventionMapping.maxParallelForks = {
-                        Integer availableProcessors
-                        if (System.getenv('CI')) {
-                            availableProcessors = Runtime.runtime.availableProcessors()
-                        } else {
-                            availableProcessors = Runtime.runtime.availableProcessors() / 2
-                            logger.warn("Reducing the number of maxParallelForks by half ($availableProcessors) to avoid saturating development workstation. Set CI environment variable to bypass this behaviour")
-                        }
-                        availableProcessors
-                    }
-                }
-                maxHeapSize = '1g'
-                forkEvery = 25
             }
 
             pluginBundle {
