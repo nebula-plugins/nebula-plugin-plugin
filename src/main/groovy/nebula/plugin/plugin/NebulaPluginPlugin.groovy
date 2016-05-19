@@ -55,8 +55,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             dependencies {
-                compile localGroovy()
                 compile gradleApi()
+                compile localGroovy()
                 testCompile('com.netflix.nebula:nebula-test:4.0.0') {
                     exclude group: 'org.codehaus.groovy'
                 }
@@ -101,6 +101,23 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 project.tasks.artifactoryPublish.onlyIf {
                     graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                 }
+            }
+        }
+
+        // Attempt to get out of Gradle dependency hell (at least somewhat reflect the runtime classloading scheme) by forcefully ordering Gradle dependencies last
+        afterEvaluate {
+            configurations {
+                gradleApi
+            }
+
+            dependencies {
+                gradleApi gradleApi()
+                gradleApi localGroovy()
+            }
+
+            sourceSets.each {
+                it.compileClasspath = it.compileClasspath - configurations.gradleApi + configurations.gradleApi
+                it.runtimeClasspath = it.runtimeClasspath - configurations.gradleApi + configurations.gradleApi
             }
         }
     }
