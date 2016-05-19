@@ -84,40 +84,40 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             pluginBundle {
-                website = "https://github.com/nebula-plugins/${project.name}"
-                vcsUrl = "https://github.com/nebula-plugins/${project.name}.git"
+                website = "https://github.com/nebula-plugins/${name}"
+                vcsUrl = "https://github.com/nebula-plugins/${name}.git"
                 description = project.description
 
                 mavenCoordinates {
-                    groupId = project.group
-                    artifactId = project.name
+                    groupId = group
+                    artifactId = name
                 }
             }
 
-            project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-                project.tasks.bintrayUpload.onlyIf {
+            gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+                tasks.bintrayUpload.onlyIf {
                     graph.hasTask(':final') || graph.hasTask(':candidate')
                 }
-                project.tasks.artifactoryPublish.onlyIf {
+                tasks.artifactoryPublish.onlyIf {
                     graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                 }
             }
-        }
 
-        // Attempt to get out of Gradle dependency hell (at least somewhat reflect the runtime classloading scheme) by forcefully ordering Gradle dependencies last
-        afterEvaluate {
-            configurations {
-                gradleApi
-            }
+            // Attempt to get out of Gradle dependency hell (at least somewhat reflect the runtime classloading scheme) by forcefully ordering Gradle dependencies last
+            afterEvaluate {
+                configurations {
+                    gradleApi
+                }
 
-            dependencies {
-                gradleApi gradleApi()
-                gradleApi localGroovy()
-            }
+                dependencies {
+                    gradleApi gradleApi()
+                    gradleApi localGroovy()
+                }
 
-            sourceSets.each {
-                it.compileClasspath = it.compileClasspath - configurations.gradleApi + configurations.gradleApi
-                it.runtimeClasspath = it.runtimeClasspath - configurations.gradleApi + configurations.gradleApi
+                sourceSets.each {
+                    it.compileClasspath = it.compileClasspath - configurations.gradleApi + configurations.gradleApi
+                    it.runtimeClasspath = it.runtimeClasspath - configurations.gradleApi + configurations.gradleApi
+                }
             }
         }
     }
