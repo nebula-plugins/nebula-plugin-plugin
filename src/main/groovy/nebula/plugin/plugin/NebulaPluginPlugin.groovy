@@ -102,23 +102,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                 }
             }
-
-            // Attempt to get out of Gradle dependency hell (at least somewhat reflect the runtime classloading scheme) by forcefully ordering Gradle dependencies last
-            afterEvaluate {
-                configurations {
-                    gradleApi
-                }
-
-                dependencies {
-                    gradleApi gradleApi()
-                    gradleApi localGroovy()
-                }
-
-                sourceSets.each {
-                    it.compileClasspath = it.compileClasspath - configurations.gradleApi + configurations.gradleApi
-                    it.runtimeClasspath = it.runtimeClasspath - configurations.gradleApi + configurations.gradleApi
-                }
-            }
         }
     }
 
