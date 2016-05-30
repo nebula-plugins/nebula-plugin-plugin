@@ -44,8 +44,9 @@ contacts {
 dependencies {
     compile gradleApi()
 
-    compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
