@@ -1,7 +1,6 @@
 package nebula.plugin.plugin
 
 import nebula.test.IntegrationSpec
-import spock.util.Exceptions
 
 class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
     def 'plugin applies'() {
@@ -16,15 +15,12 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         runTasksSuccessfully('help')
     }
 
-    def 'plugin does not apply if plugin-publish plugin is not applied'() {
+    def 'plugin applies when plugin-publish is not applied'() {
         buildFile << """
         apply plugin: 'nebula.plugin-plugin'
         """
 
-        when:
-        def result = runTasks('help')
-
-        then:
-        Exceptions.getRootCause(result.failure).message == 'The com.gradle.plugin-publish plugin must be applied before this plugin. Expression: project.plugins.findPlugin(id)'
+        expect:
+        runTasksSuccessfully('help')
     }
 }

@@ -28,7 +28,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                     'idea',
                                     'jacoco']
 
-    static final THIRDPARTY_PLUGIN_IDS = ['com.gradle.plugin-publish', 'com.github.kt3k.coveralls']
+    static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
 
     static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
                                       'nebula.facet',
@@ -46,7 +46,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        assertHasPlugin(project, 'com.gradle.plugin-publish')
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }
 
@@ -83,14 +82,16 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
             }
 
-            pluginBundle {
-                website = "https://github.com/nebula-plugins/${name}"
-                vcsUrl = "https://github.com/nebula-plugins/${name}.git"
-                description = project.description
+            plugins.withId('com.gradle.plugin-publish') {
+                pluginBundle {
+                    website = "https://github.com/nebula-plugins/${name}"
+                    vcsUrl = "https://github.com/nebula-plugins/${name}.git"
+                    description = project.description
 
-                mavenCoordinates {
-                    groupId = group
-                    artifactId = name
+                    mavenCoordinates {
+                        groupId = group
+                        artifactId = name
+                    }
                 }
             }
 
@@ -103,9 +104,5 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
         }
-    }
-
-    static def assertHasPlugin(Project project, String id) {
-        assert project.plugins.findPlugin(id): "The ${id} plugin must be applied before this plugin"
     }
 }
