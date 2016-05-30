@@ -57,7 +57,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             dependencies {
                 compile gradleApi()
                 compile localGroovy()
-                testCompile('com.netflix.nebula:nebula-test:4.1.0') {
+                testCompile('com.netflix.nebula:nebula-test:4.2.0') {
                     exclude group: 'org.codehaus.groovy'
                 }
             }
