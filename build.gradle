@@ -20,7 +20,7 @@ plugins {
     id 'nebula.plugin-plugin' version '4.15.0'
 }
 
-description 'Gradle plugin to setup nebula-plugin'
+description 'Project plugin for Nebula plugins'
 
 contacts {
     'justin@halfempty.org' {
@@ -38,8 +38,6 @@ contacts {
 }
 
 dependencies {
-    compile gradleApi()
-
     compile 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
