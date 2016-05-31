@@ -1,24 +1,26 @@
+/*
+ * Copyright 2015-2016 Netflix, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 plugins {
-    id 'groovy'
-    id 'idea'
-    id 'jacoco'
-    id 'nebula.maven-publish' version '4.4.4'
-    id 'nebula.maven-apache-license' version '4.4.4'
-    id 'nebula.javadoc-jar' version '4.4.4'
-    id 'nebula.source-jar' version '4.4.4'
-    id 'nebula.info' version '3.0.3'
-    id 'nebula.contacts' version '3.0.1'
-    id 'nebula.nebula-release' version '3.1.1'
-    id 'nebula.nebula-bintray' version '3.1.0'
-    id 'nebula.dependency-lock' version '4.2.0'
-    id 'nebula.integtest' version '3.0.3'
-    id 'com.gradle.plugin-publish' version '0.9.2'
-    id 'com.github.kt3k.coveralls' version '2.4.0'
+    id 'com.gradle.plugin-publish' version '0.9.4'
+    id 'nebula.plugin-plugin' version '4.15.0'
 }
 
 description 'Gradle plugin to setup nebula-plugin'
-
-group = 'com.netflix.nebula'
 
 contacts {
     'justin@halfempty.org' {
@@ -53,34 +55,7 @@ dependencies {
     }
 }
 
-// This logic should be kept in sync with NebulaPluginPlugin
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
-
-repositories {
-    maven { url 'https://plugins.gradle.org/m2/' }
-}
-
-test {
-    jvmArgs "-XX:MaxPermSize=256m"
-}
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true // coveralls plugin depends on xml format report
-        html.enabled = true
-    }
-}
-
-tasks.withType(Test) { task ->
-    jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
-}
-
 pluginBundle {
-    website = 'https://github.com/nebula-plugins/nebula-plugin-plugin'
-    vcsUrl = 'https://github.com/nebula-plugins/nebula-plugin-plugin.git'
-
     plugins {
         pluginPlugin {
             id = 'nebula.plugin-plugin'
@@ -88,19 +63,5 @@ pluginBundle {
             description = 'Sets up publishing and release process for all of the other nebula plugins'
             tags = ['nebula', 'plugin']
         }
-    }
-
-    mavenCoordinates {
-        groupId = 'com.netflix.nebula'
-        artifactId = 'nebula-plugin-plugin'
-    }
-}
-
-project.gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-    project.tasks.bintrayUpload.onlyIf {
-        graph.hasTask(':final') || graph.hasTask(':candidate')
-    }
-    project.tasks.artifactoryPublish.onlyIf {
-        graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
     }
 }
