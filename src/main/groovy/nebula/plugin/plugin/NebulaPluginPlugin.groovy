@@ -95,6 +95,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     }
                 }
                 def publishPlugins = tasks.publishPlugins
+                publishPlugins.dependsOn tasks.check
                 tasks.final.dependsOn publishPlugins
                 tasks.bintrayUpload.shouldRunAfter publishPlugins
             }
