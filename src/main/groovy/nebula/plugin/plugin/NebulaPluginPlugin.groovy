@@ -94,6 +94,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                         artifactId = name
                     }
                 }
+                def publishPlugins = tasks.publishPlugins
+                tasks.final.dependsOn publishPlugins
+                tasks.bintrayUpload.shouldRunAfter publishPlugins
             }
 
             gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
