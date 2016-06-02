@@ -57,6 +57,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             dependencies {
                 compile gradleApi()
                 compile localGroovy()
+
                 testCompile('com.netflix.nebula:nebula-test:4.2.0') {
                     exclude group: 'org.codehaus.groovy'
                 }
@@ -90,8 +91,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     description = project.description
 
                     mavenCoordinates {
-                        groupId = group
-                        artifactId = name
+                        groupId = project.group
+                        artifactId = project.name
                     }
                 }
                 def publishPlugins = tasks.publishPlugins
