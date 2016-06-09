@@ -85,6 +85,18 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
             }
 
+            tasks.bintrayUpload.dependsOn tasks.check
+            tasks.artifactoryPublish.dependsOn tasks.check
+
+            gradle.taskGraph.whenReady { graph ->
+                tasks.bintrayUpload.onlyIf {
+                    graph.hasTask(':final') || graph.hasTask(':candidate')
+                }
+                tasks.artifactoryPublish.onlyIf {
+                    graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                }
+            }
+
             plugins.withId('com.gradle.plugin-publish') {
                 pluginBundle {
                     website = "https://github.com/nebula-plugins/${name}"
@@ -96,18 +108,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
                         artifactId = project.name
                     }
                 }
-                def publishPlugins = tasks.publishPlugins
-                publishPlugins.dependsOn tasks.check
-                tasks.final.dependsOn publishPlugins
-                tasks.bintrayUpload.shouldRunAfter publishPlugins
-            }
+                tasks.publishPlugins.dependsOn tasks.check
+                tasks.bintrayUpload.dependsOn tasks.publishPlugins
 
-            gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
-                tasks.bintrayUpload.onlyIf {
-                    graph.hasTask(':final') || graph.hasTask(':candidate')
-                }
-                tasks.artifactoryPublish.onlyIf {
-                    graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                gradle.taskGraph.whenReady { graph ->
+                    tasks.publishPlugins.onlyIf {
+                        graph.hasTask(':final')
+                    }
                 }
             }
         }
