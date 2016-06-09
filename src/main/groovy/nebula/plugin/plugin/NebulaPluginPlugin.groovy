@@ -41,7 +41,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.nebula-bintray', // nebula-bintray needs to happened after nebula-release since version isn't lazy in the bintray extension
                                       'nebula.optional-base',
                                       'nebula.provided-base',
-                                      'nebula.source-jar']
+                                      'nebula.source-jar',
+                                      'nebula.integtest']
 
     static final PLUGIN_IDS = CORE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
