@@ -68,7 +68,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             targetCompatibility = 1.7
 
             repositories {
-                jcenter()
+                maven { url 'https://plugins.gradle.org/m2/' }
             }
 
             jacocoTestReport {
