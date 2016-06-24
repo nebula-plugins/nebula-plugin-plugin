@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-buildscript {
-    configurations.classpath.resolutionStrategy {
-        force 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
-    }
-}
-
 plugins {
     id 'com.gradle.plugin-publish' version '0.9.4'
     id 'nebula.plugin-plugin' version '4.23.1'
@@ -46,10 +40,10 @@ dependencies {
     compile 'com.netflix.nebula:gradle-contacts-plugin:3.0.1'
     compile 'com.netflix.nebula:gradle-dependency-lock-plugin:4.3.0'
     compile 'com.netflix.nebula:gradle-extra-configurations-plugin:3.1.0'
-    compile 'com.netflix.nebula:gradle-info-plugin:3.1.0'
+    compile 'com.netflix.nebula:gradle-info-plugin:3.1.1'
     compile 'com.netflix.nebula:nebula-bintray-plugin:3.4.1'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:4.8.0'
-    compile 'com.netflix.nebula:nebula-project-plugin:3.2.0'
+    compile 'com.netflix.nebula:nebula-publishing-plugin:4.8.1'
+    compile 'com.netflix.nebula:nebula-project-plugin:3.2.1'
     compile 'com.netflix.nebula:nebula-release-plugin:4.0.1'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
 
