@@ -17,9 +17,7 @@ package nebula.plugin.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.execution.TaskExecutionGraph
 import org.gradle.api.tasks.testing.Test
-
 /**
  * Provide an environment for a Gradle plugin
  */
@@ -59,7 +57,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 compile gradleApi()
                 compile localGroovy()
 
-                testCompile('com.netflix.nebula:nebula-test:latest.release') {
+                testCompile('com.netflix.nebula:nebula-test:4.2.2') {
                     exclude group: 'org.codehaus.groovy'
                 }
             }
