@@ -24,7 +24,7 @@ To apply this plugin if using Gradle 2.1 or newer
 
 
     plugins {
-      id 'nebula.plugin-plugin' version '4.1.1'
+      id 'nebula.plugin-plugin' version '5.1.1'
     }
 
 If using an older version of Gradle
@@ -32,7 +32,7 @@ If using an older version of Gradle
     buildscript {
       repositories { jcenter() }
       dependencies {
-        classpath 'com.netflix.nebula:nebula-plugin-plugin:4.1.1'
+        classpath 'com.netflix.nebula:nebula-plugin-plugin:5.1.1'
       }
     }
 
@@ -46,20 +46,13 @@ Gradle Compatibility Tested
 
 | Gradle Version | Works |
 | :------------: | :---: |
-| 2.2.1          | yes   |
-| 2.3            | yes   |
-| 2.4            | yes   |
-| 2.5            | yes   |
-| 2.6            | yes   |
-| 2.7            | yes   |
-| 2.8            | yes   |
-| 2.9            | yes   |
-| 2.10           | yes   |
+| < 3.3          | no    |
+| 3.3            | yes   |
 
 LICENSE
 =======
 
-Copyright 2014-2016 Netflix, Inc.
+Copyright 2014-2017 Netflix, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

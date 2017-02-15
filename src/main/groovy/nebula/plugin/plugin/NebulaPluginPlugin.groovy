@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2015 Netflix, Inc.
+ * Copyright 2014-2017 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 compile gradleApi()
                 compile localGroovy()
 
-                testCompile('com.netflix.nebula:nebula-test:5.0.0') {
+                testCompile('com.netflix.nebula:nebula-test:5.0.1') {
                     exclude group: 'org.codehaus.groovy'
                 }
             }

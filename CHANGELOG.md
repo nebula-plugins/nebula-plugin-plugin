@@ -1,3 +1,19 @@
+5.1.1 / 2017-02-14
+==================
+
+* Update nebula-test to 5.0.1 with Windows fixes
+
+5.1.0 / 2017-02-01
+==================
+
+* Update some dependencies
+
+5.0.0 / 2017-01-09
+==================
+
+* Update nebula-test to 5.0.0
+* BREAKING requires gradle 3.3 or newer
+
 4.1.1 / 2016-04-27
 ==================
 
