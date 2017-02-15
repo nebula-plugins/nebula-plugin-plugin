@@ -47,7 +47,7 @@ dependencies {
     compile 'com.netflix.nebula:nebula-release-plugin:4.1.1'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.7.1'
 
-    testCompile('com.netflix.nebula:nebula-test:4.2.2') {
+    testCompile('com.netflix.nebula:nebula-test:5.0.1') {
         exclude group: 'org.codehaus.groovy'
     }
 }
