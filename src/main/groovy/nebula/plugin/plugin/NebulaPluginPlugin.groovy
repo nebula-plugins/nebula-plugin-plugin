@@ -64,7 +64,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 compile gradleApi()
                 compile localGroovy()
 
-                testCompile 'com.netflix.nebula:nebula-test:5.1.3'
+                testCompile 'com.netflix.nebula:nebula-test:6.0.1'
             }
 
             jacocoTestReport {
