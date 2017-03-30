@@ -53,20 +53,18 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 group = 'com.netflix.nebula'
             }
 
-            dependencies {
-                compile gradleApi()
-                compile localGroovy()
-
-                testCompile('com.netflix.nebula:nebula-test:5.0.1') {
-                    exclude group: 'org.codehaus.groovy'
-                }
-            }
-
             sourceCompatibility = 1.7
             targetCompatibility = 1.7
 
             repositories {
                 maven { url 'https://plugins.gradle.org/m2/' }
+            }
+
+            dependencies {
+                compile gradleApi()
+                compile localGroovy()
+
+                testCompile 'com.netflix.nebula:nebula-test:6.0.0'
             }
 
             jacocoTestReport {
