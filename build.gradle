@@ -37,15 +37,10 @@ contacts {
 }
 
 dependencies {
-    compile 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
-    compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
-    compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
-    compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-project-plugin:latest.release'
+    compile 'com.netflix.nebula:nebula-project-plugin:3.4.0'
+    compile 'com.netflix.nebula:gradle-extra-configurations-plugin:3.2.0'
     compile 'com.netflix.nebula:nebula-release-plugin:5.0.0'
-    compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
+    compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
 
     testCompile 'com.netflix.nebula:nebula-test:6.0.1' // Keep in sync with NebulaPluginPlugin.groovy
 }
