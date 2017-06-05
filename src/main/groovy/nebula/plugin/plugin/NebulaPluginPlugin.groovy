@@ -123,8 +123,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     def enableResolvedVersionInPluginPortalPom(Project project) {
         project.pluginBundle {
-            def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
             withDependencies { List<Dependency> deps ->
+                def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
                 deps.each { Dependency dep ->
                     String group = dep.groupId
                     String artifact = dep.artifactId
