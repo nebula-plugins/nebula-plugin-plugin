@@ -26,7 +26,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                     'idea',
                                     'jacoco']
 
-    static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
+    static final THIRDPARTY_PLUGIN_IDS = ['com.gradle.plugin-publish',
+                                          'com.github.kt3k.coveralls']
 
     static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
                                       'nebula.dependency-lock',
