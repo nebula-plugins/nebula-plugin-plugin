@@ -15,8 +15,11 @@
  */
 package nebula.plugin.plugin
 
+import org.apache.maven.model.Dependency
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.component.ModuleComponentSelector
+import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.tasks.testing.Test
 /**
  * Provide an environment for a Gradle plugin
@@ -107,6 +110,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 tasks.publishPlugins.dependsOn tasks.check
                 tasks.bintrayUpload.dependsOn tasks.publishPlugins
 
+                enableResolvedVersionInPluginPortalPom(project)
+
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
                         graph.hasTask(':final')
@@ -115,4 +120,24 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
         }
     }
+
+    def enableResolvedVersionInPluginPortalPom(Project project) {
+        project.pluginBundle {
+            def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
+            withDependencies { List<Dependency> deps ->
+                deps.each { Dependency dep ->
+                    String group = dep.groupId
+                    String artifact = dep.artifactId
+                    ResolvedDependencyResult found = resolvedDeps.find { r ->
+                        (r.requested instanceof ModuleComponentSelector) &&
+                                (r.requested.group == group) &&
+                                (r.requested.module == artifact)
+                    }
+
+                    dep.version = found.selected.moduleVersion.version
+                }
+            }
+        }
+    }
+
 }
