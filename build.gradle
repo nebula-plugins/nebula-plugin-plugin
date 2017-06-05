@@ -15,7 +15,8 @@
  */
 
 plugins {
-    id 'nebula.plugin-plugin' version '5.13.0'
+    id 'com.gradle.plugin-publish' version '0.9.7'
+    id 'nebula.plugin-plugin' version '5.7.0'
 }
 
 description 'Project plugin for Nebula plugins'
