@@ -42,7 +42,7 @@ dependencies {
     compile 'com.netflix.nebula:gradle-extra-configurations-plugin:3.2.0'
     compile 'com.netflix.nebula:gradle-info-plugin:3.6.0'
     compile 'com.netflix.nebula:nebula-bintray-plugin:3.5.2'
-    compile 'com.netflix.nebula:nebula-publishing-plugin:5.0.0'
+    compile 'com.netflix.nebula:nebula-publishing-plugin:5.0.1'
     compile 'com.netflix.nebula:nebula-project-plugin:3.4.0'
     compile 'com.netflix.nebula:nebula-release-plugin:5.0.0'
     compile 'com.gradle.publish:plugin-publish-plugin:0.9.7'
