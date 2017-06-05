@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id 'nebula.plugin-plugin' version '5.14.0'
+    id 'nebula.plugin-plugin' version '5.15.2'
 }
 
 description 'Project plugin for Nebula plugins'
@@ -45,7 +45,7 @@ dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:3.4.0'
     compile 'com.netflix.nebula:nebula-release-plugin:5.0.0'
     compile 'com.gradle.publish:plugin-publish-plugin:0.9.7'
-    compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
+    compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.+'
 
     testCompile 'com.netflix.nebula:nebula-test:6.0.1' // Keep in sync with NebulaPluginPlugin.groovy
 }
