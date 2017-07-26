@@ -65,8 +65,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             dependencies {
                 compile gradleApi()
-                compile localGroovy()
-
                 testCompile 'com.netflix.nebula:nebula-test:6.+'
             }
 
@@ -139,5 +137,4 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
         }
     }
-
 }

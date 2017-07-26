@@ -40,10 +40,12 @@ dependencies {
     compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-java-cross-compile-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-project-plugin:latest.release'
-    compile 'com.netflix.nebula:nebula-release-plugin:5.+' // 6.0.0 and greater require java 8
+    compile 'com.netflix.nebula:nebula-release-plugin:latest.release'
+
     compile 'com.gradle.publish:plugin-publish-plugin:0.9.7'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
