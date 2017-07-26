@@ -36,6 +36,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.dependency-lock',
                                       'nebula.facet',
                                       'nebula.info',
+                                      'nebula.java-cross-compile',
                                       'nebula.javadoc-jar',
                                       'nebula.maven-apache-license',
                                       'nebula.maven-publish',
