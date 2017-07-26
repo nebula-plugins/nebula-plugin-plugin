@@ -11,8 +11,12 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         apply plugin: 'nebula.plugin-plugin'
         """
 
-        expect:
-        runTasksSuccessfully('help', '--debug')
+        when:
+        def result = runTasks('help', '--debug')
+
+        then:
+        println result.standardOutput
+        result.failure == null
     }
 
     def 'plugin applies when plugin-publish is not applied'() {
