@@ -16,6 +16,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
 
         then:
         println result.standardOutput
+        println result.standardError
         result.failure == null
     }
 
