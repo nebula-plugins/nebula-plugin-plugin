@@ -79,7 +79,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 minHeapSize = '32m'
                 maxHeapSize = '256m'
                 jvmArgs "-XX:MaxPermSize=512m"
-                jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
+                doFirst {
+                    // Add the execution data only if the task runs
+                    jacocoTestReport.executionData += files("$buildDir/jacoco/${task.name}.exec")
+                }
             }
 
             tasks.bintrayUpload.dependsOn tasks.check
