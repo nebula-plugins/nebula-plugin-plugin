@@ -1,6 +1,7 @@
 language: java
 sudo: false
 jdk: oraclejdk8
+dist: trusty
 install: true
 script: "./gradle/buildViaTravis.sh"
 cache:
