@@ -30,6 +30,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                     'jacoco']
 
     static final THIRDPARTY_PLUGIN_IDS = ['com.gradle.plugin-publish',
+                                          'com.gradle.build-scan',
                                           'com.github.kt3k.coveralls']
 
     static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
@@ -67,6 +68,12 @@ class NebulaPluginPlugin implements Plugin<Project> {
             dependencies {
                 compile gradleApi()
                 testCompile 'com.netflix.nebula:nebula-test:6.+'
+            }
+
+            buildScan {
+                licenseAgreementUrl = 'https://gradle.com/terms-of-service'
+                licenseAgree = 'yes'
+                publishAlways()
             }
 
             jacocoTestReport {

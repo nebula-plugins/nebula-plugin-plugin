@@ -4,6 +4,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -49,6 +53,10 @@
         "com.gradle.publish:plugin-publish-plugin": {
             "locked": "0.9.7",
             "requested": "0.9.7"
+        },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
         },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
@@ -96,6 +104,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -141,6 +153,10 @@
         "com.gradle.publish:plugin-publish-plugin": {
             "locked": "0.9.7",
             "requested": "0.9.7"
+        },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
         },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
@@ -192,6 +208,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -242,6 +262,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -291,6 +315,10 @@
         "com.gradle.publish:plugin-publish-plugin": {
             "locked": "0.9.7",
             "requested": "0.9.7"
+        },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
         },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
@@ -352,6 +380,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -398,6 +430,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -443,6 +479,10 @@
         "com.gradle.publish:plugin-publish-plugin": {
             "locked": "0.9.7",
             "requested": "0.9.7"
+        },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
         },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
@@ -494,6 +534,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -544,6 +588,10 @@
             "locked": "0.9.7",
             "requested": "0.9.7"
         },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
+        },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
             "requested": "latest.release"
@@ -593,6 +641,10 @@
         "com.gradle.publish:plugin-publish-plugin": {
             "locked": "0.9.7",
             "requested": "0.9.7"
+        },
+        "com.gradle:build-scan-plugin": {
+            "locked": "1.8",
+            "requested": "1.8"
         },
         "com.netflix.nebula:gradle-contacts-plugin": {
             "locked": "3.0.1",
