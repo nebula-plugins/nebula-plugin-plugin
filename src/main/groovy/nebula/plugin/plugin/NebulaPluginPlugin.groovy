@@ -25,13 +25,13 @@ import org.gradle.api.tasks.testing.Test
  * Provide an environment for a Gradle plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
-    static final CORE_PLUGIN_IDS = ['groovy',
-                                    'idea',
-                                    'jacoco']
+    static final GRADLE_PLUGIN_IDS = ['com.gradle.build-scan',
+                                      'groovy',
+                                      'idea',
+                                      'jacoco',
+                                      'com.gradle.plugin-publish']
 
-    static final THIRDPARTY_PLUGIN_IDS = ['com.gradle.plugin-publish',
-                                          'com.gradle.build-scan',
-                                          'com.github.kt3k.coveralls']
+    static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
 
     static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
                                       'nebula.dependency-lock',
@@ -47,7 +47,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.source-jar',
                                       'nebula.integtest']
 
-    static final PLUGIN_IDS = CORE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
+    static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
     @Override
     void apply(Project project) {
