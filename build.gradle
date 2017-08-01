@@ -15,7 +15,7 @@
  */
 
 plugins {
-    id 'nebula.plugin-plugin' version '5.17.0'
+    id 'nebula.plugin-plugin' version '5.17.1'
 }
 
 description 'Project plugin for Nebula plugins'
