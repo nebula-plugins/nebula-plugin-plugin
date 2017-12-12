@@ -13,18 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-plugins {
-    id 'nebula.plugin-plugin' version '5.18.0'
+buildscript {
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath 'com.netflix.nebula:nebula-plugin-plugin:5.19.0-rc.1'
+    }
 }
+
+apply plugin: 'nebula.plugin-plugin'
+
+//plugins {
+//    id 'nebula.plugin-plugin' version '6.0.0'
+//}
 
 description 'Project plugin for Nebula plugins'
 
 contacts {
-    'justin@halfempty.org' {
-        moniker 'Justin Ryan'
-        github 'quidryan'
-    }
     'rob.spieldenner@gmail.com' {
         moniker 'Rob Spieldenner'
         github 'rspieldenner'
@@ -37,7 +44,7 @@ contacts {
 
 dependencies {
     compile 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
-    // compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
+    compile 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-info-plugin:latest.release'
     compile 'com.netflix.nebula:gradle-java-cross-compile-plugin:latest.release'
@@ -46,7 +53,7 @@ dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-release-plugin:latest.release'
 
-    compile 'com.gradle:build-scan-plugin:1.8'
+    compile 'com.gradle:build-scan-plugin:1.+'
     compile 'com.gradle.publish:plugin-publish-plugin:0.9.7'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
