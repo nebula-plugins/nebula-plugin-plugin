@@ -109,6 +109,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
             if (project == project.rootProject) {
                 tasks.artifactoryDeploy.dependsOn tasks.check
                 gradle.taskGraph.whenReady { graph ->
+                    tasks.bintrayPublish.onlyIf {
+                        graph.hasTask(':final') || graph.hasTask(':candidate')
+                    }
                     tasks.artifactoryDeploy.onlyIf {
                         graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                     }
