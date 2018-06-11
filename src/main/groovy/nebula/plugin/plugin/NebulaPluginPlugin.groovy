@@ -106,6 +106,15 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
+            if (project == project.rootProject) {
+                tasks.artifactoryDeploy.dependsOn tasks.check
+                gradle.taskGraph.whenReady { graph ->
+                    tasks.artifactoryDeploy.onlyIf {
+                        graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                    }
+                }
+            }
+
             plugins.withId('com.gradle.plugin-publish') {
                 pluginBundle {
                     website = "https://github.com/nebula-plugins/${name}"
