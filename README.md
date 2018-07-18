@@ -24,7 +24,7 @@ To apply this plugin if using Gradle 2.1 or newer
 
 
     plugins {
-      id 'nebula.plugin-plugin' version '5.1.1'
+      id 'nebula.plugin-plugin' version '<current version>'
     }
 
 If using an older version of Gradle
@@ -32,7 +32,7 @@ If using an older version of Gradle
     buildscript {
       repositories { jcenter() }
       dependencies {
-        classpath 'com.netflix.nebula:nebula-plugin-plugin:5.1.1'
+        classpath 'com.netflix.nebula:nebula-plugin-plugin:<current version>'
       }
     }
 
