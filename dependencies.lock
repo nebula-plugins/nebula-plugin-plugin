@@ -41,7 +41,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -91,7 +91,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -141,7 +141,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -191,7 +191,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -245,7 +245,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -299,7 +299,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -353,7 +353,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -417,7 +417,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -467,7 +467,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -517,7 +517,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -571,7 +571,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -625,7 +625,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
@@ -679,7 +679,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
-            "locked": "8.0.0",
+            "locked": "8.0.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
