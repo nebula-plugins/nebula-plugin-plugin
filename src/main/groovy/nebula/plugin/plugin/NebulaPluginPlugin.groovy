@@ -25,8 +25,7 @@ import org.gradle.api.tasks.testing.Test
  * Provide an environment for a Gradle plugin
  */
 class NebulaPluginPlugin implements Plugin<Project> {
-    static final GRADLE_PLUGIN_IDS = ['com.gradle.build-scan',
-                                      'groovy',
+    static final GRADLE_PLUGIN_IDS = ['groovy',
                                       'idea',
                                       'jacoco',
                                       'com.gradle.plugin-publish']
@@ -70,12 +69,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 compile gradleApi()
                 testCompile 'com.netflix.nebula:nebula-test:7.+'
             }
-
-            buildScan {
-                licenseAgreementUrl = 'https://gradle.com/terms-of-service'
-                licenseAgree = 'yes'
-                publishAlways()
-            }
+            
 
             jacocoTestReport {
                 reports {
