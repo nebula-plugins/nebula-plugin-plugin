@@ -41,7 +41,7 @@ dependencies {
     compile 'com.netflix.nebula:nebula-project-plugin:latest.release'
     compile 'com.netflix.nebula:nebula-release-plugin:latest.release'
 
-    compile 'com.gradle.publish:plugin-publish-plugin:0.9.7'
+    compile 'com.gradle.publish:plugin-publish-plugin:0.10.0'
     compile 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testCompile 'com.netflix.nebula:nebula-test:latest.release'
