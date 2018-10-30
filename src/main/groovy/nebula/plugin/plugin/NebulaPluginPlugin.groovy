@@ -126,31 +126,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 tasks.publishPlugins.dependsOn tasks.check
                 tasks.bintrayUpload.dependsOn tasks.publishPlugins
 
-                enableResolvedVersionInPluginPortalPom(project)
-
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
                         graph.hasTask(':final')
                     }
-                }
-            }
-        }
-    }
-
-    def enableResolvedVersionInPluginPortalPom(Project project) {
-        project.pluginBundle {
-            withDependencies { List<Dependency> deps ->
-                def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
-                deps.each { Dependency dep ->
-                    String group = dep.groupId
-                    String artifact = dep.artifactId
-                    ResolvedDependencyResult found = resolvedDeps.find { r ->
-                        (r.requested instanceof ModuleComponentSelector) &&
-                                (r.requested.group == group) &&
-                                (r.requested.module == artifact)
-                    }
-
-                    dep.version = found.selected.moduleVersion.version
                 }
             }
         }
