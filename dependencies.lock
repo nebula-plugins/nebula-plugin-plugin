@@ -21,7 +21,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -67,7 +67,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -113,7 +113,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -159,7 +159,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -179,7 +179,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -209,7 +209,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -229,7 +229,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -259,7 +259,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -279,7 +279,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -309,7 +309,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -329,7 +329,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -369,7 +369,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -415,7 +415,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -461,7 +461,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -481,7 +481,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -511,7 +511,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -531,7 +531,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -561,7 +561,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -581,7 +581,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
@@ -611,7 +611,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:gradle-java-cross-compile-plugin": {
-            "locked": "2.0.2",
+            "locked": "2.0.3",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
@@ -631,7 +631,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-test": {
-            "locked": "7.1.2",
+            "locked": "7.1.3",
             "requested": "latest.release"
         },
         "org.kt3k.gradle.plugin:coveralls-gradle-plugin": {
