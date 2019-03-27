@@ -21,6 +21,8 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.component.ModuleComponentSelector
 import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.tasks.testing.Test
+import org.gradle.util.DeprecationLogger
+
 /**
  * Provide an environment for a Gradle plugin
  */
@@ -69,7 +71,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 compile gradleApi()
                 testCompile 'com.netflix.nebula:nebula-test:7.+'
             }
-            
+
 
             jacocoTestReport {
                 reports {
@@ -126,9 +128,32 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 tasks.publishPlugins.dependsOn tasks.check
                 tasks.bintrayUpload.dependsOn tasks.publishPlugins
 
+                enableResolvedVersionInPluginPortalPom(project)
+
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
                         graph.hasTask(':final')
+                    }
+                }
+            }
+        }
+    }
+
+    def enableResolvedVersionInPluginPortalPom(Project project) {
+        DeprecationLogger.whileDisabled() {
+            project.pluginBundle {
+                withDependencies { List<Dependency> deps ->
+                    def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
+                    deps.each { Dependency dep ->
+                        String group = dep.groupId
+                        String artifact = dep.artifactId
+                        ResolvedDependencyResult found = resolvedDeps.find { r ->
+                            (r.requested instanceof ModuleComponentSelector) &&
+                                    (r.requested.group == group) &&
+                                    (r.requested.module == artifact)
+                        }
+
+                        dep.version = found.selected.moduleVersion.version
                     }
                 }
             }
