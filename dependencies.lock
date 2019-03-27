@@ -33,7 +33,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -79,7 +79,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -125,7 +125,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -171,7 +171,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -221,7 +221,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -271,7 +271,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -321,7 +321,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -381,7 +381,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -427,7 +427,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -473,7 +473,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -523,7 +523,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -573,7 +573,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
@@ -623,7 +623,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-publishing-plugin": {
-            "locked": "9.4.1",
+            "locked": "9.5.1",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-release-plugin": {
