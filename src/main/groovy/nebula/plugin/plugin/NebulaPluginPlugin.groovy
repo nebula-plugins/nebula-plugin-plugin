@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2017 Netflix, Inc.
+ * Copyright 2014-2019 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,9 @@
  */
 package nebula.plugin.plugin
 
-import org.apache.maven.model.Dependency
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.component.ModuleComponentSelector
-import org.gradle.api.artifacts.result.ResolvedDependencyResult
 import org.gradle.api.tasks.testing.Test
-import org.gradle.util.DeprecationLogger
 
 /**
  * Provide an environment for a Gradle plugin
@@ -30,7 +26,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
     static final GRADLE_PLUGIN_IDS = ['groovy',
                                       'idea',
                                       'jacoco',
-                                      'com.gradle.plugin-publish']
+                                      'com.gradle.plugin-publish',
+                                      'java-gradle-plugin']
 
     static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
 
@@ -120,40 +117,15 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     vcsUrl = "https://github.com/nebula-plugins/${name}.git"
                     description = project.description
 
-                    mavenCoordinates {
-                        groupId = project.group
-                        artifactId = project.name
-                    }
+
                 }
                 tasks.publishPlugins.dependsOn tasks.check
                 tasks.bintrayUpload.dependsOn tasks.publishPlugins
 
-                enableResolvedVersionInPluginPortalPom(project)
 
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
                         graph.hasTask(':final')
-                    }
-                }
-            }
-        }
-    }
-
-    def enableResolvedVersionInPluginPortalPom(Project project) {
-        DeprecationLogger.whileDisabled() {
-            project.pluginBundle {
-                withDependencies { List<Dependency> deps ->
-                    def resolvedDeps = project.configurations.runtimeClasspath.incoming.resolutionResult.allDependencies
-                    deps.each { Dependency dep ->
-                        String group = dep.groupId
-                        String artifact = dep.artifactId
-                        ResolvedDependencyResult found = resolvedDeps.find { r ->
-                            (r.requested instanceof ModuleComponentSelector) &&
-                                    (r.requested.group == group) &&
-                                    (r.requested.module == artifact)
-                        }
-
-                        dep.version = found.selected.moduleVersion.version
                     }
                 }
             }
