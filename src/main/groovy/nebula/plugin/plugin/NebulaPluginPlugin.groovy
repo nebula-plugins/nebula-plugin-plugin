@@ -87,13 +87,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
-            tasks.bintrayUpload.dependsOn tasks.check
             tasks.artifactoryPublish.dependsOn tasks.check
 
             gradle.taskGraph.whenReady { graph ->
-                tasks.bintrayUpload.onlyIf {
-                    graph.hasTask(':final') || graph.hasTask(':candidate')
-                }
                 tasks.artifactoryPublish.onlyIf {
                     graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                 }
@@ -102,9 +98,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             if (project == project.rootProject) {
                 tasks.artifactoryDeploy.dependsOn tasks.check
                 gradle.taskGraph.whenReady { graph ->
-                    tasks.bintrayPublish.onlyIf {
-                        graph.hasTask(':final') || graph.hasTask(':candidate')
-                    }
                     tasks.artifactoryDeploy.onlyIf {
                         graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
                     }
@@ -119,8 +112,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
 
                 }
+
                 tasks.publishPlugins.dependsOn tasks.check
-                tasks.bintrayUpload.dependsOn tasks.publishPlugins
+                tasks.publishPackageToBintray.dependsOn tasks.publishPlugins
 
 
                 gradle.taskGraph.whenReady { graph ->
