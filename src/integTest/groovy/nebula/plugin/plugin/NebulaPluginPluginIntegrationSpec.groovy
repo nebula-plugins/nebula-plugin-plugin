@@ -43,4 +43,20 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         expect:
         runTasksSuccessfully('help')
     }
+
+    def 'plugin applies - disable marker tasks'() {
+        buildFile << """
+        apply plugin: 'nebula.plugin-plugin'
+        
+        tasks.register("helloMarkerMaven") { 
+            doLast { 
+                println 'Hello, World!'
+            }
+        }
+        """
+
+        expect:
+        def result = runTasksSuccessfully('helloMarkerMaven')
+        result.standardOutput.contains("Task :helloMarkerMaven SKIPPED")
+    }
 }
