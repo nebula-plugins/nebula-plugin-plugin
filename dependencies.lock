@@ -25,7 +25,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -71,7 +71,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -117,7 +117,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -163,7 +163,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -213,7 +213,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -263,7 +263,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -313,7 +313,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -373,7 +373,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -419,7 +419,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -465,7 +465,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -515,7 +515,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -565,7 +565,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
@@ -615,7 +615,7 @@
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-bintray-plugin": {
-            "locked": "v7.2.5",
+            "locked": "7.2.5",
             "requested": "latest.release"
         },
         "com.netflix.nebula:nebula-project-plugin": {
