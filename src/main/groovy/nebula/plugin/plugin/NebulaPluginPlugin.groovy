@@ -104,6 +104,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
+            //Disable marker tasks
+            project.tasks.findAll {
+                it.name.contains("Marker") && it.name.contains('Maven') && it.group.equalsIgnoreCase('publishing')
+            }.each {
+                it.enabled = false
+            }
+
             plugins.withId('com.gradle.plugin-publish') {
                 pluginBundle {
                     website = "https://github.com/nebula-plugins/${name}"
