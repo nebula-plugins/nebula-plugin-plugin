@@ -15,6 +15,7 @@
  */
 package nebula.plugin.plugin
 
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
@@ -57,8 +58,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 group = 'com.netflix.nebula'
             }
 
-            sourceCompatibility = 1.7
-            targetCompatibility = 1.7
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
 
             repositories {
                 maven { url 'https://plugins.gradle.org/m2/' }
