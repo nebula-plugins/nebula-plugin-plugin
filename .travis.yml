@@ -1,6 +1,8 @@
 language: java
 sudo: false
-jdk: openjdk8
+jdk: 
+   - openjdk8
+   - openjdk11
 dist: trusty
 install: true
 script: "./gradle/buildViaTravis.sh"
