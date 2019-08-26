@@ -18,6 +18,7 @@ package nebula.plugin.plugin
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.tasks.testing.Test
 
 /**
@@ -101,6 +102,14 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 gradle.taskGraph.whenReady { graph ->
                     tasks.artifactoryDeploy.onlyIf {
                         graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                    }
+                }
+            }
+
+            plugins.withId('nebula.nebula-bintray') {
+                tasks.whenTaskAdded { Task task ->
+                    if(task.name.contains("publishMavenPublicationToBintrayRepository") || task.name.contains("publishPluginMavenPublicationToBintrayRepository")) {
+                        task.enabled = false
                     }
                 }
             }
