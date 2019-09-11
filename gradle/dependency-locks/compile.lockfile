@@ -34,7 +34,7 @@ com.netflix.nebula:gradle-metrics-plugin:8.4.1
 com.netflix.nebula:gradle-scm-plugin:5.0.3
 com.netflix.nebula:nebula-bintray-plugin:7.3.0
 com.netflix.nebula:nebula-core:4.0.1
-com.netflix.nebula:nebula-gradle-interop:1.0.8
+com.netflix.nebula:nebula-gradle-interop:1.0.10
 com.netflix.nebula:nebula-project-plugin:6.0.3
 com.netflix.nebula:nebula-publishing-plugin:13.4.0
 com.netflix.nebula:nebula-release-plugin:11.1.2
