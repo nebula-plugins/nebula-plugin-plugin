@@ -67,8 +67,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             dependencies {
-                compile gradleApi()
-                testCompile 'com.netflix.nebula:nebula-test:7.+'
+                implementation gradleApi()
+                testImplementation 'com.netflix.nebula:nebula-test:7.+'
             }
 
 
