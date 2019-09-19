@@ -41,18 +41,18 @@ If using an older version of Gradle
 Gradle Compatibility Tested
 ---------------------------
 
-* Built with Oracle JDK7
+* Built with Oracle JDK8
 * Tested with Oracle JDK8
 
 | Gradle Version | Works |
 | :------------: | :---: |
-| < 3.3          | no    |
-| 3.3            | yes   |
+| < 4.5 .        | no    |
+| 4.5 >          | yes   |
 
 LICENSE
 =======
 
-Copyright 2014-2017 Netflix, Inc.
+Copyright 2014-2019 Netflix, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
