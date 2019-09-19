@@ -20,23 +20,13 @@ Conventions
 Usages
 -----------
 
-To apply this plugin if using Gradle 2.1 or newer
+To apply this plugin 
 
 
     plugins {
       id 'nebula.plugin-plugin' version '<current version>'
     }
 
-If using an older version of Gradle
-
-    buildscript {
-      repositories { jcenter() }
-      dependencies {
-        classpath 'com.netflix.nebula:nebula-plugin-plugin:<current version>'
-      }
-    }
-
-    apply plugin: 'nebula.plugin-plugin'
     
 Gradle Compatibility Tested
 ---------------------------
