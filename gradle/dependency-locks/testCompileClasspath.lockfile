@@ -3,7 +3,6 @@
 # This file is expected to be part of source control.
 cglib:cglib-nodep:3.2.2
 com.fasterxml.jackson:jackson-bom:2.9.9.20190807
-com.github.zafarkhaja:java-semver:0.9.0
 com.google.guava:guava:19.0
 com.googlecode.javaewah:JavaEWAH:1.1.6
 com.gradle.publish:plugin-publish-plugin:0.10.0
@@ -19,14 +18,14 @@ com.jcraft:jzlib:1.1.2
 com.netflix.nebula:gradle-contacts-plugin:5.1.0
 com.netflix.nebula:gradle-dependency-lock-plugin:8.0.0
 com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3
-com.netflix.nebula:gradle-info-plugin:5.1.0
+com.netflix.nebula:gradle-info-plugin:5.1.1
 com.netflix.nebula:gradle-java-cross-compile-plugin:3.1.1
 com.netflix.nebula:nebula-bintray-plugin:7.4.1
 com.netflix.nebula:nebula-core:4.0.1
 com.netflix.nebula:nebula-gradle-interop:1.0.11
 com.netflix.nebula:nebula-project-plugin:6.2.0
-com.netflix.nebula:nebula-publishing-plugin:13.6.1
-com.netflix.nebula:nebula-release-plugin:12.1.0
+com.netflix.nebula:nebula-publishing-plugin:14.0.0
+com.netflix.nebula:nebula-release-plugin:13.0.0
 com.netflix.nebula:nebula-test:7.3.0
 com.perforce:p4java:2015.2.1365273
 com.trilead:trilead-ssh2:1.0.0-build220

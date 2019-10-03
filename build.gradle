@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.netflix.nebula:nebula-project-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-release-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-gradle-interop:latest.release'
+    implementation 'org.ajoberstar.grgit:grgit-core:3.1.1'
 
     implementation platform("com.fasterxml.jackson:jackson-bom:2.9.9.20190807")
 
