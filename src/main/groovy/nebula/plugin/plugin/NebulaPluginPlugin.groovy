@@ -82,7 +82,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             tasks.withType(Test) { task ->
                 minHeapSize = '32m'
                 maxHeapSize = '256m'
-                jvmArgs "-XX:MaxPermSize=512m"
                 doFirst {
                     // Add the execution data only if the task runs
                     jacocoTestReport.executionData.from = files("$buildDir/jacoco/${task.name}.exec")
