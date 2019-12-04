@@ -25,7 +25,7 @@ com.netflix.nebula:gradle-contacts-plugin:5.1.0
 com.netflix.nebula:gradle-dependency-lock-plugin:8.3.0
 com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3
 com.netflix.nebula:gradle-info-plugin:5.2.0
-com.netflix.nebula:gradle-java-cross-compile-plugin:4.0.1
+com.netflix.nebula:gradle-java-cross-compile-plugin:4.1.0
 com.netflix.nebula:gradle-scm-plugin:5.1.0
 com.netflix.nebula:nebula-bintray-plugin:7.4.3
 com.netflix.nebula:nebula-core:4.0.1
