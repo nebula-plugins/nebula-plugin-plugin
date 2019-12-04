@@ -32,6 +32,9 @@ contacts {
         moniker 'Roberto Perez Alcolea'
         github 'rpalcolea'
     }
+    '2860150+OdysseusLives@users.noreply.github.com' {
+        github 'OdysseusLives'
+    }
 }
 
 repositories {
