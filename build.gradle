@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'nebula.plugin-plugin' version '13.2.0'
+    id 'nebula.plugin-plugin' version '14.0.0'
 }
 
 description 'Project plugin for Nebula plugins'
@@ -68,11 +68,5 @@ pluginBundle {
             description = 'Sets up publishing and release process for all of the other nebula plugins'
             tags = ['nebula', 'plugin']
         }
-    }
-}
-
-tasks.whenTaskAdded { Task task ->
-    if(task.name.contains("publishMavenPublicationToBintrayRepository") || task.name.contains("publishPluginMavenPublicationToBintrayRepository")) {
-        task.enabled = false
     }
 }
