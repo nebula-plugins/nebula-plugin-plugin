@@ -15,11 +15,9 @@
  */
 package nebula.plugin.plugin
 
-import org.gradle.api.Action
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.api.tasks.testing.Test
 
 /**
@@ -111,7 +109,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
-            disableNebulaBintrayTasks(project)
 
             plugins.withId('com.gradle.plugin-publish') {
                 pluginBundle {
@@ -139,29 +136,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 it.name.contains("Marker") && it.name.contains('Maven')
             }.each {
                 it.enabled = false
-            }
-        }
-    }
-
-    private void disableNebulaBintrayTasks(Project project) {
-        project.with {
-            try {
-                plugins.withId('nebula.nebula-bintray') {
-                    tasks.named('publishMavenPublicationToBintrayRepository').configure(new Action<Task>() {
-                        @Override
-                        void execute(Task task) {
-                            task.enabled = false
-                        }
-                    })
-                    tasks.named('publishPluginMavenPublicationToBintrayRepository').configure(new Action<Task>() {
-                        @Override
-                        void execute(Task task) {
-                            task.enabled = false
-                        }
-                    })
-                }
-            } catch(all) {
-                //do nothing
             }
         }
     }
