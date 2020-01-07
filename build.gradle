@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'nebula.plugin-plugin' version '14.0.0'
+    id 'nebula.plugin-plugin' version '14.0.2'
 }
 
 description 'Project plugin for Nebula plugins'
@@ -49,7 +49,7 @@ dependencies {
     implementation 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-project-plugin:latest.release'
-    implementation 'com.netflix.nebula:nebula-release-plugin:latest.release'
+    implementation 'com.netflix.nebula:nebula-release-plugin:13.1.1'
     implementation 'com.netflix.nebula:nebula-gradle-interop:latest.release'
 
     implementation platform("com.fasterxml.jackson:jackson-bom:2.9.9.20190807")
