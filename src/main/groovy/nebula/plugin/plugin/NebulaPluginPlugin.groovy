@@ -88,19 +88,24 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
-            tasks.artifactoryPublish.dependsOn tasks.check
-
-            gradle.taskGraph.whenReady { graph ->
-                tasks.artifactoryPublish.onlyIf {
-                    graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+            if(tasks.findByName('artifactoryPublish')) {
+                tasks.artifactoryPublish.dependsOn tasks.check
+                gradle.taskGraph.whenReady { graph ->
+                    tasks.artifactoryPublish.onlyIf {
+                        graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                    }
                 }
+
             }
 
+
             if (project == project.rootProject) {
-                tasks.artifactoryDeploy.dependsOn tasks.check
-                gradle.taskGraph.whenReady { graph ->
-                    tasks.artifactoryDeploy.onlyIf {
-                        graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                if(tasks.findByName('artifactoryDeploy')) {
+                    tasks.artifactoryDeploy.dependsOn tasks.check
+                    gradle.taskGraph.whenReady { graph ->
+                        tasks.artifactoryDeploy.onlyIf {
+                            graph.hasTask(':snapshot') || graph.hasTask(':devSnapshot')
+                        }
                     }
                 }
             }
