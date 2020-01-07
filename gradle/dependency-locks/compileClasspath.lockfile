@@ -23,7 +23,7 @@ com.netflix.nebula:nebula-core:4.0.1
 com.netflix.nebula:nebula-gradle-interop:1.0.11
 com.netflix.nebula:nebula-project-plugin:7.0.4
 com.netflix.nebula:nebula-publishing-plugin:14.1.1
-com.netflix.nebula:nebula-release-plugin:14.0.0
+com.netflix.nebula:nebula-release-plugin:13.1.1
 com.perforce:p4java:2015.2.1365273
 com.trilead:trilead-ssh2:1.0.0-build220
 commons-codec:commons-codec:1.9
