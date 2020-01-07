@@ -59,4 +59,5 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         def result = runTasksSuccessfully('helloMarkerMaven')
         result.standardOutput.contains("Task :helloMarkerMaven SKIPPED")
     }
+
 }
