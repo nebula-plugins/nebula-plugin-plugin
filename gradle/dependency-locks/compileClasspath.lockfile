@@ -18,7 +18,7 @@ com.netflix.nebula:gradle-dependency-lock-plugin:8.6.0
 com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3
 com.netflix.nebula:gradle-info-plugin:5.2.0
 com.netflix.nebula:gradle-java-cross-compile-plugin:4.1.0
-com.netflix.nebula:nebula-bintray-plugin:7.5.2
+com.netflix.nebula:nebula-bintray-plugin:8.0.0
 com.netflix.nebula:nebula-core:4.0.1
 com.netflix.nebula:nebula-gradle-interop:1.0.11
 com.netflix.nebula:nebula-project-plugin:7.0.4
