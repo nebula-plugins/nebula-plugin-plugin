@@ -26,17 +26,16 @@ com.jcraft:jsch.agentproxy.usocket-nc:0.0.7
 com.jcraft:jsch:0.1.54
 com.jcraft:jzlib:1.1.2
 com.netflix.nebula:gradle-contacts-plugin:5.1.0
-com.netflix.nebula:gradle-dependency-lock-plugin:8.6.0
+com.netflix.nebula:gradle-dependency-lock-plugin:8.7.0
 com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3
 com.netflix.nebula:gradle-info-plugin:5.2.0
 com.netflix.nebula:gradle-java-cross-compile-plugin:4.1.0
 com.netflix.nebula:gradle-metrics-plugin:8.4.1
 com.netflix.nebula:gradle-scm-plugin:5.1.0
 com.netflix.nebula:nebula-bintray-plugin:8.0.0
-com.netflix.nebula:nebula-core:4.0.1
 com.netflix.nebula:nebula-dependencies-comparison:0.1.8
 com.netflix.nebula:nebula-gradle-interop:1.0.11
-com.netflix.nebula:nebula-project-plugin:7.0.4
+com.netflix.nebula:nebula-project-plugin:7.0.5
 com.netflix.nebula:nebula-publishing-plugin:14.1.1
 com.netflix.nebula:nebula-release-plugin:14.0.2
 com.netflix.nebula:nebula-test:7.6.0
@@ -75,7 +74,6 @@ org.apache.commons:commons-compress:1.18
 org.apache.commons:commons-lang3:3.4
 org.apache.httpcomponents:fluent-hc:4.5.1
 org.apache.httpcomponents:httpasyncclient:4.1
-org.apache.httpcomponents:httpclient-cache:4.5.2
 org.apache.httpcomponents:httpclient:4.5.2
 org.apache.httpcomponents:httpcore-nio:4.4.1
 org.apache.httpcomponents:httpcore:4.4.5
