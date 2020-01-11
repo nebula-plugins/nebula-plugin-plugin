@@ -16,14 +16,13 @@ com.jcraft:jsch.agentproxy.usocket-nc:0.0.7
 com.jcraft:jsch:0.1.54
 com.jcraft:jzlib:1.1.2
 com.netflix.nebula:gradle-contacts-plugin:5.1.0
-com.netflix.nebula:gradle-dependency-lock-plugin:8.6.0
+com.netflix.nebula:gradle-dependency-lock-plugin:8.7.0
 com.netflix.nebula:gradle-extra-configurations-plugin:5.0.3
 com.netflix.nebula:gradle-info-plugin:5.2.0
 com.netflix.nebula:gradle-java-cross-compile-plugin:4.1.0
 com.netflix.nebula:nebula-bintray-plugin:8.0.0
-com.netflix.nebula:nebula-core:4.0.1
 com.netflix.nebula:nebula-gradle-interop:1.0.11
-com.netflix.nebula:nebula-project-plugin:7.0.4
+com.netflix.nebula:nebula-project-plugin:7.0.5
 com.netflix.nebula:nebula-publishing-plugin:14.1.1
 com.netflix.nebula:nebula-release-plugin:14.0.2
 com.netflix.nebula:nebula-test:7.6.0
