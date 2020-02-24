@@ -15,9 +15,11 @@
  */
 package nebula.plugin.plugin
 
+import org.gradle.api.Action
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.testing.Test
 
 /**
@@ -129,6 +131,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     }
                 }
             }
+
+            plugins.withId('com.github.johnrengelman.shadow') {
+                disableGradleModuleMetadataTask(project)
+            }
         }
         project.afterEvaluate {
             //Disable marker tasks
@@ -138,5 +144,14 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 it.enabled = false
             }
         }
+    }
+
+    private void disableGradleModuleMetadataTask(Project project) {
+        project.tasks.withType(GenerateModuleMetadata).configureEach(new Action<GenerateModuleMetadata>() {
+            @Override
+            void execute(GenerateModuleMetadata generateModuleMetadataTask) {
+                generateModuleMetadataTask.enabled = false
+            }
+        })
     }
 }
