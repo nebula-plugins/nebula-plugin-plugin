@@ -58,7 +58,6 @@ dependencies {
     implementation 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testImplementation 'com.netflix.nebula:nebula-test:latest.release'
-    testImplementation 'com.google.guava:guava:19.0'
 }
 
 pluginBundle {
