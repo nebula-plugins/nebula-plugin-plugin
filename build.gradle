@@ -54,7 +54,7 @@ dependencies {
 
     implementation platform("com.fasterxml.jackson:jackson-bom:2.9.9.20190807")
 
-    implementation 'com.gradle.publish:plugin-publish-plugin:0.10.0'
+    implementation 'com.gradle.publish:plugin-publish-plugin:0.11.0'
     implementation 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testImplementation 'com.netflix.nebula:nebula-test:latest.release'
