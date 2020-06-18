@@ -87,6 +87,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     // Add the execution data only if the task runs
                     jacocoTestReport.executionData.from = files("$buildDir/jacoco/${task.name}.exec")
                 }
+                testLogging {
+                    events "PASSED", "FAILED", "SKIPPED"
+                }
             }
 
             if(tasks.findByName('artifactoryPublish')) {
