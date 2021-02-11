@@ -41,7 +41,7 @@ repositories {
     jcenter()
 }
 dependencies {
-    implementation("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
+    implementation 'com.netflix.nebula:nebula-oss-publishing-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
