@@ -41,12 +41,12 @@ repositories {
     jcenter()
 }
 dependencies {
+    implementation("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
     implementation 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-dependency-lock-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-extra-configurations-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-info-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-java-cross-compile-plugin:latest.release'
-    implementation 'com.netflix.nebula:nebula-bintray-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-publishing-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-project-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-release-plugin:latest.release'
@@ -58,6 +58,9 @@ dependencies {
     implementation 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testImplementation 'com.netflix.nebula:nebula-test:latest.release'
+    testImplementation("org.ajoberstar.grgit:grgit-core:3.1.1") {
+        exclude group: "org.codehaus.groovy", module: "groovy"
+    }
 }
 
 pluginBundle {

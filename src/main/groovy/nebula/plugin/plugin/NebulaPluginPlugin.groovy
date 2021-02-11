@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2019 Netflix, Inc.
+ * Copyright 2014-2021 Netflix, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,16 @@
  */
 package nebula.plugin.plugin
 
+import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Action
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
+import org.gradle.plugins.signing.Sign
 
 /**
  * Provide an environment for a Gradle plugin
@@ -44,7 +48,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.maven-publish',
                                       'nebula.publish-verification',
                                       'nebula.nebula-release',
-                                      'nebula.nebula-bintray', // nebula-bintray needs to happened after nebula-release since version isn't lazy in the bintray extension
+                                      'nebula.oss-publishing', 
                                       'nebula.optional-base',
                                       'nebula.source-jar',
                                       'nebula.integtest']
@@ -54,6 +58,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.with {
+            def nebulaOssPublishingExtension = project.rootProject.extensions.findByType(NebulaOssPublishingExtension) ?: project.rootProject.extensions.create("nebulaOssPublishing", NebulaOssPublishingExtension)
+            nebulaOssPublishingExtension.packageGroup.set("com.netflix")
+
             PLUGIN_IDS.each { plugins.apply(it) }
 
             if (!group) {
@@ -125,8 +132,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
 
                 tasks.publishPlugins.dependsOn tasks.check
-                tasks.publishPackageToBintray.dependsOn tasks.publishPlugins
-
 
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
@@ -139,12 +144,35 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 disableGradleModuleMetadataTask(project)
             }
         }
+
         project.afterEvaluate {
             //Disable marker tasks
             project.tasks.findAll {
-                it.name.contains("Marker") && it.name.contains('Maven')
+                (it.name.contains("Marker") && it.name.contains('Maven')) ||
+                        it.name.contains("PluginMarkerMavenPublicationToNetflixOSSRepository") ||
+                        it.name.contains("PluginMarkerMavenPublicationToSonatypeRepository") ||
+                        it.name.contains("publishPluginMavenPublicationToNetflixOSSRepository") ||
+                        it.name.contains("publishPluginMavenPublicationToSonatypeRepository")
             }.each {
                 it.enabled = false
+            }
+
+            TaskProvider validatePluginsTask = project.tasks.named('validatePlugins')
+            TaskProvider publishPluginsTask = project.tasks.named('publishPlugins')
+            project.tasks.withType(PublishToMavenRepository).configureEach {
+                it.mustRunAfter(project.rootProject.tasks.named('release'))
+                it.dependsOn(validatePluginsTask)
+                it.dependsOn(publishPluginsTask)
+            }
+
+            def postReleaseTask = project.rootProject.tasks.findByName('postRelease')
+            if(postReleaseTask) {
+                postReleaseTask.dependsOn( project.tasks.withType(PublishToMavenRepository))
+            }
+
+
+            project.tasks.withType(Sign).configureEach {
+                it.mustRunAfter(validatePluginsTask, project.tasks.named('check'), publishPluginsTask)
             }
         }
     }
