@@ -38,7 +38,7 @@ contacts {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 dependencies {
     implementation 'com.netflix.nebula:nebula-oss-publishing-plugin:latest.release'
