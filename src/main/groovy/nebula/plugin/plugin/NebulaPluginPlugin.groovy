@@ -159,10 +159,15 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             TaskProvider validatePluginsTask = project.tasks.named('validatePlugins')
             TaskProvider publishPluginsTask = project.tasks.named('publishPlugins')
-            project.tasks.withType(PublishToMavenRepository).configureEach {
-                it.mustRunAfter(project.rootProject.tasks.named('release'))
-                it.dependsOn(validatePluginsTask)
-                it.dependsOn(publishPluginsTask)
+            project.plugins.withId('nebula.release') {
+                project.tasks.withType(PublishToMavenRepository).configureEach {
+                    def releasetask = project.rootProject.tasks.findByName('release')
+                    if(releasetask) {
+                        it.mustRunAfter(releasetask)
+                        it.dependsOn(validatePluginsTask)
+                        it.dependsOn(publishPluginsTask)
+                    }
+                }
             }
 
             def postReleaseTask = project.rootProject.tasks.findByName('postRelease')
