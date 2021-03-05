@@ -20,20 +20,9 @@ plugins {
 description 'Project plugin for Nebula plugins'
 
 contacts {
-    'rob.spieldenner@gmail.com' {
-        moniker 'Rob Spieldenner'
-        github 'rspieldenner'
-    }
-    'dmthomas@gmail.com' {
-        moniker 'Danny Thomas'
-        github 'DanielThomas'
-    }
-    'roberto@perezalcolea.info' {
-        moniker 'Roberto Perez Alcolea'
-        github 'rpalcolea'
-    }
-    '2860150+OdysseusLives@users.noreply.github.com' {
-        github 'OdysseusLives'
+    'nebula-plugins-oss@netflix.com' {
+        moniker 'Nebula Plugins Maintainers'
+        github 'nebula-plugins'
     }
 }
 
