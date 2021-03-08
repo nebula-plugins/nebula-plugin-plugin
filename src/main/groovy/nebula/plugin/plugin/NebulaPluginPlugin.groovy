@@ -25,6 +25,7 @@ import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
 import org.gradle.plugins.signing.Sign
+import org.gradle.util.GradleVersion
 
 /**
  * Provide an environment for a Gradle plugin
@@ -72,13 +73,29 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             repositories {
                 maven { url 'https://plugins.gradle.org/m2/' }
+                mavenCentral()
+            }
+
+            if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
+                repositories {
+                    maven {
+                        url "https://netflixoss.jfrog.io/artifactory/gradle-plugins"
+                    }
+                }
+
+                tasks.withType(Test) {
+                    useJUnitPlatform()
+                }
             }
 
             dependencies {
                 implementation gradleApi()
-                testImplementation 'com.netflix.nebula:nebula-test:7.+'
+                if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
+                    testImplementation "com.netflix.nebula:nebula-test:9.+"
+                } else {
+                    testImplementation 'com.netflix.nebula:nebula-test:7.+'
+                }
             }
-
 
             jacocoTestReport {
                 reports {
