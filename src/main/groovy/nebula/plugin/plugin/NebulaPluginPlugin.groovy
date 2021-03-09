@@ -49,7 +49,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.maven-publish',
                                       'nebula.publish-verification',
                                       'nebula.nebula-release',
-                                      'nebula.oss-publishing', 
+                                      'nebula.oss-publishing',
                                       'nebula.optional-base',
                                       'nebula.source-jar',
                                       'nebula.integtest']
@@ -90,10 +90,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             dependencies {
                 implementation gradleApi()
-                if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                    testImplementation "com.netflix.nebula:nebula-test:9.+"
-                } else {
-                    testImplementation 'com.netflix.nebula:nebula-test:7.+'
+                //we apply plugin-plugin in nebula-test to and we don't want to create cycles which confuses gradle locks
+                if (project.name != 'nebula-test') {
+                    if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
+                        testImplementation "com.netflix.nebula:nebula-test:9.+"
+                    } else {
+                        testImplementation 'com.netflix.nebula:nebula-test:7.+'
+                    }
                 }
             }
 
@@ -116,7 +119,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
-            if(tasks.findByName('artifactoryPublish')) {
+            if (tasks.findByName('artifactoryPublish')) {
                 tasks.artifactoryPublish.dependsOn tasks.check
                 gradle.taskGraph.whenReady { graph ->
                     tasks.artifactoryPublish.onlyIf {
@@ -128,7 +131,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
 
             if (project == project.rootProject) {
-                if(tasks.findByName('artifactoryDeploy')) {
+                if (tasks.findByName('artifactoryDeploy')) {
                     tasks.artifactoryDeploy.dependsOn tasks.check
                     gradle.taskGraph.whenReady { graph ->
                         tasks.artifactoryDeploy.onlyIf {
@@ -179,7 +182,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             project.plugins.withId('nebula.release') {
                 project.tasks.withType(PublishToMavenRepository).configureEach {
                     def releasetask = project.rootProject.tasks.findByName('release')
-                    if(releasetask) {
+                    if (releasetask) {
                         it.mustRunAfter(releasetask)
                         it.dependsOn(validatePluginsTask)
                         it.dependsOn(publishPluginsTask)
@@ -188,8 +191,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             def postReleaseTask = project.rootProject.tasks.findByName('postRelease')
-            if(postReleaseTask) {
-                postReleaseTask.dependsOn( project.tasks.withType(PublishToMavenRepository))
+            if (postReleaseTask) {
+                postReleaseTask.dependsOn(project.tasks.withType(PublishToMavenRepository))
             }
 
 
