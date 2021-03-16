@@ -28,7 +28,9 @@ contacts {
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
+
 dependencies {
     implementation 'com.netflix.nebula:nebula-oss-publishing-plugin:latest.release'
     implementation 'com.netflix.nebula:gradle-contacts-plugin:latest.release'
@@ -44,7 +46,7 @@ dependencies {
     implementation enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.9.10.+")
 
     implementation 'com.gradle.publish:plugin-publish-plugin:0.11.0'
-    implementation 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
+    implementation 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
 
     testImplementation 'com.netflix.nebula:nebula-test:latest.release'
     testImplementation("org.ajoberstar.grgit:grgit-core:3.1.1") {
