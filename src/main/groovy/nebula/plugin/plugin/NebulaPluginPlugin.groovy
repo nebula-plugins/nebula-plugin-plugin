@@ -72,7 +72,14 @@ class NebulaPluginPlugin implements Plugin<Project> {
             targetCompatibility = JavaVersion.VERSION_1_8
 
             repositories {
-                maven { url 'https://plugins.gradle.org/m2/' }
+                maven {
+                    url 'https://plugins.gradle.org/m2/'
+                    metadataSources {
+                        mavenPom()
+                        artifact()
+                        ignoreGradleMetadataRedirection()
+                    }
+                }
                 mavenCentral()
             }
 
