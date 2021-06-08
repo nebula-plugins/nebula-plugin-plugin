@@ -100,9 +100,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 //we apply plugin-plugin in nebula-test to and we don't want to create cycles which confuses gradle locks
                 if (project.name != 'nebula-test') {
                     if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                        testImplementation "com.netflix.nebula:nebula-test:9.+"
+                        testImplementation "com.netflix.nebula:nebula-test:10.+"
                     } else {
-                        testImplementation 'com.netflix.nebula:nebula-test:7.+'
+                        testImplementation 'com.netflix.nebula:nebula-test:9.+'
                     }
                 }
             }
