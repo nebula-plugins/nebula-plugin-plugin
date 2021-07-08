@@ -84,12 +84,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                repositories {
-                    maven {
-                        url "https://netflixoss.jfrog.io/artifactory/gradle-plugins"
-                    }
-                }
-
                 tasks.withType(Test) {
                     useJUnitPlatform()
                 }
