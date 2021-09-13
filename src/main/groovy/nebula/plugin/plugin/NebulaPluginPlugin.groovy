@@ -103,8 +103,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             jacocoTestReport {
                 reports {
-                    xml.enabled = true // coveralls plugin depends on xml format report
-                    html.enabled = true
+                    xml.required = true // coveralls plugin depends on xml format report
+                    html.required = true
                 }
             }
 
