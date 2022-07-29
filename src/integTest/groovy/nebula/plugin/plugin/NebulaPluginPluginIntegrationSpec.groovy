@@ -27,17 +27,10 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
     def 'plugin publishing is available'() {
         buildFile << """
         apply plugin: 'nebula.plugin-plugin'
-        
         pluginBundle {
-            plugins {
-                kotlin {
-                    id = 'nebula.kotlin'
-                    displayName = 'Nebula Kotlin plugin'
-                    description = project.description
-                    tags = ['nebula', 'kotlin']
-                }
-            }
+            tags = ['nebula', 'kotlin']
         }
+      
         """
 
         expect:

@@ -198,7 +198,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
 
             project.tasks.withType(Sign).configureEach {
-                it.mustRunAfter(validatePluginsTask, project.tasks.named('check'), publishPluginsTask)
+                it.mustRunAfter(validatePluginsTask, project.tasks.named('check'))
             }
         }
     }
