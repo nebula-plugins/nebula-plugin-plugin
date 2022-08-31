@@ -48,7 +48,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'nebula.maven-apache-license',
                                       'nebula.maven-publish',
                                       'nebula.publish-verification',
-                                      'nebula.nebula-release',
+                                      'nebula.release',
                                       'nebula.oss-publishing',
                                       'nebula.optional-base',
                                       'nebula.source-jar',
