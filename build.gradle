@@ -61,7 +61,7 @@ pluginBundle {
 gradlePlugin {
     plugins {
         pluginPlugin {
-            id = 'nebula.plugin-plugin'
+            id = 'com.netflix.nebula.plugin-plugin'
             displayName = 'Nebula Plugin Plugin'
             description = 'Sets up publishing and release process for all of the other nebula plugins'
             implementationClass = 'nebula.plugin.plugin.NebulaPluginPlugin'

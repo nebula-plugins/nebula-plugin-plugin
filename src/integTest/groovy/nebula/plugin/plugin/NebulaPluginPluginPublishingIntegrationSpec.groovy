@@ -5,7 +5,7 @@ class NebulaPluginPluginPublishingIntegrationSpec extends GitVersioningIntegrati
     @Override
     def setupBuild() {
         buildFile << """
-        apply plugin: 'nebula.plugin-plugin'
+        apply plugin: 'com.netflix.nebula.plugin-plugin'
         """
     }
 

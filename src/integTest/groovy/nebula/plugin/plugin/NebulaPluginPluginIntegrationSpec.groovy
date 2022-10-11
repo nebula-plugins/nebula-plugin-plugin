@@ -8,7 +8,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         plugins {
            id 'com.gradle.plugin-publish' version '0.9.4'
         }
-        apply plugin: 'nebula.plugin-plugin'
+        apply plugin: 'com.netflix.nebula.plugin-plugin'
         """
 
         expect:
@@ -17,7 +17,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
 
     def 'plugin applies when plugin-publish is not applied'() {
         buildFile << """
-        apply plugin: 'nebula.plugin-plugin'
+        apply plugin: 'com.netflix.nebula.plugin-plugin'
         """
 
         expect:
@@ -26,7 +26,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
 
     def 'plugin publishing is available'() {
         buildFile << """
-        apply plugin: 'nebula.plugin-plugin'
+        apply plugin: 'com.netflix.nebula.plugin-plugin'
         pluginBundle {
             tags = ['nebula', 'kotlin']
         }
@@ -39,7 +39,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
 
     def 'plugin applies - disable marker tasks'() {
         buildFile << """
-        apply plugin: 'nebula.plugin-plugin'
+        apply plugin: 'com.netflix.nebula.plugin-plugin'
         
         tasks.register("helloMarkerMaven") { 
             doLast { 
