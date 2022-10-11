@@ -39,20 +39,20 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
 
-    static final NEBULA_PLUGIN_IDS = ['nebula.contacts',
-                                      'nebula.dependency-lock',
-                                      'nebula.facet',
-                                      'nebula.info',
-                                      'nebula.java-cross-compile',
-                                      'nebula.javadoc-jar',
-                                      'nebula.maven-apache-license',
-                                      'nebula.maven-publish',
-                                      'nebula.publish-verification',
-                                      'nebula.release',
-                                      'nebula.oss-publishing',
-                                      'nebula.optional-base',
-                                      'nebula.source-jar',
-                                      'nebula.integtest']
+    static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
+                                      'com.netflix.nebula.dependency-lock',
+                                      'com.netflix.nebula.facet',
+                                      'com.netflix.nebula.info',
+                                      'com.netflix.nebula.java-cross-compile',
+                                      'com.netflix.nebula.javadoc-jar',
+                                      'com.netflix.nebula.maven-apache-license',
+                                      'com.netflix.nebula.maven-publish',
+                                      'com.netflix.nebula.publish-verification',
+                                      'com.netflix.nebula.release',
+                                      'com.netflix.nebula.oss-publishing',
+                                      'com.netflix.nebula.optional-base',
+                                      'com.netflix.nebula.source-jar',
+                                      'com.netflix.nebula.integtest']
 
     static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
@@ -180,7 +180,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             TaskProvider validatePluginsTask = project.tasks.named('validatePlugins')
             TaskProvider publishPluginsTask = project.tasks.named('publishPlugins')
-            project.plugins.withId('nebula.release') {
+            project.plugins.withId('com.netflix.nebula.release') {
                 project.tasks.withType(PublishToMavenRepository).configureEach {
                     def releasetask = project.rootProject.tasks.findByName('release')
                     if (releasetask) {
