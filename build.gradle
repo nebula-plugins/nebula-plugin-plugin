@@ -54,6 +54,10 @@ dependencies {
     }
 }
 
+pluginBundle {
+    tags = ['nebula', 'nebula-plugin']
+}
+
 gradlePlugin {
     plugins {
         pluginPlugin {
@@ -61,7 +65,7 @@ gradlePlugin {
             displayName = 'Nebula Plugin Plugin'
             description = 'Sets up publishing and release process for all of the other nebula plugins'
             implementationClass = 'nebula.plugin.plugin.NebulaPluginPlugin'
-            getTags().set(['nebula', 'nebula-plugin'])
+            tags.set(['nebula', 'nebula-plugin'])
         }
     }
 }

@@ -144,6 +144,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
 
             plugins.withId('com.gradle.plugin-publish') {
+                pluginBundle {
+                    website = "https://github.com/nebula-plugins/${name}"
+                    vcsUrl = "https://github.com/nebula-plugins/${name}.git"
+                    description = project.description
+
+                }
+
                 tasks.publishPlugins.dependsOn tasks.check
 
                 gradle.taskGraph.whenReady { graph ->
