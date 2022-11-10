@@ -24,6 +24,7 @@ import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
+import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
 import org.gradle.util.GradleVersion
 
@@ -63,6 +64,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
             nebulaOssPublishingExtension.packageGroup.set("com.netflix")
 
             PLUGIN_IDS.each { plugins.apply(it) }
+
+            tasks.withType(ValidatePlugins).configureEach {
+                it.enableStricterValidation.set(true)
+            }
 
             if (!group) {
                 group = 'com.netflix.nebula'
