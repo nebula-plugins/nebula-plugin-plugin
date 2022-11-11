@@ -27,10 +27,17 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
     def 'plugin publishing is available'() {
         buildFile << """
         apply plugin: 'com.netflix.nebula.plugin-plugin'
-        pluginBundle {
-            tags = ['nebula', 'kotlin']
+      gradlePlugin {
+            plugins {
+                pluginPlugin {
+                    id = 'some-id'
+                    displayName = 'Nebula Plugin'
+                    implementationClass = 'nebula.plugin.SomePlugin'
+                    tags.set(['nebula', 'nebula-plugin'])
+                }
+            }
         }
-      
+
         """
 
         expect:
