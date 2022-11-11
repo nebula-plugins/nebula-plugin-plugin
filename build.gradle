@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '19.0.0'
+    id 'com.netflix.nebula.plugin-plugin' version '19.1.0'
 }
 
 description 'Project plugin for Nebula plugins'
@@ -52,10 +52,6 @@ dependencies {
     testImplementation("org.ajoberstar.grgit:grgit-core:3.1.1") {
         exclude group: "org.codehaus.groovy", module: "groovy"
     }
-}
-
-pluginBundle {
-    tags = ['nebula', 'nebula-plugin']
 }
 
 gradlePlugin {
