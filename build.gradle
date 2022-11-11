@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '19.1.0'
+    id 'com.netflix.nebula.plugin-plugin' version '19.1.2'
 }
 
 description 'Project plugin for Nebula plugins'
@@ -67,7 +67,7 @@ gradlePlugin {
             displayName = 'Nebula Plugin Plugin'
             description = 'Sets up publishing and release process for all of the other nebula plugins'
             implementationClass = 'nebula.plugin.plugin.NebulaPluginPlugin'
-            tags.set(['nebula', 'nebula-plugin'])
+            //tags.set(['nebula', 'nebula-plugin'])
         }
     }
 }
