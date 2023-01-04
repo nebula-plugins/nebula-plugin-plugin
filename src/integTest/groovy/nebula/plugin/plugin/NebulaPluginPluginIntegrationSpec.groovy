@@ -6,7 +6,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
     def 'plugin applies'() {
         buildFile << """
         plugins {
-           id 'com.gradle.plugin-publish' version '0.9.4'
+           id 'com.gradle.plugin-publish' version '1.0.0'
         }
         apply plugin: 'com.netflix.nebula.plugin-plugin'
         """

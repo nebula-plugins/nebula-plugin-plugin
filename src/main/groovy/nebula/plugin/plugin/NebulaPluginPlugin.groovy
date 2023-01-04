@@ -34,7 +34,6 @@ import org.gradle.util.GradleVersion
 class NebulaPluginPlugin implements Plugin<Project> {
     static final GRADLE_PLUGIN_IDS = ['groovy',
                                       'idea',
-                                      'jacoco',
                                       'com.gradle.plugin-publish',
                                       'java-gradle-plugin']
 
@@ -106,20 +105,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
-            jacocoTestReport {
-                reports {
-                    xml.required = true // coveralls plugin depends on xml format report
-                    html.required = true
-                }
-            }
-
             tasks.withType(Test) { task ->
                 minHeapSize = '32m'
                 maxHeapSize = '256m'
-                doFirst {
-                    // Add the execution data only if the task runs
-                    jacocoTestReport.executionData.from = files("$buildDir/jacoco/${task.name}.exec")
-                }
                 testLogging {
                     events "PASSED", "FAILED", "SKIPPED"
                 }
