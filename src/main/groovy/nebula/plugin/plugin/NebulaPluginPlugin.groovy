@@ -20,13 +20,22 @@ import org.gradle.api.Action
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.provider.Provider
+import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
+import org.gradle.jvm.toolchain.JavaToolchainSpec
+import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
 import org.gradle.util.GradleVersion
+
+import javax.inject.Inject
 
 /**
  * Provide an environment for a Gradle plugin
@@ -56,6 +65,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
+    private final ProviderFactory providers
+
+    @Inject
+    NebulaPluginPlugin(ProviderFactory providerFactory) {
+        this.providers = providerFactory
+    }
+
     @Override
     void apply(Project project) {
         project.with {
@@ -72,8 +88,11 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 group = 'com.netflix.nebula'
             }
 
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            JavaPluginExtension javaPluginExtension = extensions.getByType(JavaPluginExtension)
+            JavaToolchainSpec toolchainSpec = javaPluginExtension.toolchain
+            toolchainSpec.languageVersion.convention(JavaLanguageVersion.of(8))
+            sourceCompatibility = null
+            targetCompatibility = null
 
             repositories {
                 maven {
@@ -105,9 +124,21 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 }
             }
 
+            Provider<String> jdkVersionForTestsEnvVariable = providers.environmentVariable("JDK_VERSION_FOR_TESTS")
+            Integer jdkVersionForTests = jdkVersionForTestsEnvVariable.isPresent() ? jdkVersionForTestsEnvVariable.get().toInteger() : 8
+            JavaToolchainService javaToolchainService = project.extensions.getByType(JavaToolchainService)
             tasks.withType(Test) { task ->
                 minHeapSize = '32m'
                 maxHeapSize = '256m'
+                /*
+                Allows to override the JDK used to execute the test process
+                 */
+                javaLauncher = javaToolchainService.launcherFor {
+                    it.languageVersion.set(JavaLanguageVersion.of(jdkVersionForTests))
+                }
+                doFirst {
+                    logger.lifecycle("Executing tests with JDK: ${jdkVersionForTests}")
+                }
                 testLogging {
                     events "PASSED", "FAILED", "SKIPPED"
                 }
