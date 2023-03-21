@@ -59,7 +59,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.netflix.nebula.publish-verification',
                                       'com.netflix.nebula.release',
                                       'com.netflix.nebula.oss-publishing',
-                                      'com.netflix.nebula.optional-base',
                                       'com.netflix.nebula.source-jar',
                                       'com.netflix.nebula.integtest']
 
