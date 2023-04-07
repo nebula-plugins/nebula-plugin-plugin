@@ -15,10 +15,12 @@
  */
 package nebula.plugin.plugin
 
+import io.github.gradlenexus.publishplugin.AbstractNexusStagingRepositoryTask
 import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.invocation.Gradle
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
@@ -63,6 +65,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
     static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
     private final ProviderFactory providers
+    private boolean isPluginPublishingValidation
 
     @Inject
     NebulaPluginPlugin(ProviderFactory providerFactory) {
@@ -71,6 +74,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        this.isPluginPublishingValidation = project.gradle.startParameter.taskNames.contains('--validate-only')
         project.with {
             def nebulaOssPublishingExtension = project.rootProject.extensions.findByType(NebulaOssPublishingExtension) ?: project.rootProject.extensions.create("nebulaOssPublishing", NebulaOssPublishingExtension)
             nebulaOssPublishingExtension.packageGroup.set("com.netflix")
@@ -174,7 +178,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
-                        graph.hasTask(':final') || gradle.startParameter.taskNames.contains('--validate-only')
+                        graph.hasTask(':final') || isPluginPublishingValidation
                     }
                 }
             }
@@ -215,10 +219,28 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
 
-            project.tasks.withType(Sign).configureEach {
-                it.mustRunAfter(validatePluginsTask, project.tasks.named('check'))
+            /**
+             * Configure signing unless it is plugin validation
+             */
+            if (!isPluginPublishingValidation) {
+                project.tasks.withType(Sign).configureEach {
+                    it.mustRunAfter(validatePluginsTask, project.tasks.named('check'))
+                }
+            }
+
+            /**
+             * Disable publishing to maven repositories when running --validate-only
+             */
+            if (isPluginPublishingValidation) {
+                project.tasks.withType(PublishToMavenRepository).configureEach {
+                    it.enabled = false
+                }
+                project.tasks.withType(AbstractNexusStagingRepositoryTask).configureEach {
+                    it.enabled = false
+                }
             }
         }
+
     }
 
     private void disableGradleModuleMetadataTask(Project project) {

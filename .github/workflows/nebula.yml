@@ -83,7 +83,8 @@ jobs:
             - ${{ runner.os }}-gradlewrapper-
       - name: Verify plugin publication
         if: |
-          startsWith(github.ref, 'refs/tags/v')
+          startsWith(github.ref, 'refs/tags/v') &&
+          (!contains(github.ref, '-rc.'))
         run: ./gradlew  --stacktrace -Dgradle.publish.key=${{ secrets.gradlePublishKey }} -Dgradle.publish.secret=${{ secrets.gradlePublishSecret }} publishPlugins --validate-only -x signPluginMavenPublication -x check
   publish:
     if: startsWith(github.ref, 'refs/tags/v')
