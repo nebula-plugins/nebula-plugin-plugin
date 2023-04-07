@@ -17,7 +17,6 @@ package nebula.plugin.plugin
 
 import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Action
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
@@ -30,7 +29,6 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
-import org.gradle.jvm.toolchain.JvmVendorSpec
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
 import org.gradle.util.GradleVersion
@@ -176,7 +174,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
                 gradle.taskGraph.whenReady { graph ->
                     tasks.publishPlugins.onlyIf {
-                        graph.hasTask(':final')
+                        graph.hasTask(':final') || gradle.startParameter.taskNames.contains('--validate-only')
                     }
                 }
             }
