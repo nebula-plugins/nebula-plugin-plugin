@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.netflix.nebula:nebula-release-plugin:latest.release'
     implementation 'com.netflix.nebula:nebula-gradle-interop:latest.release'
 
-    implementation enforcedPlatform("com.fasterxml.jackson:jackson-bom:2.9.10.+")
+    implementation platform("com.fasterxml.jackson:jackson-bom:2.14.+")
 
     implementation 'com.gradle.publish:plugin-publish-plugin:1.2.0'
     implementation 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:latest.release'
