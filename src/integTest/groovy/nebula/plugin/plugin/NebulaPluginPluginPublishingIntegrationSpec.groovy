@@ -34,7 +34,7 @@ class NebulaPluginPluginPublishingIntegrationSpec extends GitVersioningIntegrati
         git.add(patterns: ['.'] as Set)
         git.commit(message: 'Setup 3')
         git.tag.add(name: 'v0.0.1')
-
+        System.setProperty('ignoreDeprecations', 'true')
         def result = runTasksSuccessfully('final', '-PnetflixOss.username=user',  '-PnetflixOss.password=password', '-Psonatype.username=user',  '-Psonatype.password=password', '-Psonatype.signingKey=user',  '-Psonatype.signingPassword=password','--dry-run')
 
         then:

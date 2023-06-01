@@ -20,7 +20,6 @@ import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.invocation.Gradle
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
@@ -92,8 +91,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
             JavaPluginExtension javaPluginExtension = extensions.getByType(JavaPluginExtension)
             JavaToolchainSpec toolchainSpec = javaPluginExtension.toolchain
             toolchainSpec.languageVersion.convention(JavaLanguageVersion.of(8))
-            sourceCompatibility = null
-            targetCompatibility = null
+            java {
+                sourceCompatibility = null
+                targetCompatibility = null
+            }
 
             repositories {
                 maven {
