@@ -45,8 +45,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.gradle.plugin-publish',
                                       'java-gradle-plugin']
 
-    static final THIRDPARTY_PLUGIN_IDS = ['com.github.kt3k.coveralls']
-
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
                                       'com.netflix.nebula.dependency-lock',
                                       'com.netflix.nebula.facet',
@@ -61,7 +59,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.netflix.nebula.source-jar',
                                       'com.netflix.nebula.integtest']
 
-    static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + THIRDPARTY_PLUGIN_IDS + NEBULA_PLUGIN_IDS
+    static final PLUGIN_IDS = GRADLE_PLUGIN_IDS  + NEBULA_PLUGIN_IDS
 
     private final ProviderFactory providers
     private boolean isPluginPublishingValidation
