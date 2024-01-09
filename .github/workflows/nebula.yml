@@ -143,3 +143,4 @@ jobs:
           startsWith(github.ref, 'refs/tags/v') &&
           (!contains(github.ref, '-rc.'))
         run: ./gradlew --info --stacktrace -Dgradle.publish.key=${{ secrets.gradlePublishKey }} -Dgradle.publish.secret=${{ secrets.gradlePublishSecret }} -Prelease.useLastTag=true final
+
