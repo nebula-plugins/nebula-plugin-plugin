@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.gradle.publish:plugin-publish-plugin:1.2.1'
 
     testImplementation 'com.netflix.nebula:nebula-test:latest.release'
-    testImplementation("org.ajoberstar.grgit:grgit-core:3.1.1") {
+    testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
         exclude group: "org.codehaus.groovy", module: "groovy"
     }
 }
@@ -69,4 +69,8 @@ tasks.withType(GenerateModuleMetadata).configureEach {
     // The value 'enforced-platform' is provided in the validation
     // error message you got
     suppressedValidationErrors.add('enforced-platform')
+}
+
+tasks.withType(Test).configureEach {
+    systemProperty('ignoreDeprecations', true)
 }
