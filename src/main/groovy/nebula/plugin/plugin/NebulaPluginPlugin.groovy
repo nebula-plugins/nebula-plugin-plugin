@@ -107,7 +107,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                tasks.withType(Test) {
+                tasks.withType(Test).configureEach {
                     useJUnitPlatform()
                 }
             }
@@ -125,16 +125,19 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             Provider<String> jdkVersionForTestsEnvVariable = providers.environmentVariable("JDK_VERSION_FOR_TESTS")
-            Integer jdkVersionForTests = jdkVersionForTestsEnvVariable.isPresent() ? jdkVersionForTestsEnvVariable.get().toInteger() : 8
+            Integer jdkVersionForTests = jdkVersionForTestsEnvVariable.isPresent() ? jdkVersionForTestsEnvVariable.get().toInteger() : 21
             JavaToolchainService javaToolchainService = project.extensions.getByType(JavaToolchainService)
-            tasks.withType(Test) { task ->
+            tasks.withType(Test).configureEach { task ->
                 minHeapSize = '32m'
                 maxHeapSize = '256m'
                 /*
                 Allows to override the JDK used to execute the test process
                  */
-                javaLauncher = javaToolchainService.launcherFor {
+                javaLauncher.set(javaToolchainService.launcherFor {
                     it.languageVersion.set(JavaLanguageVersion.of(jdkVersionForTests))
+                })
+                if(jdkVersionForTests < 17) {
+                    systemProperty('ignoreDeprecations', true)
                 }
                 doFirst {
                     logger.lifecycle("Executing tests with JDK: ${jdkVersionForTests}")
