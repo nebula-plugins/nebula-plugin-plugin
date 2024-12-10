@@ -96,7 +96,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             repositories {
                 maven {
-                    url 'https://plugins.gradle.org/m2/'
+                    url = 'https://plugins.gradle.org/m2/'
                     metadataSources {
                         mavenPom()
                         artifact()
