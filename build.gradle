@@ -15,6 +15,7 @@
  */
 plugins {
     id 'com.netflix.nebula.plugin-plugin' version '21.2.2'
+    id 'com.netflix.nebula.oss-publishing' version '3.6.0' // Remove this once the next verison of the plugin-plugin is published
 }
 
 description 'Project plugin for Nebula plugins'
