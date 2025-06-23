@@ -32,7 +32,6 @@ import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
-import org.gradle.util.GradleVersion
 
 import javax.inject.Inject
 
@@ -88,11 +87,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             JavaPluginExtension javaPluginExtension = extensions.getByType(JavaPluginExtension)
             JavaToolchainSpec toolchainSpec = javaPluginExtension.toolchain
-            toolchainSpec.languageVersion.convention(JavaLanguageVersion.of(8))
-            java {
-                sourceCompatibility = null
-                targetCompatibility = null
-            }
+            toolchainSpec.languageVersion.convention(JavaLanguageVersion.of(17))
 
             repositories {
                 maven {
@@ -106,21 +101,15 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 mavenCentral()
             }
 
-            if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                tasks.withType(Test).configureEach {
-                    useJUnitPlatform()
-                }
+            tasks.withType(Test).configureEach {
+                useJUnitPlatform()
             }
 
             dependencies {
                 implementation gradleApi()
                 //we apply plugin-plugin in nebula-test to and we don't want to create cycles which confuses gradle locks
                 if (project.name != 'nebula-test') {
-                    if (GradleVersion.current().baseVersion >= GradleVersion.version("7.0")) {
-                        testImplementation "com.netflix.nebula:nebula-test:10.+"
-                    } else {
-                        testImplementation 'com.netflix.nebula:nebula-test:9.+'
-                    }
+                    testImplementation "com.netflix.nebula:nebula-test:11.+"
                 }
             }
 
@@ -193,7 +182,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.afterEvaluate {
             //Disable marker tasks
             project.tasks.findAll {
-                (it.name.contains("Marker") && it.name.contains('Maven')) ||
+
                         it.name.contains("PluginMarkerMavenPublicationToNetflixOSSRepository") ||
                         it.name.contains("PluginMarkerMavenPublicationToSonatypeRepository") ||
                         it.name.contains("publishPluginMavenPublicationToNetflixOSSRepository") ||
