@@ -182,13 +182,18 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.afterEvaluate {
             //Disable marker tasks
             project.tasks.findAll {
-
                         it.name.contains("PluginMarkerMavenPublicationToNetflixOSSRepository") ||
                         it.name.contains("PluginMarkerMavenPublicationToSonatypeRepository") ||
                         it.name.contains("publishPluginMavenPublicationToNetflixOSSRepository") ||
                         it.name.contains("publishPluginMavenPublicationToSonatypeRepository")
             }.each {
                 it.enabled = false
+            }
+
+            project.tasks.withType(Sign) {
+                if(it.name.contains("PluginMarkerMavenPublication")) {
+                    enabled = false
+                }
             }
 
             TaskProvider validatePluginsTask = project.tasks.named('validatePlugins')
