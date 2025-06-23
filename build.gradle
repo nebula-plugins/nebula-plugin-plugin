@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '21.3.5'
+    id 'com.netflix.nebula.plugin-plugin' version '22.0.0'
     id 'com.netflix.nebula.oss-publishing' version '3.6.0' // Remove this once the next verison of the plugin-plugin is published
 }
 
@@ -48,7 +48,7 @@ dependencies {
 
     implementation 'com.gradle.publish:plugin-publish-plugin:1.3.1'
 
-    testImplementation 'com.netflix.nebula:nebula-test:10.+'
+    testImplementation 'com.netflix.nebula:nebula-test:latest.release'
     testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
         exclude group: "org.codehaus.groovy", module: "groovy"
     }
