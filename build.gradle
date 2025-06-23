@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 plugins {
-    id 'com.netflix.nebula.plugin-plugin' version '21.2.2'
+    id 'com.netflix.nebula.plugin-plugin' version '21.3.4'
     id 'com.netflix.nebula.oss-publishing' version '3.6.0' // Remove this once the next verison of the plugin-plugin is published
 }
 
