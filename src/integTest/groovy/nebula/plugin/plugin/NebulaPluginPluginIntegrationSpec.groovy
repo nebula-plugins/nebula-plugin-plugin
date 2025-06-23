@@ -42,7 +42,7 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationTestKitSpec {
         plugins {
            id 'com.netflix.nebula.plugin-plugin'
         }    
-        tasks.register("helloMarkerMaven") { 
+        tasks.register("helloPluginMarkerMavenPublicationToNetflixOSSRepository") { 
             doLast { 
                 println 'Hello, World!'
             }
@@ -50,8 +50,8 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationTestKitSpec {
         """
 
         expect:
-        def result = runTasks('helloMarkerMaven')
-        result.output.contains("Task :helloMarkerMaven SKIPPED")
+        def result = runTasks('helloPluginMarkerMavenPublicationToNetflixOSSRepository')
+        result.output.contains("Task :helloPluginMarkerMavenPublicationToNetflixOSSRepository SKIPPED")
     }
 
 }
