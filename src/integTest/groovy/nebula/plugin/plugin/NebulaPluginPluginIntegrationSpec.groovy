@@ -1,32 +1,25 @@
 package nebula.plugin.plugin
 
-import nebula.test.IntegrationSpec
+import nebula.test.IntegrationTestKitSpec
 
-class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
+class NebulaPluginPluginIntegrationSpec extends IntegrationTestKitSpec {
     def 'plugin applies'() {
         buildFile << """
         plugins {
-           id 'com.gradle.plugin-publish' version '1.0.0'
+           id 'com.netflix.nebula.plugin-plugin'
         }
-        apply plugin: 'com.netflix.nebula.plugin-plugin'
         """
 
         expect:
-        runTasksSuccessfully('help')
+        runTasks('help')
     }
 
-    def 'plugin applies when plugin-publish is not applied'() {
-        buildFile << """
-        apply plugin: 'com.netflix.nebula.plugin-plugin'
-        """
-
-        expect:
-        runTasksSuccessfully('help')
-    }
 
     def 'plugin publishing is available'() {
         buildFile << """
-        apply plugin: 'com.netflix.nebula.plugin-plugin'
+        plugins {
+           id 'com.netflix.nebula.plugin-plugin'
+        }
       gradlePlugin {
             plugins {
                 pluginPlugin {
@@ -41,13 +34,14 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         """
 
         expect:
-        runTasksSuccessfully('help')
+        runTasks('help')
     }
 
     def 'plugin applies - disable marker tasks'() {
-        buildFile << """
-        apply plugin: 'com.netflix.nebula.plugin-plugin'
-        
+        buildFile << """    
+        plugins {
+           id 'com.netflix.nebula.plugin-plugin'
+        }    
         tasks.register("helloMarkerMaven") { 
             doLast { 
                 println 'Hello, World!'
@@ -56,8 +50,8 @@ class NebulaPluginPluginIntegrationSpec extends IntegrationSpec {
         """
 
         expect:
-        def result = runTasksSuccessfully('helloMarkerMaven')
-        result.standardOutput.contains("Task :helloMarkerMaven SKIPPED")
+        def result = runTasks('helloMarkerMaven')
+        result.output.contains("Task :helloMarkerMaven SKIPPED")
     }
 
 }
