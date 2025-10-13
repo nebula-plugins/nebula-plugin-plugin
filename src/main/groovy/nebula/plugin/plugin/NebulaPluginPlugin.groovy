@@ -48,7 +48,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.netflix.nebula.dependency-lock',
                                       'com.netflix.nebula.facet',
                                       'com.netflix.nebula.info',
-                                      'com.netflix.nebula.java-cross-compile',
                                       'com.netflix.nebula.javadoc-jar',
                                       'com.netflix.nebula.maven-apache-license',
                                       'com.netflix.nebula.maven-publish',
@@ -106,7 +105,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             dependencies {
-                implementation gradleApi()
                 //we apply plugin-plugin in nebula-test to and we don't want to create cycles which confuses gradle locks
                 if (project.name != 'nebula-test') {
                     testImplementation "com.netflix.nebula:nebula-test:11.+"
