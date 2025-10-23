@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id("com.netflix.nebula.plugin-plugin") version "23.+"
+    id("com.netflix.nebula.plugin-plugin") version "24.+"
     `kotlin-dsl`
 }
 
@@ -23,34 +23,29 @@ description = "Project plugin for Nebula plugins"
 contacts {
     addPerson("nebula-plugins-oss@netflix.com") {
         moniker = "Nebula Plugins Maintainers"
-        github =  "nebula-plugins"
+        github = "nebula-plugins"
     }
-}
-
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
 }
 
 dependencies {
     compileOnly("io.github.gradle-nexus:publish-plugin:2.0.0")
-    implementation ("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
-    implementation ("com.netflix.nebula:gradle-contacts-plugin:latest.release")
-    implementation ("com.netflix.nebula:gradle-dependency-lock-plugin:latest.release")
-    implementation ("com.netflix.nebula:gradle-info-plugin:latest.release")
-    implementation ("com.netflix.nebula:gradle-java-cross-compile-plugin:latest.release")
-    implementation ("com.netflix.nebula:nebula-publishing-plugin:latest.release")
-    implementation ("com.netflix.nebula:nebula-project-plugin:latest.release")
-    implementation ("com.netflix.nebula:nebula-release-plugin:latest.release")
-    implementation ("com.netflix.nebula:nebula-gradle-interop:latest.release")
+    implementation("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
+    implementation("com.netflix.nebula:gradle-contacts-plugin:latest.release")
+    implementation("com.netflix.nebula:gradle-dependency-lock-plugin:latest.release")
     implementation("com.netflix.nebula:gradle-info-plugin:latest.release")
-    implementation (platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
+    implementation("com.netflix.nebula:gradle-java-cross-compile-plugin:latest.release")
+    implementation("com.netflix.nebula:nebula-publishing-plugin:latest.release")
+    implementation("com.netflix.nebula:nebula-project-plugin:latest.release")
+    implementation("com.netflix.nebula:nebula-release-plugin:latest.release")
+    implementation("com.netflix.nebula:nebula-gradle-interop:latest.release")
+    implementation("com.netflix.nebula:gradle-info-plugin:latest.release")
+    implementation(platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
 
-    implementation ("com.gradle.publish:plugin-publish-plugin:1.3.1")
+    implementation("com.gradle.publish:plugin-publish-plugin:2.+")
 
     testImplementation("com.netflix.nebula:nebula-test:latest.release")
     testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
-        exclude (group= "org.codehaus.groovy", module= "groovy")
+        exclude(group = "org.codehaus.groovy", module = "groovy")
     }
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
 }
@@ -88,7 +83,7 @@ java {
 }
 testing {
     suites {
-        named<JvmTestSuite>("test"){
+        named<JvmTestSuite>("test") {
             useJUnitJupiter()
             targets.all {
                 testTask.configure {
