@@ -171,10 +171,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     }
                 }
             }
-
-            plugins.withId('com.github.johnrengelman.shadow') {
-                disableGradleModuleMetadataTask(project)
-            }
         }
 
         project.afterEvaluate {
@@ -235,14 +231,5 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
         }
 
-    }
-
-    private void disableGradleModuleMetadataTask(Project project) {
-        project.tasks.withType(GenerateModuleMetadata).configureEach(new Action<GenerateModuleMetadata>() {
-            @Override
-            void execute(GenerateModuleMetadata generateModuleMetadataTask) {
-                generateModuleMetadataTask.enabled = false
-            }
-        })
     }
 }
