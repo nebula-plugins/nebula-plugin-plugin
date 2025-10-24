@@ -26,17 +26,27 @@ To apply this plugin
       id 'nebula.plugin-plugin' version '<current version>'
     }
 
-    
-Gradle Compatibility Tested
----------------------------
 
-* Built with Oracle JDK8
-* Tested with Oracle JDK8
+### Multi-project Repo
 
-| Gradle Version | Works |
-| :------------: | :---: |
-| < 4.5 .        | no    |
-| 4.5 >          | yes   |
+To use this plugin in a multiproject repo, apply this root plugin to the root project:
+```kotlin
+plugins {
+    id("com.netflix.nebula.root")
+}
+```
+Then, in each subproject, if it is a plugin project, apply the plugin plugin:
+```kotlin
+plugins {
+    id("com.netflix.nebula.plugin-plugin")
+}
+```
+Otherwise, if it is a plain Java library project, apply the library plugin:
+```kotlin
+plugins {
+    id("com.netflix.nebula.library")
+}
+```
 
 LICENSE
 =======
