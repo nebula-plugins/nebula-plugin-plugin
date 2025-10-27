@@ -66,6 +66,7 @@ class NebulaLibraryPlugin implements Plugin<Project> {
         project.with {
             def nebulaOssPublishingExtension = project.rootProject.extensions.findByType(NebulaOssPublishingExtension) ?: project.rootProject.extensions.create("nebulaOssPublishing", NebulaOssPublishingExtension)
             nebulaOssPublishingExtension.packageGroup.set("com.netflix")
+            nebulaOssPublishingExtension.netflixOssRepository.set("gradle-plugins")
 
             PLUGIN_IDS.each { plugins.apply(it) }
 

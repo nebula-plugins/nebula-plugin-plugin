@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
-internal class IntegrationTest {
+internal class NebulaPluginPluginTest {
     @TempDir
     lateinit var projectDir: File
 
@@ -36,33 +36,6 @@ internal class IntegrationTest {
         runner = testProject(projectDir) {
             rootProject {
                 plugins {
-                    id("com.netflix.nebula.root")
-                }
-            }
-            subProject("library") {
-                plugins {
-                    id("com.netflix.nebula.info")
-                    id("com.netflix.nebula.maven-publish")
-                    id("com.netflix.nebula.library")
-                }
-                rawBuildScript(
-                    """
-tasks.withType<AbstractPublishToMaven>() {
-    onlyIf { false }
-}
-""".trimIndent()
-                )
-                src {
-                    main {
-                        java("example/Main.java", SAMPLE_JAVA_MAIN_CLASS)
-                    }
-                }
-            }
-            subProject("plugin") {
-                plugins {
-                    id("java-gradle-plugin")
-                    id("com.netflix.nebula.info")
-                    id("com.netflix.nebula.maven-publish")
                     id("com.netflix.nebula.plugin-plugin")
                 }
                 rawBuildScript(
@@ -113,20 +86,25 @@ gradlePlugin {
             "-Prelease.useLastTag=true",
             "-PnetflixOss.username=user",
             "-PnetflixOss.password=password",
-            "--stacktrace"
+            "--stacktrace",
+            "--info"
         )
 
-        // library publication
-        assertThat(result.task(":library:javadoc")).hasOutcome(TaskOutcome.SUCCESS)
-        assertThat(result.task(":library:publishNebulaPublicationToNetflixOSSRepository"))
+        assertThat(result.task(":javadoc")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":signPluginMavenPublication"))
+            .`as`("fails due to missing signing key")
             .hasOutcome(TaskOutcome.SKIPPED)
-
-        // plugin publication
-        assertThat(result.task(":plugin:validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
-        assertThat(result.output).contains("plugin:publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository SKIPPED")
-        assertThat(result.output).contains("plugin:publishNebulaPublicationToNetflixOSSRepository SKIPPED")
-
-        // global
+        assertThat(result.task(":signExamplePluginMarkerMavenPublication"))
+            .`as`("fails due to missing signing key")
+            .hasOutcome(TaskOutcome.SKIPPED)
+        assertThat(result.task(":validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository"))
+            .hasOutcome(TaskOutcome.SKIPPED)
+        assertThat(result.output)
+            .`as` { "ensure marker publish is only skipped b/c test setup, not because it is disabled" }
+            .doesNotContain("Skipping task ':publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository' as task onlyIf 'Task is enabled' is false.")
+        assertThat(result.task(":publishNebulaPublicationToNetflixOSSRepository"))
+            .hasOutcome(TaskOutcome.SKIPPED)
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":candidate")).hasOutcome(TaskOutcome.SUCCESS)
     }
@@ -147,16 +125,10 @@ gradlePlugin {
             "--stacktrace"
         )
         assertThat(result.output).contains(":initializeSonatypeStagingRepository SKIPPED")
-
-        // library publication
-        assertThat(result.output).contains("library:publishNebulaPublicationToSonatypeRepository SKIPPED")
-
-        // plugin publication
-        assertThat(result.output).contains("plugin:publishExamplePluginMarkerMavenPublicationToSonatypeRepository SKIPPED")
-        assertThat(result.output).contains("plugin:publishNebulaPublicationToSonatypeRepository SKIPPED")
-
-        // global
+        assertThat(result.output).contains(":validatePlugins SKIPPED")
         assertThat(result.output).contains(":publishNebulaPublicationToSonatypeRepository SKIPPED")
+        assertThat(result.output).contains(":publishExamplePluginMarkerMavenPublicationToSonatypeRepository SKIPPED")
+        assertThat(result.output).contains(":publishNebulaPublicationToNetflixOSSRepository SKIPPED")
         assertThat(result.output).contains(":closeSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":releaseSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":closeAndReleaseSonatypeStagingRepository SKIPPED")
