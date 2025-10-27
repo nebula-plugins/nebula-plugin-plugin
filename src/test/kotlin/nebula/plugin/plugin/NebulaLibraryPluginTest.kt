@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
 
-internal class IntegrationTest {
+internal class NebulaLibraryPluginTest {
     @TempDir
     lateinit var projectDir: File
 
@@ -37,12 +37,6 @@ internal class IntegrationTest {
             rootProject {
                 plugins {
                     id("com.netflix.nebula.root")
-                }
-            }
-            subProject("library") {
-                plugins {
-                    id("com.netflix.nebula.info")
-                    id("com.netflix.nebula.maven-publish")
                     id("com.netflix.nebula.library")
                 }
                 rawBuildScript(
@@ -55,42 +49,6 @@ tasks.withType<AbstractPublishToMaven>() {
                 src {
                     main {
                         java("example/Main.java", SAMPLE_JAVA_MAIN_CLASS)
-                    }
-                }
-            }
-            subProject("plugin") {
-                plugins {
-                    id("java-gradle-plugin")
-                    id("com.netflix.nebula.info")
-                    id("com.netflix.nebula.maven-publish")
-                    id("com.netflix.nebula.plugin-plugin")
-                }
-                rawBuildScript(
-                    """
-tasks.withType<AbstractPublishToMaven>() {
-    onlyIf { false }
-}
-afterEvaluate {
-    tasks.withType<Sign>(){
-        onlyIf { false } // we don't have a signing key in integration tests (yet)
-    }
-}
-gradlePlugin {
-    plugins {
-        create("example") {
-            id = "com.netflix.example"
-            displayName = "example"
-            description = "S"
-            implementationClass = "example.MyPlugin"
-            tags.set(listOf("nebula"))
-        }
-    }
-}
-"""
-                )
-                src {
-                    main {
-                        java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
                     }
                 }
             }
@@ -116,17 +74,9 @@ gradlePlugin {
             "--stacktrace"
         )
 
-        // library publication
-        assertThat(result.task(":library:javadoc")).hasOutcome(TaskOutcome.SUCCESS)
-        assertThat(result.task(":library:publishNebulaPublicationToNetflixOSSRepository"))
+        assertThat(result.task(":javadoc")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":publishNebulaPublicationToNetflixOSSRepository"))
             .hasOutcome(TaskOutcome.SKIPPED)
-
-        // plugin publication
-        assertThat(result.task(":plugin:validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
-        assertThat(result.output).contains("plugin:publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository SKIPPED")
-        assertThat(result.output).contains("plugin:publishNebulaPublicationToNetflixOSSRepository SKIPPED")
-
-        // global
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":candidate")).hasOutcome(TaskOutcome.SUCCESS)
     }
@@ -147,16 +97,8 @@ gradlePlugin {
             "--stacktrace"
         )
         assertThat(result.output).contains(":initializeSonatypeStagingRepository SKIPPED")
-
-        // library publication
-        assertThat(result.output).contains("library:publishNebulaPublicationToSonatypeRepository SKIPPED")
-
-        // plugin publication
-        assertThat(result.output).contains("plugin:publishExamplePluginMarkerMavenPublicationToSonatypeRepository SKIPPED")
-        assertThat(result.output).contains("plugin:publishNebulaPublicationToSonatypeRepository SKIPPED")
-
-        // global
         assertThat(result.output).contains(":publishNebulaPublicationToSonatypeRepository SKIPPED")
+        assertThat(result.output).contains(":publishNebulaPublicationToNetflixOSSRepository SKIPPED")
         assertThat(result.output).contains(":closeSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":releaseSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":closeAndReleaseSonatypeStagingRepository SKIPPED")

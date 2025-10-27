@@ -47,6 +47,7 @@ plugins {
     id("com.netflix.nebula.library")
 }
 ```
+Note that the library plugin is designed to work only in subprojects. If you want to generate a single-project Nebula library, apply both the root plugin and library plugin to the root project.
 
 LICENSE
 =======
