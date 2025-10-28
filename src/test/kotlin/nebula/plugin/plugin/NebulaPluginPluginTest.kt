@@ -2,9 +2,7 @@ package nebula.plugin.plugin
 
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
-import org.ajoberstar.grgit.Grgit
 import org.gradle.testkit.runner.TaskOutcome
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.File
@@ -16,38 +14,15 @@ internal class NebulaPluginPluginTest {
     @TempDir
     lateinit var remoteGitDir: File
 
-    lateinit var runner: TestProjectRunner
-    lateinit var localCopy: Grgit
-
-    @BeforeEach
-    fun beforeEach() {
-        val remoteGit = Grgit.init {
-            this.dir = remoteGitDir
-        }
-        localCopy = Grgit.clone {
-            this.dir = projectDir
-            this.uri = remoteGitDir.toURI().toString()
-        }
-        projectDir.resolve(".gitignore").writeText(
-            """
-.gradle/
-"""
-        )
-        runner = testProject(projectDir) {
-            rootProject {
-                plugins {
-                    id("com.netflix.nebula.plugin-plugin")
-                }
-                rawBuildScript(
-                    """
-tasks.withType<AbstractPublishToMaven>() {
-    onlyIf { false }
-}
-afterEvaluate {
-    tasks.withType<Sign>(){
-        onlyIf { false } // we don't have a signing key in integration tests (yet)
-    }
-}
+    private fun TestProjectBuilder.sampleSinglePluginSetup() {
+        rootProject {
+            plugins {
+                id("com.netflix.nebula.plugin-plugin")
+            }
+            rawBuildScript(
+                """
+$DISABLE_PUBLISH_TASKS
+$DISABLE_MAVEN_CENTRAL_TASKS
 gradlePlugin {
     plugins {
         create("example") {
@@ -60,26 +35,21 @@ gradlePlugin {
     }
 }
 """
-                )
-                src {
-                    main {
-                        java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
-                    }
+            )
+            src {
+                main {
+                    java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
                 }
             }
-        }
-        localCopy.add {
-            this.patterns = setOf(".")
-        }
-        localCopy.commit {
-            message = "Initial"
         }
     }
 
     @Test
     fun `test candidate`() {
-        localCopy.tag.add {
-            name = "v0.0.1-rc.1"
+        val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1-rc.1") {
+            testProject(projectDir) {
+                sampleSinglePluginSetup()
+            }
         }
         val result = runner.run(
             "candidate",
@@ -111,8 +81,10 @@ gradlePlugin {
 
     @Test
     fun `test final`() {
-        localCopy.tag.add {
-            name = "v0.0.1"
+        val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1") {
+            testProject(projectDir) {
+                sampleSinglePluginSetup()
+            }
         }
         val result = runner.run(
             "final",

@@ -91,6 +91,11 @@ testing {
     suites {
         named<JvmTestSuite>("test"){
             useJUnitJupiter()
+            targets.all {
+                testTask.configure {
+                    maxParallelForks = 2
+                }
+            }
         }
     }
 }
