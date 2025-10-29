@@ -28,23 +28,15 @@ class NebulaRootPlugin : Plugin<Project> {
 
     @Override
     override fun apply(project: Project) {
-
-        var nebulaOssPublishingExtension = project.rootProject.extensions.findByType<NebulaOssPublishingExtension>()
-        if (nebulaOssPublishingExtension == null) {
-            nebulaOssPublishingExtension =
-                project.rootProject.extensions.create<NebulaOssPublishingExtension>("nebulaOssPublishing")
-        }
-        nebulaOssPublishingExtension.packageGroup.set("com.netflix")
-
         project.plugins.apply("com.netflix.nebula.contacts")
         project.plugins.apply("com.netflix.nebula.dependency-lock")
         project.plugins.apply("com.netflix.nebula.info")
-        project.plugins.apply("com.netflix.nebula.maven-apache-license")
-        project.plugins.apply("com.netflix.nebula.maven-publish")
-        project.plugins.apply("com.netflix.nebula.publish-verification")
         project.plugins.apply("com.netflix.nebula.release")
         project.plugins.apply("com.netflix.nebula.oss-publishing")
-
+        project.extensions.findByType<NebulaOssPublishingExtension>()?.apply {
+            packageGroup.set("com.netflix")
+            netflixOssRepository.set("gradle-plugins")
+        }
         if (project.group.toString().isBlank()) {
             project.group = "com.netflix.nebula"
         }

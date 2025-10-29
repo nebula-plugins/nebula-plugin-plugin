@@ -57,7 +57,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.netflix.nebula.source-jar',
                                       'com.netflix.nebula.integtest']
 
-    static final PLUGIN_IDS = GRADLE_PLUGIN_IDS  + NEBULA_PLUGIN_IDS
+    static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
     private final ProviderFactory providers
     private boolean isPluginPublishingValidation
@@ -70,12 +70,13 @@ class NebulaPluginPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         this.isPluginPublishingValidation = project.gradle.startParameter.taskNames.contains('--validate-only')
+        project.plugins.withId("com.netflix.nebula.oss-publishing") {
+            NebulaOssPublishingExtension ossPublishingExt = project.rootProject.extensions.findByType(NebulaOssPublishingExtension)
+            ossPublishingExt.packageGroup.set("com.netflix")
+            ossPublishingExt.netflixOssRepository.set("gradle-plugins")
+        }
         project.with {
-            def nebulaOssPublishingExtension = project.rootProject.extensions.findByType(NebulaOssPublishingExtension) ?: project.rootProject.extensions.create("nebulaOssPublishing", NebulaOssPublishingExtension)
-            nebulaOssPublishingExtension.packageGroup.set("com.netflix")
-
             PLUGIN_IDS.each { plugins.apply(it) }
-
             tasks.withType(ValidatePlugins).configureEach {
                 it.enableStricterValidation.set(true)
             }
@@ -123,7 +124,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
                 javaLauncher.set(javaToolchainService.launcherFor {
                     it.languageVersion.set(JavaLanguageVersion.of(jdkVersionForTests))
                 })
-                if(jdkVersionForTests < 17) {
+                if (jdkVersionForTests < 17) {
                     systemProperty('ignoreDeprecations', true)
                 }
                 doFirst {
@@ -182,20 +183,10 @@ class NebulaPluginPlugin implements Plugin<Project> {
             TaskProvider publishPluginsTask = project.tasks.named('publishPlugins')
             project.plugins.withId('com.netflix.nebula.release') {
                 project.tasks.withType(PublishToMavenRepository).configureEach {
-                    def releasetask = project.rootProject.tasks.findByName('release')
-                    if (releasetask) {
-                        it.mustRunAfter(releasetask)
-                        it.dependsOn(validatePluginsTask)
-                        it.dependsOn(publishPluginsTask)
-                    }
+                    it.dependsOn(validatePluginsTask)
+                    it.dependsOn(publishPluginsTask)
                 }
             }
-
-            def postReleaseTask = project.rootProject.tasks.findByName('postRelease')
-            if (postReleaseTask) {
-                postReleaseTask.dependsOn(project.tasks.withType(PublishToMavenRepository))
-            }
-
 
             /**
              * Configure signing unless it is plugin validation

@@ -53,7 +53,6 @@ class NebulaLibraryPlugin implements Plugin<Project> {
     static final PLUGIN_IDS = NEBULA_PLUGIN_IDS
 
     private final ProviderFactory providers
-    private boolean isPluginPublishingValidation
 
     @Inject
     NebulaLibraryPlugin(ProviderFactory providerFactory) {
@@ -63,13 +62,13 @@ class NebulaLibraryPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.plugins.apply("java-library")
+        project.plugins.withId("com.netflix.nebula.oss-publishing") {
+            NebulaOssPublishingExtension ossPublishingExt = project.rootProject.extensions.findByType(NebulaOssPublishingExtension)
+            ossPublishingExt.packageGroup.set("com.netflix")
+            ossPublishingExt.netflixOssRepository.set("gradle-plugins")
+        }
         project.with {
-            def nebulaOssPublishingExtension = project.rootProject.extensions.findByType(NebulaOssPublishingExtension) ?: project.rootProject.extensions.create("nebulaOssPublishing", NebulaOssPublishingExtension)
-            nebulaOssPublishingExtension.packageGroup.set("com.netflix")
-            nebulaOssPublishingExtension.netflixOssRepository.set("gradle-plugins")
-
             PLUGIN_IDS.each { plugins.apply(it) }
-
             tasks.withType(ValidatePlugins).configureEach {
                 it.enableStricterValidation.set(true)
             }
@@ -115,20 +114,6 @@ class NebulaLibraryPlugin implements Plugin<Project> {
         }
 
         project.afterEvaluate {
-            project.plugins.withId('com.netflix.nebula.release') {
-                project.tasks.withType(PublishToMavenRepository).configureEach {
-                    def releasetask = project.rootProject.tasks.findByName('release')
-                    if (releasetask) {
-                        it.mustRunAfter(releasetask)
-                    }
-                }
-            }
-
-            def postReleaseTask = project.rootProject.tasks.findByName('postRelease')
-            if (postReleaseTask) {
-                postReleaseTask.dependsOn(project.tasks.withType(PublishToMavenRepository))
-            }
-
             /**
              * Configure signing
              */
