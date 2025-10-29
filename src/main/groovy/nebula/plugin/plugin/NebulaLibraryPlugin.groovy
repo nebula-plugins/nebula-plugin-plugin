@@ -62,6 +62,7 @@ class NebulaLibraryPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         project.plugins.apply("java-library")
+        project.group = 'com.netflix.nebula'
         project.plugins.withId("com.netflix.nebula.oss-publishing") {
             NebulaOssPublishingExtension ossPublishingExt = project.rootProject.extensions.findByType(NebulaOssPublishingExtension)
             ossPublishingExt.packageGroup.set("com.netflix")
@@ -71,10 +72,6 @@ class NebulaLibraryPlugin implements Plugin<Project> {
             PLUGIN_IDS.each { plugins.apply(it) }
             tasks.withType(ValidatePlugins).configureEach {
                 it.enableStricterValidation.set(true)
-            }
-
-            if (!group) {
-                group = 'com.netflix.nebula'
             }
 
             JavaPluginExtension javaPluginExtension = extensions.getByType(JavaPluginExtension)

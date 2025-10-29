@@ -28,6 +28,7 @@ class NebulaRootPlugin : Plugin<Project> {
 
     @Override
     override fun apply(project: Project) {
+        project.group = "com.netflix.nebula"
         project.plugins.apply("com.netflix.nebula.contacts")
         project.plugins.apply("com.netflix.nebula.dependency-lock")
         project.plugins.apply("com.netflix.nebula.info")
@@ -36,9 +37,6 @@ class NebulaRootPlugin : Plugin<Project> {
         project.extensions.findByType<NebulaOssPublishingExtension>()?.apply {
             packageGroup.set("com.netflix")
             netflixOssRepository.set("gradle-plugins")
-        }
-        if (project.group.toString().isBlank()) {
-            project.group = "com.netflix.nebula"
         }
     }
 }

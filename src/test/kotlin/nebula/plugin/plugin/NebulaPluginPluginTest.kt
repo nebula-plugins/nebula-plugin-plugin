@@ -56,11 +56,12 @@ gradlePlugin {
             "-Prelease.useLastTag=true",
             "-PnetflixOss.username=user",
             "-PnetflixOss.password=password",
-            "--stacktrace",
-            "--info"
+            "--stacktrace"
         )
 
         assertThat(result.task(":javadoc")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":generatePomFileForNebulaPublication"))
+            .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signPluginMavenPublication"))
             .`as`("fails due to missing signing key")
             .hasOutcome(TaskOutcome.SKIPPED)
@@ -77,6 +78,12 @@ gradlePlugin {
             .hasOutcome(TaskOutcome.SKIPPED)
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":candidate")).hasOutcome(TaskOutcome.SUCCESS)
+
+        val pom = projectDir.resolve("build/publications/nebula/pom-default.xml")
+        assertThat(pom)
+            .exists()
+            .content()
+            .contains("""<groupId>com.netflix.nebula</groupId>""")
     }
 
     @Test
@@ -105,5 +112,23 @@ gradlePlugin {
         assertThat(result.output).contains(":releaseSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":closeAndReleaseSonatypeStagingRepository SKIPPED")
         assertThat(result.output).contains(":final SKIPPED")
+    }
+
+    @Test
+    fun `test group override`() {
+        val runner =  testProject(projectDir) {
+            sampleSinglePluginSetup()
+        }
+        projectDir.resolve("build.gradle.kts")
+            .appendText("\ngroup = \"override\"\n")
+        val result = runner.run("generatePomFileForNebulaPublication", "--stacktrace")
+
+        assertThat(result.task(":generatePomFileForNebulaPublication")).hasOutcome(TaskOutcome.SUCCESS)
+
+        val pom = projectDir.resolve("build/publications/nebula/pom-default.xml")
+        assertThat(pom)
+            .exists()
+            .content()
+            .contains("""<groupId>override</groupId>""")
     }
 }

@@ -99,6 +99,17 @@ gradlePlugin {
         // global
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":candidate")).hasOutcome(TaskOutcome.SUCCESS)
+
+        val pluginPom = projectDir.resolve("plugin/build/publications/nebula/pom-default.xml")
+        assertThat(pluginPom)
+            .exists()
+            .content()
+            .contains("""<groupId>com.netflix.nebula</groupId>""")
+        val libraryPom = projectDir.resolve("library/build/publications/nebula/pom-default.xml")
+        assertThat(libraryPom)
+            .exists()
+            .content()
+            .contains("""<groupId>com.netflix.nebula</groupId>""")
     }
 
     @Test
