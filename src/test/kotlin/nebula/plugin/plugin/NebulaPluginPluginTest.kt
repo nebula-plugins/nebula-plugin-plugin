@@ -1,11 +1,19 @@
 package nebula.plugin.plugin
 
+import nebula.plugin.publishing.expectPublication
+import nebula.plugin.publishing.mockGradlePluginPortal
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
+import nebula.test.dsl.run
 import org.gradle.testkit.runner.TaskOutcome
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import org.mockserver.configuration.ConfigurationProperties
+import org.mockserver.integration.ClientAndServer
 import java.io.File
+import java.net.ServerSocket
 
 internal class NebulaPluginPluginTest {
     @TempDir
@@ -13,20 +21,50 @@ internal class NebulaPluginPluginTest {
 
     @TempDir
     lateinit var remoteGitDir: File
+    private lateinit var artifactory: ClientAndServer
+    private var port: Int = 0
+
+    @BeforeEach
+    fun startArtifactory() {
+        port = try {
+            ServerSocket(0).use { socket ->
+                socket.getLocalPort()
+            }
+        } catch (_: Exception) {
+            8080
+        }
+        artifactory = ClientAndServer.startClientAndServer(port)
+        ConfigurationProperties.logLevel("ERROR")
+    }
+
+    @AfterEach
+    fun stopArtifactory() {
+        artifactory.stop()
+    }
 
     private fun TestProjectBuilder.sampleSinglePluginSetup() {
+        settings {
+            name("test")
+        }
         rootProject {
             plugins {
                 id("com.netflix.nebula.plugin-plugin")
             }
+            mockSign()
+            nebulaOssPublishing("http://localhost:$port")
             rawBuildScript(
                 """
-$DISABLE_PUBLISH_TASKS
-$DISABLE_MAVEN_CENTRAL_TASKS
+description = "test"
+contacts {
+    addPerson("nebula-plugins-oss@netflix.com") {
+        moniker = "Nebula Plugins Maintainers"
+        github =  "nebula-plugins"
+    }
+}
 gradlePlugin {
     plugins {
         create("example") {
-            id = "com.netflix.example"
+            id = "com.netflix.nebula.example"
             displayName = "example"
             description = "S"
             implementationClass = "example.MyPlugin"
@@ -46,11 +84,31 @@ gradlePlugin {
 
     @Test
     fun `test candidate`() {
-        val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1-rc.1") {
+        val version = "0.0.1-rc.1"
+        val runner = withGitTag(projectDir, remoteGitDir, "v$version") {
             testProject(projectDir) {
                 sampleSinglePluginSetup()
             }
         }
+        val verifications = artifactory.expectPublication(
+            "netflix-oss",
+            "com.netflix.nebula",
+            "test",
+            version
+        ) {
+            withArtifact("jar")
+            withArtifact("sources", "jar")
+            withArtifact("javadoc", "jar")
+            withGradleModuleMetadata()
+        }
+
+        val markerVerifications = artifactory.expectPublication(
+            "netflix-oss",
+            "com.netflix.nebula.example",
+            "com.netflix.nebula.example.gradle.plugin",
+            version
+        )
+
         val result = runner.run(
             "candidate",
             "-Prelease.useLastTag=true",
@@ -63,19 +121,14 @@ gradlePlugin {
         assertThat(result.task(":generatePomFileForNebulaPublication"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signPluginMavenPublication"))
-            .`as`("fails due to missing signing key")
-            .hasOutcome(TaskOutcome.SKIPPED)
+            .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signExamplePluginMarkerMavenPublication"))
-            .`as`("fails due to missing signing key")
-            .hasOutcome(TaskOutcome.SKIPPED)
+            .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository"))
-            .hasOutcome(TaskOutcome.SKIPPED)
-        assertThat(result.output)
-            .`as` { "ensure marker publish is only skipped b/c test setup, not because it is disabled" }
-            .doesNotContain("Skipping task ':publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository' as task onlyIf 'Task is enabled' is false.")
+            .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":publishNebulaPublicationToNetflixOSSRepository"))
-            .hasOutcome(TaskOutcome.SKIPPED)
+            .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":candidate")).hasOutcome(TaskOutcome.SUCCESS)
 
@@ -84,6 +137,51 @@ gradlePlugin {
             .exists()
             .content()
             .contains("""<groupId>com.netflix.nebula</groupId>""")
+
+        verifications.verify(artifactory)
+        markerVerifications.verify(artifactory)
+    }
+
+    @Test
+    fun `test validation`() {
+        val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1") {
+            testProject(projectDir) {
+                sampleSinglePluginSetup()
+            }
+        }
+        artifactory.mockGradlePluginPortal("com.netflix.nebula.example")
+        val result = runner.run(
+            "final",
+            "publishPlugin", "--validate-only",
+            "-Pgradle.publish.key=key",
+            "-Pgradle.publish.secret=secret",
+            "-Prelease.useLastTag=true",
+            "-x", "check",
+            "--stacktrace",
+            "-Dgradle.portal.url=http://localhost:$port"
+        )
+
+        assertThat(result.task(":verifyNebulaPublicationPomForMavenCentral"))
+            .hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":verifyPublication"))
+            .hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":signPluginMavenPublication"))
+            .hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":signExamplePluginMarkerMavenPublication"))
+            .hasOutcome(TaskOutcome.SUCCESS)
+
+        // maven central publish skipped
+        assertThat(result.task(":publishExamplePluginMarkerMavenPublicationToSonatypeRepository"))
+            .hasOutcome(TaskOutcome.SKIPPED)
+        assertThat(result.task(":publishNebulaPublicationToSonatypeRepository"))
+            .hasOutcome(TaskOutcome.SKIPPED)
+        assertThat(result.task(":publishPluginMavenPublicationToSonatypeRepository"))
+            .hasOutcome(TaskOutcome.SKIPPED)
+
+        assertThat(result.task(":validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":publishPlugins")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":final")).hasOutcome(TaskOutcome.SUCCESS)
     }
 
     @Test
@@ -116,14 +214,16 @@ gradlePlugin {
 
     @Test
     fun `test group override`() {
-        val runner =  testProject(projectDir) {
+        val runner = testProject(projectDir) {
             sampleSinglePluginSetup()
+            rootProject {
+                group("override")
+            }
         }
-        projectDir.resolve("build.gradle.kts")
-            .appendText("\ngroup = \"override\"\n")
         val result = runner.run("generatePomFileForNebulaPublication", "--stacktrace")
 
-        assertThat(result.task(":generatePomFileForNebulaPublication")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":generatePomFileForNebulaPublication"))
+            .hasOutcome(TaskOutcome.SUCCESS)
 
         val pom = projectDir.resolve("build/publications/nebula/pom-default.xml")
         assertThat(pom)
