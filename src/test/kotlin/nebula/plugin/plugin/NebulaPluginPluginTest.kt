@@ -50,8 +50,6 @@ internal class NebulaPluginPluginTest {
             plugins {
                 id("com.netflix.nebula.plugin-plugin")
             }
-            mockSign()
-            nebulaOssPublishing("http://localhost:$port")
             rawBuildScript(
                 """
 description = "test"
@@ -88,10 +86,14 @@ gradlePlugin {
         val runner = withGitTag(projectDir, remoteGitDir, "v$version") {
             testProject(projectDir) {
                 sampleSinglePluginSetup()
+                rootProject {
+                    nebulaOssPublishing("http://localhost:$port")
+                    mockSign()
+                }
             }
         }
         val verifications = artifactory.expectPublication(
-            "netflix-oss",
+            "gradle-plugins",
             "com.netflix.nebula",
             "test",
             version
@@ -103,7 +105,7 @@ gradlePlugin {
         }
 
         val markerVerifications = artifactory.expectPublication(
-            "netflix-oss",
+            "gradle-plugins",
             "com.netflix.nebula.example",
             "com.netflix.nebula.example.gradle.plugin",
             version
@@ -166,9 +168,9 @@ gradlePlugin {
         assertThat(result.task(":verifyPublication"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signPluginMavenPublication"))
-            .hasOutcome(TaskOutcome.SUCCESS)
+            .hasOutcome(TaskOutcome.SKIPPED)
         assertThat(result.task(":signExamplePluginMarkerMavenPublication"))
-            .hasOutcome(TaskOutcome.SUCCESS)
+            .hasOutcome(TaskOutcome.SKIPPED)
 
         // maven central publish skipped
         assertThat(result.task(":publishExamplePluginMarkerMavenPublicationToSonatypeRepository"))
@@ -189,6 +191,10 @@ gradlePlugin {
         val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1") {
             testProject(projectDir) {
                 sampleSinglePluginSetup()
+                rootProject {
+                    nebulaOssPublishing("http://localhost:$port")
+                    mockSign()
+                }
             }
         }
         val result = runner.run(

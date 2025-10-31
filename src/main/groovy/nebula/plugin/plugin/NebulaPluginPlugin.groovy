@@ -187,18 +187,12 @@ class NebulaPluginPlugin implements Plugin<Project> {
             }
 
             /**
-             * Configure signing unless it is plugin validation
-             */
-            if (!isPluginPublishingValidation) {
-                project.tasks.withType(Sign).configureEach {
-                    it.mustRunAfter(validatePluginsTask, project.tasks.named('check'))
-                }
-            }
-
-            /**
-             * Disable publishing to maven repositories when running --validate-only
+             * Disable signing and publishing when running --validate-only
              */
             if (isPluginPublishingValidation) {
+                project.tasks.withType(Sign).configureEach {
+                    it.enabled = false
+                }
                 project.tasks.withType(PublishToMavenRepository).configureEach {
                     it.enabled = false
                 }

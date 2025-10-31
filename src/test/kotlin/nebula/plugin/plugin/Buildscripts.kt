@@ -75,19 +75,13 @@ project.extensions.getByType<SigningExtension>().signatories = object:
     )
 }
 
-fun ProjectBuilder.nebulaOssPublishing(
-    netflixOssRepositoryBaseUrl: String,
-    packageGroup: String = "com.netflix",
-    netflixOssRepository: String = "netflix-oss"
-) {
+fun ProjectBuilder.nebulaOssPublishing(netflixOssRepositoryBaseUrl: String) {
     rawBuildScript(
         """
 nebulaOssPublishing {
     signingKey = "something"
     signingPassword = "something"
-    packageGroup = "$packageGroup"
     netflixOssRepositoryBaseUrl = "$netflixOssRepositoryBaseUrl"
-    netflixOssRepository = "$netflixOssRepository"
 }
 """
     )
