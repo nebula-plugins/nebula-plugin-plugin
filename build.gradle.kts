@@ -52,8 +52,6 @@ dependencies {
     testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
         exclude (group= "org.codehaus.groovy", module= "groovy")
     }
-    testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
-    testImplementation("org.spockframework:spock-junit4:2.3-groovy-4.0")
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
 }
 

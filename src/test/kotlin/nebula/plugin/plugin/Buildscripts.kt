@@ -3,23 +3,6 @@ package nebula.plugin.plugin
 import nebula.test.dsl.ProjectBuilder
 
 //language=kotlin
-const val DISABLE_PUBLISH_TASKS: String = """
-afterEvaluate {
-    tasks.withType<AbstractPublishToMaven>() {
-        onlyIf { false }
-    }
-    project.tasks.findByName("publishPlugins")?.onlyIf { false }
-}
-"""
-
-//language=kotlin
-const val DISABLE_MAVEN_CENTRAL_TASKS: String = """
-project.tasks.findByName("initializeSonatypeStagingRepository")?.onlyIf { false }
-project.tasks.findByName("closeSonatypeStagingRepository")?.onlyIf { false }
-project.tasks.findByName("releaseSonatypeStagingRepository")?.onlyIf { false }
-"""
-
-//language=kotlin
 fun ProjectBuilder.mockSign() {
     rawBuildScript(
         //language=kotlin

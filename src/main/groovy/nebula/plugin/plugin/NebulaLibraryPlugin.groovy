@@ -15,17 +15,14 @@
  */
 package nebula.plugin.plugin
 
-import io.github.gradlenexus.publishplugin.AbstractNexusStagingRepositoryTask
+
 import nebula.plugin.publishing.NebulaOssPublishingExtension
-import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-import org.gradle.api.publish.tasks.GenerateModuleMetadata
-import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
@@ -61,6 +58,7 @@ class NebulaLibraryPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        boolean isPluginPublishingValidation = project.gradle.startParameter.taskNames.contains('--validate-only')
         project.plugins.apply("java-library")
         project.group = 'com.netflix.nebula'
         project.plugins.withId("com.netflix.nebula.oss-publishing") {
@@ -98,7 +96,7 @@ class NebulaLibraryPlugin implements Plugin<Project> {
                 javaLauncher.set(javaToolchainService.launcherFor {
                     it.languageVersion.set(JavaLanguageVersion.of(jdkVersionForTests))
                 })
-                if(jdkVersionForTests < 17) {
+                if (jdkVersionForTests < 17) {
                     systemProperty('ignoreDeprecations', true)
                 }
                 doFirst {
@@ -110,12 +108,15 @@ class NebulaLibraryPlugin implements Plugin<Project> {
             }
         }
 
-        project.afterEvaluate {
-            /**
-             * Configure signing
-             */
+        /**
+         * Disable signing and publishing when running --validate-only
+         */
+        if (isPluginPublishingValidation) {
             project.tasks.withType(Sign).configureEach {
-                it.mustRunAfter(project.tasks.named('check'))
+                it.enabled = false
+            }
+            project.tasks.withType(PublishToMavenRepository).configureEach {
+                it.enabled = false
             }
         }
     }

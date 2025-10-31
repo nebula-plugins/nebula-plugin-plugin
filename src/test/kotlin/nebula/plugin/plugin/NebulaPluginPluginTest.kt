@@ -1,10 +1,7 @@
 package nebula.plugin.plugin
 
-import nebula.plugin.publishing.expectPublication
-import nebula.plugin.publishing.mockGradlePluginPortal
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
-import nebula.test.dsl.run
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
