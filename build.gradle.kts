@@ -54,6 +54,7 @@ dependencies {
     }
     testImplementation("org.spockframework:spock-core:2.3-groovy-4.0")
     testImplementation("org.spockframework:spock-junit4:2.3-groovy-4.0")
+    testImplementation("org.mock-server:mockserver-netty:5.15.0")
 }
 
 gradlePlugin {

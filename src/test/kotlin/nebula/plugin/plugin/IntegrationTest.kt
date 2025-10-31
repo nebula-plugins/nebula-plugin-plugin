@@ -30,6 +30,7 @@ internal class IntegrationTest {
 $DISABLE_PUBLISH_TASKS
 """.trimIndent()
             )
+            mockSign()
             src {
                 main {
                     java("example/Main.java", SAMPLE_JAVA_MAIN_CLASS)
@@ -56,6 +57,7 @@ gradlePlugin {
 }
 """
             )
+            mockSign()
             src {
                 main {
                     java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
