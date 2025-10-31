@@ -1,4 +1,4 @@
-package nebula.plugin.publishing
+package nebula.plugin.plugin
 
 import org.mockserver.integration.ClientAndServer
 import org.mockserver.model.HttpRequest.request

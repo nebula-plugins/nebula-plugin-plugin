@@ -15,11 +15,12 @@
  */
 package nebula.plugin.plugin;
 
-import nebula.plugin.publishing.NebulaOssPublishingExtension;
-import org.gradle.api.Plugin;
-import org.gradle.api.Project;
-import org.gradle.kotlin.dsl.create
+import io.github.gradlenexus.publishplugin.AbstractNexusStagingRepositoryTask
+import nebula.plugin.publishing.NebulaOssPublishingExtension
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.withType
 
 /**
  * Provide an environment for the root project of a multi-project Nebula repo
@@ -37,6 +38,12 @@ class NebulaRootPlugin : Plugin<Project> {
         project.extensions.findByType<NebulaOssPublishingExtension>()?.apply {
             packageGroup.set("com.netflix")
             netflixOssRepository.set("gradle-plugins")
+        }
+        val isPluginPublishingValidation = project.gradle.startParameter.taskNames.contains("--validate-only")
+        if (isPluginPublishingValidation) {
+            project.tasks.withType<AbstractNexusStagingRepositoryTask> {
+                onlyIf { false }
+            }
         }
     }
 }
