@@ -68,9 +68,6 @@ class NebulaLibraryPlugin implements Plugin<Project> {
         }
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }
-            tasks.withType(ValidatePlugins).configureEach {
-                it.enableStricterValidation.set(true)
-            }
 
             JavaPluginExtension javaPluginExtension = extensions.getByType(JavaPluginExtension)
             JavaToolchainSpec toolchainSpec = javaPluginExtension.toolchain

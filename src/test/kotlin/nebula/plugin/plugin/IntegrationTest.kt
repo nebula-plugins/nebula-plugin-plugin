@@ -45,14 +45,7 @@ internal class IntegrationTest {
             plugins {
                 id("com.netflix.nebula.root")
             }
-            rawBuildScript("""
-contacts {
-    addPerson("nebula-plugins-oss@netflix.com") {
-        moniker = "Nebula Plugins Maintainers"
-        github =  "nebula-plugins"
-    }
-}
-""")
+            contacts()
         }
         subProject("library") {
             plugins {
