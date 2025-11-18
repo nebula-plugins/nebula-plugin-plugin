@@ -66,6 +66,7 @@ class NebulaLibraryPlugin implements Plugin<Project> {
             ossPublishingExt.packageGroup.set("com.netflix")
             ossPublishingExt.netflixOssRepository.set("gradle-plugins")
         }
+        ArchRulesUtil.setupArchRules(project)
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }
 

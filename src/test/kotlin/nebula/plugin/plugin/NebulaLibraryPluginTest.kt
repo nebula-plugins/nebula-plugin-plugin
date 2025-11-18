@@ -42,6 +42,39 @@ internal class NebulaLibraryPluginTest {
     }
 
     @Test
+    fun `test build`() {
+        val runner = testProject(projectDir) {
+            properties {
+                gradleCache(true)
+            }
+            rootProject {
+                plugins {
+                    id("com.netflix.nebula.root")
+                    id("com.netflix.nebula.library")
+                }
+                disableMavenPublishTasks()
+                src {
+                    main {
+                        java("example/Main.java", SAMPLE_JAVA_MAIN_CLASS)
+                    }
+                }
+            }
+        }
+        val result = runner.run("build", "--stacktrace")
+        assertThat(result.task(":check")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":build")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result)
+            .hasNoDeprecationWarnings()
+            .hasNoMutableStateWarnings()
+
+        assertThat(result.task(":archRulesConsoleReport"))
+            .`as`("archRules are checked")
+            .hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.output)
+            .contains("ArchRule summary:")
+    }
+
+    @Test
     fun `test candidate`() {
         val runner = withGitTag(projectDir, remoteGitDir, "v0.0.1-rc.1") {
             testProject(projectDir) {
@@ -182,7 +215,7 @@ internal class NebulaLibraryPluginTest {
         assertThat(result.task(":library:publishNebulaPublicationToNetflixOSSRepository"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":library:publishNebulaPublicationToSonatypeRepository"))
-        .hasOutcome(TaskOutcome.SUCCESS)
+            .hasOutcome(TaskOutcome.SUCCESS)
 
         // global
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)

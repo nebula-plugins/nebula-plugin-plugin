@@ -81,6 +81,29 @@ gradlePlugin {
     }
 
     @Test
+    fun `test build default setup`() {
+        val runner = testProject(projectDir) {
+            sampleSinglePluginSetup()
+        }
+
+        val result = runner.run("check", "--stacktrace")
+
+        assertThat(result.task(":integrationTest"))
+            .`as`("integTest facet enabled by default")
+            .hasOutcome(TaskOutcome.NO_SOURCE)
+
+        assertThat(result)
+            .hasNoDeprecationWarnings()
+            .hasNoMutableStateWarnings()
+
+        assertThat(result.task(":archRulesConsoleReport"))
+            .`as`("archRules are checked")
+            .hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.output)
+            .contains("ArchRule summary:")
+    }
+
+    @Test
     fun `test integrationTest disabled`() {
         val runner = testProject(projectDir) {
             properties {
@@ -92,19 +115,6 @@ gradlePlugin {
         val result = runner.run("check", "--stacktrace")
 
         assertThat(result.task(":integrationTest")).isNull()
-    }
-
-    @Test
-    fun `test integrationTest enabled by default`() {
-        val runner = testProject(projectDir) {
-            sampleSinglePluginSetup()
-        }
-
-        val result = runner.run("check", "--stacktrace")
-
-        assertThat(result.task(":integrationTest"))
-            .`as`("integTest facet enabled by default")
-            .hasOutcome(TaskOutcome.NO_SOURCE)
     }
 
     @Test
