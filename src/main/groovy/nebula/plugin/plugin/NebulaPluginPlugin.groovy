@@ -17,14 +17,12 @@ package nebula.plugin.plugin
 
 import io.github.gradlenexus.publishplugin.AbstractNexusStagingRepositoryTask
 import nebula.plugin.publishing.NebulaOssPublishingExtension
-import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
-import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
@@ -46,7 +44,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
                                       'com.netflix.nebula.dependency-lock',
-                                      'com.netflix.nebula.facet',
                                       'com.netflix.nebula.info',
                                       'com.netflix.nebula.javadoc-jar',
                                       'com.netflix.nebula.maven-apache-license',
@@ -54,8 +51,9 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'com.netflix.nebula.publish-verification',
                                       'com.netflix.nebula.release',
                                       'com.netflix.nebula.oss-publishing',
-                                      'com.netflix.nebula.source-jar',
-                                      'com.netflix.nebula.integtest']
+                                      'com.netflix.nebula.source-jar']
+
+    static final OPTIONAL_TESTING_PLUGIN_IDS = ['com.netflix.nebula.facet', 'com.netflix.nebula.integtest']
 
     static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
@@ -79,6 +77,11 @@ class NebulaPluginPlugin implements Plugin<Project> {
         }
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }
+            boolean integTest = !project.hasProperty("nebula.integTest") ||
+                    Boolean.parseBoolean(project.property("nebula.integTest").toString())
+            if (integTest) {
+                OPTIONAL_TESTING_PLUGIN_IDS.each { plugins.apply(it) }
+            }
             tasks.withType(ValidatePlugins).configureEach {
                 it.enableStricterValidation.set(true)
             }

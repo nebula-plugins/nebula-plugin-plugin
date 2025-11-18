@@ -40,6 +40,9 @@ internal class NebulaPluginPluginTest {
     }
 
     private fun TestProjectBuilder.sampleSinglePluginSetup() {
+        properties {
+            gradleCache(true)
+        }
         settings {
             name("test")
         }
@@ -75,6 +78,33 @@ gradlePlugin {
                 }
             }
         }
+    }
+
+    @Test
+    fun `test integrationTest disabled`() {
+        val runner = testProject(projectDir) {
+            properties {
+                property("nebula.integTest", "false")
+            }
+            sampleSinglePluginSetup()
+        }
+
+        val result = runner.run("check", "--stacktrace")
+
+        assertThat(result.task(":integrationTest")).isNull()
+    }
+
+    @Test
+    fun `test integrationTest enabled by default`() {
+        val runner = testProject(projectDir) {
+            sampleSinglePluginSetup()
+        }
+
+        val result = runner.run("check", "--stacktrace")
+
+        assertThat(result.task(":integrationTest"))
+            .`as`("integTest facet enabled by default")
+            .hasOutcome(TaskOutcome.NO_SOURCE)
     }
 
     @Test
@@ -116,14 +146,16 @@ gradlePlugin {
             "--stacktrace"
         )
 
-        assertThat(result.task(":javadoc")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":javadoc"))
+            .hasOutcome(TaskOutcome.SUCCESS, TaskOutcome.FROM_CACHE)
         assertThat(result.task(":generatePomFileForNebulaPublication"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signPluginMavenPublication"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":signExamplePluginMarkerMavenPublication"))
             .hasOutcome(TaskOutcome.SUCCESS)
-        assertThat(result.task(":validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":validatePlugins"))
+            .hasOutcome(TaskOutcome.SUCCESS, TaskOutcome.FROM_CACHE)
         assertThat(result.task(":publishExamplePluginMarkerMavenPublicationToNetflixOSSRepository"))
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":publishNebulaPublicationToNetflixOSSRepository"))
@@ -177,7 +209,8 @@ gradlePlugin {
         assertThat(result.task(":publishPluginMavenPublicationToSonatypeRepository"))
             .hasOutcome(TaskOutcome.SKIPPED)
 
-        assertThat(result.task(":validatePlugins")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":validatePlugins"))
+            .hasOutcome(TaskOutcome.SUCCESS, TaskOutcome.FROM_CACHE)
         assertThat(result.task(":publishPlugins")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":postRelease")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":final")).hasOutcome(TaskOutcome.SUCCESS)
