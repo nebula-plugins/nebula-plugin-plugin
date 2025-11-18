@@ -29,6 +29,7 @@ contacts {
 
 dependencies {
     compileOnly("io.github.gradle-nexus:publish-plugin:2.0.0")
+    implementation("com.netflix.nebula:nebula-archrules-gradle-plugin:0.+")
     implementation("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
     implementation("com.netflix.nebula:gradle-contacts-plugin:latest.release")
     implementation("com.netflix.nebula:gradle-dependency-lock-plugin:latest.release")
