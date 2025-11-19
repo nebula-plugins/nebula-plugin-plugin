@@ -1,46 +1,12 @@
-name: Nebula Build
+name: Nebula Publish
 on:
   push:
-    branches:
-      - 'main'
     tags:
       - v*.*.*
       - v*.*.*-rc.*
-  pull_request:
 
 jobs:
-  buildmultijdk:
-    if: (!startsWith(github.ref, 'refs/tags/v'))
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        # test against latest update of some major Java version(s), as well as specific LTS version(s)
-        java: [17, 21]
-    name: Gradle Build without Publish
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup git user
-        run: |
-          git config --global user.name "Nebula Plugin Maintainers"
-          git config --global user.email "nebula-plugins-oss@netflix.com"
-      - name: Set up JDKs
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: |
-            17
-            ${{ matrix.java }}
-          java-package: jdk
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v5
-        with:
-          cache-overwrite-existing: true
-      - name: Gradle build
-        run: ./gradlew --stacktrace build
-        env:
-          JDK_VERSION_FOR_TESTS: ${{ matrix.java }}
   validatepluginpublication:
-    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     name: Gradle Plugin Publication Validation
     env:
@@ -65,12 +31,10 @@ jobs:
         with:
           cache-overwrite-existing: true
       - name: Verify plugin publication
-        if: |
-          startsWith(github.ref, 'refs/tags/v') &&
-          (!contains(github.ref, '-rc.'))
-        run: ./gradlew  --stacktrace -Dgradle.publish.key=${{ secrets.gradlePublishKey }} -Dgradle.publish.secret=${{ secrets.gradlePublishSecret }}  -Prelease.useLastTag=true final publishPlugin --validate-only -x check -x signPluginMavenPublication
+        if: (!contains(github.ref, '-rc.'))
+        run: ./gradlew  --stacktrace -Dgradle.publish.key=${{ secrets.gradlePublishKey }} -Dgradle.publish.secret=${{ secrets.gradlePublishSecret }}  -Prelease.useLastTag=true final publishPlugin --validate-only -x check
   publish:
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.event.base_ref == 'refs/heads/main' # tags must be pushed to main
     needs: validatepluginpublication
     runs-on: ubuntu-latest
     name: Gradle Build and Publish
@@ -99,13 +63,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
         with:
           cache-overwrite-existing: true
+      - name: Gradle build
+        run: ./gradlew --stacktrace build
       - name: Publish candidate
-        if: |
-          startsWith(github.ref, 'refs/tags/v') &&
-          contains(github.ref, '-rc.')
+        if: contains(github.ref, '-rc.')
         run: ./gradlew --stacktrace -Prelease.useLastTag=true candidate
       - name: Publish release
-        if: |
-          startsWith(github.ref, 'refs/tags/v') &&
-          (!contains(github.ref, '-rc.'))
+        if: (!contains(github.ref, '-rc.'))
         run: ./gradlew --stacktrace -Dgradle.publish.key=${{ secrets.gradlePublishKey }} -Dgradle.publish.secret=${{ secrets.gradlePublishSecret }} -Prelease.useLastTag=true final
