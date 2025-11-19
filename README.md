@@ -2,9 +2,9 @@ Nebula Plugin Plugin
 ====================
 
 ![Support Status](https://img.shields.io/badge/nebula-active-green.svg)
-[![Gradle Plugin Portal](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/com.netflix.nebula/nebula-plugin-plugin/maven-metadata.xml.svg?label=gradlePluginPortal)](https://plugins.gradle.org/plugin/nebula.plugin-plugin)
+[![Gradle Plugin Portal](https://img.shields.io/gradle-plugin-portal/v/com.netflix.nebula.plugin-plugin?style=for-the-badge&color=01AF01)](https://plugins.gradle.org/plugin/com.netflix.nebula.plugin-plugin)
 [![Maven Central](https://img.shields.io/maven-central/v/com.netflix.nebula/nebula-plugin-plugin)](https://maven-badges.herokuapp.com/maven-central/com.netflix.nebula/nebula-plugin-plugin)
-![Build](https://github.com/nebula-plugins/nebula-plugin-plugin/actions/workflows/nebula.yml/badge.svg)
+![Build](https://github.com/nebula-plugins/nebula-plugin-plugin/actions/workflows/build.yml/badge.svg)
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-hollpluginow-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Plugin to establish conventions for a nebula-plugins plugin, e.g. publishing, licenses. This plugin is used to help setup our other plugins. It can be used as an example of setting up similar conventions for an organization's gradle plugins.
@@ -23,7 +23,7 @@ To apply this plugin
 
 
     plugins {
-      id 'nebula.plugin-plugin' version '<current version>'
+      id 'com.netflix.nebula.plugin-plugin' version '<current version>'
     }
 
 
