@@ -2,6 +2,8 @@ package nebula.plugin.plugin;
 
 import org.gradle.api.Project;
 
+import java.util.List;
+
 /**
  * Shared code for applying archRules
  */
@@ -12,10 +14,11 @@ public class ArchRulesUtil {
     static void setupArchRules(Project project) {
         String nebulaRulesVersion = "0.+";
         project.getPlugins().apply("com.netflix.nebula.archrules.runner");
-
-        project.getDependencies().add("archRules", "com.netflix.nebula:archrules-deprecation:" + nebulaRulesVersion);
-
-        //project.getDependencies().add("archRules", "com.netflix.nebula:archrules-joda:" + nebulaRulesVersion);
-        //project.getDependencies().add("archRules", "com.netflix.nebula:archrules-testing-frameworks:" + nebulaRulesVersion);
+        final var nebulaRules = List.of("archrules-deprecation", "archrules-joda", "archrules-testing-frameworks");
+        nebulaRules.forEach(rule -> {
+            if (!project.getName().equals(rule)) {
+                project.getDependencies().add("archRules", "com.netflix.nebula:" + rule + ":" + nebulaRulesVersion);
+            }
+        });
     }
 }
