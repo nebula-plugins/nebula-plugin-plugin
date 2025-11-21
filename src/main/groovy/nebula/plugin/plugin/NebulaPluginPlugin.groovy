@@ -30,12 +30,14 @@ import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
+import org.jspecify.annotations.NullMarked
 
 import javax.inject.Inject
 
 /**
  * Provide an environment for a Gradle plugin
  */
+@NullMarked
 class NebulaPluginPlugin implements Plugin<Project> {
     static final GRADLE_PLUGIN_IDS = ['groovy',
                                       'idea',
