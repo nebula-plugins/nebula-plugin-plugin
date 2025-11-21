@@ -61,7 +61,8 @@ internal class NebulaLibraryPluginTest {
             }
         }
         val result = runner.run("build", "--stacktrace")
-        assertThat(result.task(":check")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":check"))
+            .hasOutcome(TaskOutcome.SUCCESS, TaskOutcome.UP_TO_DATE)
         assertThat(result.task(":build")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result)
             .hasNoDeprecationWarnings()

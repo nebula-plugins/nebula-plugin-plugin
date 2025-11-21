@@ -15,7 +15,6 @@
  */
 package nebula.plugin.plugin
 
-
 import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -27,14 +26,15 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
-import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
+import org.jspecify.annotations.NullMarked
 
 import javax.inject.Inject
 
 /**
  * Provide an environment for a plain java library in the Nebula ecosystem
  */
+@NullMarked
 class NebulaLibraryPlugin implements Plugin<Project> {
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
                                       'com.netflix.nebula.dependency-lock',
