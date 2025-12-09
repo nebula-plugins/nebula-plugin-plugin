@@ -72,7 +72,7 @@ internal class NebulaLibraryPluginTest {
             .`as`("archRules are checked")
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.output)
-            .contains("ArchRule summary:")
+            .contains("Rule: ")
     }
 
     @Test
