@@ -19,7 +19,8 @@ public class ArchRulesUtil {
                     "archrules-deprecation",
                     "archrules-joda",
                     "archrules-testing-frameworks",
-                    "archrules-nullability"
+                    "archrules-nullability",
+                    "archrules-security"
             );
             nebulaRules.forEach(rule -> {
                 if (!project.getName().equals(rule)) {
