@@ -3,6 +3,7 @@ package nebula.plugin.plugin;
 import org.gradle.api.Project;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Shared code for applying archRules
@@ -12,7 +13,8 @@ public class ArchRulesUtil {
     }
 
     static void setupArchRules(Project project) {
-        if(!project.getName().equals("nebula-archrules-core")) { // avoid circular dependency
+        // avoid circular dependencies in core libraries
+        if (!Set.of("nebula-archrules-core", "archrules-common").contains(project.getName())) {
             String nebulaRulesVersion = "0.+";
             project.getPlugins().apply("com.netflix.nebula.archrules.runner");
             final var nebulaRules = List.of(
