@@ -17,6 +17,8 @@ public class ArchRulesUtil {
             project.getPlugins().apply("com.netflix.nebula.archrules.runner");
             final var nebulaRules = List.of(
                     "archrules-deprecation",
+                    "archrules-guava",
+                    "archrules-javax",
                     "archrules-joda",
                     "archrules-testing-frameworks",
                     "archrules-nullability",

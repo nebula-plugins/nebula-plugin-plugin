@@ -78,6 +78,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             ossPublishingExt.netflixOssRepository.set("gradle-plugins")
         }
         ArchRulesUtil.setupArchRules(project)
+        project.getDependencies().add("archRules", "com.netflix.nebula:archrules-gradle-plugin-development:0.+");
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }
             boolean integTest = !project.hasProperty("nebula.integTest") ||
