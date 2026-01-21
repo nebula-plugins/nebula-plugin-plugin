@@ -41,7 +41,7 @@ internal class NebulaPluginPluginTest {
 
     private fun TestProjectBuilder.sampleSinglePluginSetup() {
         properties {
-            gradleCache(true)
+            buildCache(true)
         }
         settings {
             name("test")
