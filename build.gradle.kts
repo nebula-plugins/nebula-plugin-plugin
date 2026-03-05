@@ -13,16 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-buildscript {
-    configurations.classpath {
-        resolutionStrategy {
-            force("com.netflix.nebula:nebula-archrules-gradle-plugin:0.+")
-        }
-    }
-}
-
 plugins {
-    id("com.netflix.nebula.plugin-plugin") version "25.+"
+    id("com.netflix.nebula.plugin-plugin") version ("25.+")
     `kotlin-dsl`
 }
 
