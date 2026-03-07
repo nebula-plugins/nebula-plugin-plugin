@@ -42,6 +42,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
     static final GRADLE_PLUGIN_IDS = ['groovy',
                                       'idea',
                                       'com.gradle.plugin-publish',
+                                      'org.gradle.plugin-compatibility',
                                       'java-gradle-plugin']
 
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',

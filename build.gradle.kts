@@ -43,6 +43,7 @@ dependencies {
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
 
     implementation("com.gradle.publish:plugin-publish-plugin:2.+")
+    implementation("org.gradle.plugin:compatibility-plugin:1.+")
 
     testImplementation("com.netflix.nebula:nebula-test:latest.release")
     testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
