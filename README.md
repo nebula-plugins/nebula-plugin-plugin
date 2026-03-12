@@ -17,9 +17,22 @@ Conventions
 * Applies nebula.maven-publish
 * Applies and configures nebula.nebula-release and nebula.nebula-bintray
 
-Usages
------------
+## Usage
 
+### Settings
+The Settings plugin will configure the develocity plugin. It can be enabled by adding the following to `settings.gradle.kts`:
+```kotlin
+plugins {
+  id("com.netflix.nebula.oss.settings") version("latest.release")
+}
+```
+
+To automatically consent to build scan uploads, add the following to `~/.gradle/gradle.properties` (note this is in the user home directory):
+```properties
+nebula.buildScanTerms=true
+```
+
+### Plugin Project
 To apply this plugin 
 
 
