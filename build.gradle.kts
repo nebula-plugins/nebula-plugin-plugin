@@ -44,6 +44,7 @@ dependencies {
 
     implementation("com.gradle.publish:plugin-publish-plugin:2.+")
     implementation("org.gradle.plugin:compatibility-plugin:1.+")
+    implementation("com.gradle.develocity:com.gradle.develocity.gradle.plugin:4.+")
 
     testImplementation("com.netflix.nebula:nebula-test:latest.release")
     testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
@@ -73,6 +74,13 @@ gradlePlugin {
             displayName = "Nebula Root Plugin"
             description = "Sets up publishing and release process for Nebula Multiproject Repos"
             implementationClass = "nebula.plugin.plugin.NebulaRootPlugin"
+            tags.set(listOf("nebula"))
+        }
+        create("com.netflix.nebula.oss.settings") {
+            id = "com.netflix.nebula.oss.settings"
+            displayName = "Nebula OSS Settings Plugin"
+            description = "Sets up build scans"
+            implementationClass = "com.netflix.nebula.oss.settings.NebulaSettingsPlugin"
             tags.set(listOf("nebula"))
         }
     }
