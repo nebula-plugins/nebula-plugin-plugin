@@ -111,7 +111,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
             dependencies {
                 //we apply plugin-plugin in nebula-test to and we don't want to create cycles which confuses gradle locks
                 if (project.name != 'nebula-test') {
-                    testImplementation "com.netflix.nebula:nebula-test:11.+"
+                    testImplementation "com.netflix.nebula:nebula-test:12.+"
                 }
             }
 
