@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 plugins {
-    id("com.netflix.nebula.plugin-plugin") version ("25.+")
+    id("com.netflix.nebula.plugin-plugin")
     `kotlin-dsl`
 }
 
