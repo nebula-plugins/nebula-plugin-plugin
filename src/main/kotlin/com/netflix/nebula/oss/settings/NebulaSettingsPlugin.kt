@@ -25,5 +25,8 @@ class NebulaSettingsPlugin : Plugin<Settings> {
                 }
             }
         }
+        settings.gradle.allprojects {
+            pluginManager.apply("com.netflix.nebula.resolve")
+        }
     }
 }
