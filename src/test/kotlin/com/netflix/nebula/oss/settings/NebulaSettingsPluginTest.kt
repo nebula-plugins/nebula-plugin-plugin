@@ -96,6 +96,8 @@ class NebulaSettingsPluginTest {
             .hasNoMutableStateWarnings()
             .hasNoDeprecationWarnings()
         assertThat(result.task(":dependencies")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":sub1:dependencies")).hasOutcome(TaskOutcome.SUCCESS)
+        assertThat(result.task(":sub2:dependencies")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":resolve")).hasOutcome(TaskOutcome.SUCCESS)
     }
 }
