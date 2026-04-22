@@ -83,6 +83,13 @@ gradlePlugin {
             implementationClass = "com.netflix.nebula.oss.settings.NebulaSettingsPlugin"
             tags.set(listOf("nebula"))
         }
+        create("com.netflix.nebula.resolve") {
+            id = "com.netflix.nebula.resolve"
+            displayName = "Nebula Dependency Resolve Plugin"
+            description = "Used to trigger dependency resolution on all configurations of all projects"
+            implementationClass = "com.netflix.nebula.convention.ResolvePlugin"
+            tags.set(listOf("nebula"))
+        }
     }
 }
 
