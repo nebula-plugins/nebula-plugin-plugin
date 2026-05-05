@@ -1,13 +1,18 @@
 package com.netflix.nebula.oss.settings
 
+import com.netflix.nebula.SupportedGradleVersion
 import nebula.test.dsl.TestKitAssertions.assertThat
 import nebula.test.dsl.plugins
 import nebula.test.dsl.properties
+import nebula.test.dsl.run
 import nebula.test.dsl.settings
 import nebula.test.dsl.testProject
+import nebula.test.dsl.withGradle
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import java.io.File
 
 class NebulaSettingsPluginTest {
@@ -17,7 +22,7 @@ class NebulaSettingsPluginTest {
     @Test
     fun `plugin configures develocity`() {
         val runner = testProject(projectDir) {
-            properties{
+            properties {
                 buildCache(true)
                 configurationCache(true)
             }
@@ -36,7 +41,7 @@ class NebulaSettingsPluginTest {
     @Test
     fun `scan opt-in`() {
         val runner = testProject(projectDir) {
-            properties{
+            properties {
                 buildCache(true)
                 configurationCache(true)
             }
@@ -58,7 +63,7 @@ class NebulaSettingsPluginTest {
     @Test
     fun `test resolve monoproject`() {
         val runner = testProject(projectDir) {
-            properties{
+            properties {
                 buildCache(true)
                 configurationCache(true)
             }
@@ -76,10 +81,11 @@ class NebulaSettingsPluginTest {
         assertThat(result.task(":resolve")).hasOutcome(TaskOutcome.SUCCESS)
     }
 
-    @Test
-    fun `test resolve multiproject`() {
+    @ParameterizedTest
+    @EnumSource(SupportedGradleVersion::class)
+    fun `test resolve multiproject`(gradle: SupportedGradleVersion) {
         val runner = testProject(projectDir) {
-            properties{
+            properties {
                 buildCache(true)
                 configurationCache(true)
             }
@@ -91,7 +97,9 @@ class NebulaSettingsPluginTest {
             subProject("sub1")
             subProject("sub2")
         }
-        val result = runner.run("resolve")
+        val result = runner.run("resolve") {
+            withGradle(gradle.version)
+        }
         assertThat(result)
             .hasNoMutableStateWarnings()
             .hasNoDeprecationWarnings()
