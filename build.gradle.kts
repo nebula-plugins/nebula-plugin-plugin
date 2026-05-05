@@ -1,3 +1,5 @@
+import org.gradle.plugin.compatibility.compatibility
+
 /*
  * Copyright 2015-2019 Netflix, Inc.
  *
@@ -82,6 +84,11 @@ gradlePlugin {
             description = "Sets up build scans"
             implementationClass = "com.netflix.nebula.oss.settings.NebulaSettingsPlugin"
             tags.set(listOf("nebula"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
         }
         create("com.netflix.nebula.resolve") {
             id = "com.netflix.nebula.resolve"
@@ -89,6 +96,11 @@ gradlePlugin {
             description = "Used to trigger dependency resolution on all configurations of all projects"
             implementationClass = "com.netflix.nebula.convention.ResolvePlugin"
             tags.set(listOf("nebula"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
         }
     }
 }
@@ -109,4 +121,15 @@ testing {
             }
         }
     }
+}
+kotlin {
+    compilerOptions {
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+    }
+}
+tasks.wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+    gradleVersion = "9.5.0"
+    distributionSha256Sum = "a3c4ba4aca8f0075688b9c5b18939fd28e8cb4357c227da5c1d9f38343791439"
 }

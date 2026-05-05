@@ -8,7 +8,7 @@ class NebulaRootPluginTest {
     @Test
     fun `plugin sets group`() {
         val project = ProjectBuilder.builder().build()
-        project.plugins.apply(NebulaRootPlugin::class.java)
+        project.plugins.apply("com.netflix.nebula.root")
         assertThat(project.group).isEqualTo("com.netflix.nebula")
     }
 }
