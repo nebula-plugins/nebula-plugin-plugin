@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.plugin;
+package nebula.plugin.plugin
 
 import io.github.gradlenexus.publishplugin.AbstractNexusStagingRepositoryTask
 import nebula.plugin.publishing.NebulaOssPublishingExtension
@@ -35,6 +35,7 @@ class NebulaRootPlugin : Plugin<Project> {
         project.plugins.apply("com.netflix.nebula.info")
         project.plugins.apply("com.netflix.nebula.release")
         project.plugins.apply("com.netflix.nebula.oss-publishing")
+        project.plugins.apply("com.netflix.nebula.archrules.aggregate")
         project.extensions.findByType<NebulaOssPublishingExtension>()?.apply {
             packageGroup.set("com.netflix")
             netflixOssRepository.set("gradle-plugins")

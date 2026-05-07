@@ -3,6 +3,6 @@ package com.netflix.nebula
 import nebula.test.dsl.Gradle
 
 enum class SupportedGradleVersion(val version: Gradle) {
-    MIN(Gradle.ofVersion("9.0.0")),
+    GRADLE_9_1(Gradle.ofVersion("9.1.0")),
     CURRENT(Gradle.current())
 }
