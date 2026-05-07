@@ -31,7 +31,7 @@ contacts {
 
 dependencies {
     compileOnly("io.github.gradle-nexus:publish-plugin:2.0.0")
-    implementation("com.netflix.nebula:nebula-archrules-gradle-plugin:0.+")
+    implementation("com.netflix.nebula:nebula-archrules-gradle-plugin:1.+")
     implementation("com.netflix.nebula:nebula-oss-publishing-plugin:latest.release")
     implementation("com.netflix.nebula:gradle-contacts-plugin:latest.release")
     implementation("com.netflix.nebula:gradle-dependency-lock-plugin:latest.release")
@@ -64,19 +64,24 @@ gradlePlugin {
             implementationClass = "nebula.plugin.plugin.NebulaPluginPlugin"
             tags.set(listOf("nebula", "nebula-plugin"))
         }
-        create("libraryPlugin") {
+        create("com.netflix.nebula.library") {
             id = "com.netflix.nebula.library"
             displayName = "Nebula Library Plugin"
             description = "Sets up publishing and release process for Nebula Libraries"
             implementationClass = "nebula.plugin.plugin.NebulaLibraryPlugin"
             tags.set(listOf("nebula"))
         }
-        create("rootPlugin") {
+        create("com.netflix.nebula.root") {
             id = "com.netflix.nebula.root"
             displayName = "Nebula Root Plugin"
             description = "Sets up publishing and release process for Nebula Multiproject Repos"
             implementationClass = "nebula.plugin.plugin.NebulaRootPlugin"
             tags.set(listOf("nebula"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
         }
         create("com.netflix.nebula.oss.settings") {
             id = "com.netflix.nebula.oss.settings"
