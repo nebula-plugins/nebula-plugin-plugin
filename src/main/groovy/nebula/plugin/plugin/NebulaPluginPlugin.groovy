@@ -80,7 +80,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         }
         ArchRulesUtil.setupArchRules(project)
         if (project.name != "archrules-gradle-plugin-development") {
-            project.getDependencies().add("archRules", "com.netflix.nebula:archrules-gradle-plugin-development:0.+")
+            project.getDependencies().add("archRules", "com.netflix.nebula:archrules-gradle-plugin-development:1.+")
         }
         project.with {
             PLUGIN_IDS.each { plugins.apply(it) }

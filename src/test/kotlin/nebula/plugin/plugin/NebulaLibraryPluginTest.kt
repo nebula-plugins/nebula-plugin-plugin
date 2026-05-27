@@ -46,6 +46,7 @@ internal class NebulaLibraryPluginTest {
         val runner = testProject(projectDir) {
             properties {
                 buildCache(true)
+                configurationCache(true)
             }
             rootProject {
                 plugins {

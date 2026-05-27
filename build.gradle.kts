@@ -70,6 +70,11 @@ gradlePlugin {
             description = "Sets up publishing and release process for Nebula Libraries"
             implementationClass = "nebula.plugin.plugin.NebulaLibraryPlugin"
             tags.set(listOf("nebula"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
         }
         create("com.netflix.nebula.root") {
             id = "com.netflix.nebula.root"
