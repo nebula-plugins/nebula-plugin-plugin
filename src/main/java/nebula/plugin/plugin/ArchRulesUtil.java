@@ -15,12 +15,11 @@ public class ArchRulesUtil {
     static void setupArchRules(Project project) {
         // avoid circular dependencies in core libraries
         if (!Set.of("nebula-archrules-core", "archrules-common").contains(project.getName())) {
-            String nebulaRulesVersion = "0.+";
+            String nebulaRulesVersion = "1.+";
             project.getPlugins().apply("com.netflix.nebula.archrules.runner");
             final var nebulaRules = List.of(
                     "archrules-deprecation",
                     "archrules-guava",
-                    "archrules-javax",
                     "archrules-joda",
                     "archrules-testing-frameworks",
                     "archrules-nullability",
