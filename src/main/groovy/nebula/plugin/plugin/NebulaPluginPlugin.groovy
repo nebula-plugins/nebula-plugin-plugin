@@ -99,6 +99,18 @@ class NebulaPluginPlugin implements Plugin<Project> {
 
             repositories {
                 maven {
+                    url = uri("https://artifacts-oss.netflix.net/artifactory/gradle-plugins")
+                    content {
+                        includeGroupAndSubgroups("com.netflix")
+                    }
+                }
+                maven {
+                    url = uri("https://artifacts-oss.netflix.net/artifactory/maven-oss-release")
+                    content {
+                        includeGroupAndSubgroups("com.netflix")
+                    }
+                }
+                maven {
                     url = 'https://plugins.gradle.org/m2/'
                 }
                 mavenCentral()
