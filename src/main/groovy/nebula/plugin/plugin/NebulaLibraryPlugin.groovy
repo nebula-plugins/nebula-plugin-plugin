@@ -75,6 +75,12 @@ class NebulaLibraryPlugin implements Plugin<Project> {
             toolchainSpec.languageVersion.convention(JavaLanguageVersion.of(17))
 
             repositories {
+                maven {
+                    url = uri("https://artifacts-oss.netflix.net/artifactory/maven-oss-release")
+                    content {
+                        includeGroupAndSubgroups("com.netflix")
+                    }
+                }
                 mavenCentral()
             }
 
