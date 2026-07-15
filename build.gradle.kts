@@ -42,6 +42,7 @@ dependencies {
     implementation("com.netflix.nebula:nebula-release-plugin:latest.release")
     implementation("com.netflix.nebula:nebula-gradle-interop:latest.release")
     implementation("com.netflix.nebula:gradle-info-plugin:latest.release")
+    implementation("org.gradle.toolchains.foojay-resolver-convention:org.gradle.toolchains.foojay-resolver-convention.gradle.plugin:1.0.0")
     implementation(platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
 
     implementation("com.gradle.publish:plugin-publish-plugin:2.+")
@@ -49,9 +50,7 @@ dependencies {
     implementation("com.gradle.develocity:com.gradle.develocity.gradle.plugin:4.+")
 
     testImplementation("com.netflix.nebula:nebula-test:latest.release")
-    testImplementation("org.ajoberstar.grgit:grgit-core:4.1.1") {
-        exclude(group = "org.codehaus.groovy", module = "groovy")
-    }
+    testImplementation("org.eclipse.jgit:org.eclipse.jgit:7.7.0.202606012155-r")
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
 }
 
@@ -63,6 +62,11 @@ gradlePlugin {
             description = "Sets up publishing and release process for all of the other nebula plugins"
             implementationClass = "nebula.plugin.plugin.NebulaPluginPlugin"
             tags.set(listOf("nebula", "nebula-plugin"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
         }
         create("com.netflix.nebula.library") {
             id = "com.netflix.nebula.library"
@@ -140,6 +144,6 @@ kotlin {
 }
 tasks.wrapper {
     distributionType = Wrapper.DistributionType.ALL
-    gradleVersion = "9.5.1"
-    distributionSha256Sum = "c72fb9991f6025cbe337d52ba77e531b3faf62bdd3e348fe1ccee9f51c71adb0"
+    gradleVersion = "9.6.1"
+    distributionSha256Sum = "61ba77b3ff7167e60962763eb4bae79db7120c189b9544358d0ade3c1e712a83"
 }

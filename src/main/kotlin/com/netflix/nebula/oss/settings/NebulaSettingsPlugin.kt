@@ -11,6 +11,7 @@ class NebulaSettingsPlugin : Plugin<Settings> {
 
     @Override
     override fun apply(settings: Settings) {
+        settings.pluginManager.apply("org.gradle.toolchains.foojay-resolver-convention")
         settings.pluginManager.apply("com.gradle.develocity")
         settings.plugins.withId("com.gradle.develocity") {
             val terms = settings.providers.gradleProperty("nebula.buildScanTerms")

@@ -2,7 +2,6 @@ package nebula.plugin.plugin
 
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
-import org.ajoberstar.grgit.Grgit
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
