@@ -1,36 +1,45 @@
 package nebula.plugin.plugin
 
 import nebula.test.dsl.TestProjectRunner
-import org.ajoberstar.grgit.Grgit
+import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.errors.GitAPIException
+import org.eclipse.jgit.transport.URIish
 import java.io.File
+import java.net.URISyntaxException
 
 fun withGitTag(
     projectDir: File,
-    remoteGitDir: File,
-    tag: String,
-    block: () -> TestProjectRunner
+    remote: File,
+    tagName: String,
+    project: () -> TestProjectRunner
 ): TestProjectRunner {
-    Grgit.init {
-        dir = remoteGitDir
+    return withRemoteGit(remote, projectDir) { remote, local ->
+        projectDir.resolve(".gitignore").writeText(".gradle/\nbuild/")
+        val runner = project()
+        local.add().addFilepattern(".").call()
+        local.commit().setMessage("Initial").call()
+        local.tag().setName(tagName).call()
+        runner
     }
-    val localCopy = Grgit.clone {
-        dir = projectDir
-        uri = remoteGitDir.toURI().toString()
+}
+
+fun <T> withRemoteGit(remote: File, workingDir: File, work: (Git, Git) -> T): T {
+    try {
+        Git.init().setBare(false).setDirectory(remote).setInitialBranch("main").call().use { remoteGit ->
+            remoteGit.commit().setMessage("initial").call()
+            return Git.cloneRepository().setCloneAllBranches(true)
+                .setURI(remote.toURI().toString())
+                .setDirectory(workingDir)
+                .setBare(false)
+                .setBranch("main").call()
+                .use { cloneGit ->
+                    cloneGit.remoteAdd().setName("origin").setUri(URIish().setRawPath(remote.toURI().toString()))
+                    work(remoteGit, cloneGit)
+                }
+        }
+    } catch (e: GitAPIException) {
+        throw RuntimeException(e)
+    } catch (e: URISyntaxException) {
+        throw RuntimeException(e)
     }
-    projectDir.resolve(".gitignore").writeText(
-        """
-.gradle/
-"""
-    )
-    val runner = block()
-    localCopy.add {
-        this.patterns = setOf(".")
-    }
-    localCopy.commit {
-        message = "Initial"
-    }
-    localCopy.tag.add {
-        name = tag
-    }
-    return runner
 }

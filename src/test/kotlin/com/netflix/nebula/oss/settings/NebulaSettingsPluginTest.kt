@@ -1,13 +1,8 @@
 package com.netflix.nebula.oss.settings
 
 import com.netflix.nebula.SupportedGradleVersion
+import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
-import nebula.test.dsl.plugins
-import nebula.test.dsl.properties
-import nebula.test.dsl.run
-import nebula.test.dsl.settings
-import nebula.test.dsl.testProject
-import nebula.test.dsl.withGradle
 import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
@@ -79,6 +74,38 @@ class NebulaSettingsPluginTest {
             .hasNoDeprecationWarnings()
         assertThat(result.task(":dependencies")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":resolve")).hasOutcome(TaskOutcome.SUCCESS)
+    }
+
+    @Test
+    fun `test toolchains`() {
+        val runner = testProject(projectDir) {
+            properties {
+                buildCache(true)
+                configurationCache(true)
+            }
+            settings {
+                plugins {
+                    id("com.netflix.nebula.oss.settings")
+                }
+            }
+            rootProject {
+                plugins {
+                    id("java")
+
+                }
+                javaToolchain(12) // a version that will trigger provisioning
+                src {
+                    main {
+                        java("Main.java", "public class Main { public static void main(String[] args) {} }")
+                    }
+                }
+            }
+        }
+        val result = runner.run("build")
+        assertThat(result)
+            .hasNoProblemsReport()
+            .hasNoMutableStateWarnings()
+            .hasNoDeprecationWarnings()
     }
 
     @ParameterizedTest
