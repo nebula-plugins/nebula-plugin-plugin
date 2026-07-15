@@ -1,7 +1,7 @@
 package nebula.plugin.plugin
 
 //language=java
-const val SAMPLE_JAVA_PLUGIN: String = """
+const val SAMPLE_JAVA_PLUGIN_WITH_ARCHRULES_FAILURE: String = """
 package example;
 
 import org.gradle.api.Plugin;
@@ -12,6 +12,25 @@ import org.jspecify.annotations.NonNull;
 * 
 */
 public class MyPlugin implements Plugin<@NonNull Project> {
+    @Override
+    public void apply(Project project) {
+    }
+}
+"""
+
+//language=java
+const val SAMPLE_JAVA_PLUGIN: String = """
+package example;
+
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.jspecify.annotations.NullMarked;
+
+/**
+* 
+*/
+@NullMarked
+public class MyPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
     }

@@ -116,6 +116,18 @@ gradlePlugin {
                 }
             }
         }
+        create("com.netflix.nebula.locks") {
+            id = "com.netflix.nebula.locks"
+            displayName = "Nebula Dependency Locks Plugin"
+            description = "opinionated dependency locking for nebula projects"
+            implementationClass = "com.netflix.nebula.convention.DependencyLockingPlugin"
+            tags.set(listOf("nebula"))
+            compatibility {
+                features {
+                    configurationCache = true
+                }
+            }
+        }
     }
 }
 
