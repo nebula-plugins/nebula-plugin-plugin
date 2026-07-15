@@ -39,7 +39,13 @@ internal class NebulaPluginPluginTest {
         artifactory.stop()
     }
 
-    private fun TestProjectBuilder.sampleSinglePluginSetup() {
+    private fun TestProjectBuilder.sampleSinglePluginSetup(config: ProjectBuilder.() -> Unit = {
+        src {
+            main {
+                java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
+            }
+        }
+    }) {
         properties {
             configurationCache(true)
             buildCache(true)
@@ -73,11 +79,7 @@ gradlePlugin {
 }
 """
             )
-            src {
-                main {
-                    java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
-                }
-            }
+            config()
         }
     }
 
@@ -97,11 +99,55 @@ gradlePlugin {
             .hasNoDeprecationWarnings()
             .hasNoMutableStateWarnings()
 
+        assertThat(result.output)
+            .contains("Problem found: using a nebula convention plugin without com.netflix.nebula.oss.settings is deprecated")
+            .contains("Problems report is available at:")
+    }
+
+    @Test
+    fun `test archrules integration`() {
+        val runner = testProject(projectDir) {
+            sampleSinglePluginSetup{
+                src {
+                    main {
+                        java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN_WITH_ARCHRULES_FAILURE)
+                    }
+                }
+            }
+        }
+
+        val result = runner.run("check", "--stacktrace")
+
+        assertThat(result)
+            .hasNoDeprecationWarnings()
+            .hasNoMutableStateWarnings()
+
         assertThat(result.task(":archRulesConsoleReport"))
             .`as`("archRules are checked")
             .hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.output)
             .contains("Rule: ")
+        assertThat(result.output)
+            .contains("Problem found:")
+            .contains("Problems report is available at:")
+    }
+
+    @Test
+    fun `test setup with settings plugin`() {
+        val runner = testProject(projectDir) {
+            settings{
+                plugins {
+                    id("com.netflix.nebula.oss.settings")
+                }
+            }
+            sampleSinglePluginSetup()
+        }
+
+        val result = runner.run("check", "--stacktrace")
+assertThat(result)
+    .hasNoProblemsReport()
+            .hasNoDeprecationWarnings()
+            .hasNoMutableStateWarnings()
     }
 
     @Test

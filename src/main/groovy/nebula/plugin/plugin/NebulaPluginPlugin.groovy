@@ -20,11 +20,16 @@ import nebula.plugin.publishing.NebulaOssPublishingExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
+import org.gradle.api.problems.Problem
+import org.gradle.api.problems.ProblemId
+import org.gradle.api.problems.Problems
+import org.gradle.api.problems.Severity
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
+import org.gradle.internal.deprecation.DeprecationLogger
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
@@ -46,7 +51,6 @@ class NebulaPluginPlugin implements Plugin<Project> {
                                       'java-gradle-plugin']
 
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
-                                      'com.netflix.nebula.dependency-lock',
                                       'com.netflix.nebula.info',
                                       'com.netflix.nebula.javadoc-jar',
                                       'com.netflix.nebula.maven-apache-license',
@@ -61,17 +65,29 @@ class NebulaPluginPlugin implements Plugin<Project> {
     static final PLUGIN_IDS = GRADLE_PLUGIN_IDS + NEBULA_PLUGIN_IDS
 
     private final ProviderFactory providers
+    private final Problems problems
     private boolean isPluginPublishingValidation
 
     @Inject
-    NebulaPluginPlugin(ProviderFactory providerFactory) {
+    NebulaPluginPlugin(ProviderFactory providerFactory,Problems problems) {
         this.providers = providerFactory
+        this.problems = problems
     }
 
     @Override
     void apply(Project project) {
         project.group = 'com.netflix.nebula'
 
+        project.afterEvaluate {
+            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks")){
+               Problem problem = problems.reporter.create(NebulaProblems.OSS_SETTINGS) {
+                    it.details("locking convention is not found. using com.netflix.nebula.plugin-plugin without the oss.settings plugin is deprecated")
+                    it.solution("apply the 'com.netflix.nebula.oss.settings' plugin in settings.gradle.kts")
+                }
+                problems.reporter.report(problem)
+                project.pluginManager.apply("com.netflix.nebula.dependency-lock")
+            }
+        }
         this.isPluginPublishingValidation = project.gradle.startParameter.taskNames.contains('--validate-only')
         project.plugins.withId("com.netflix.nebula.oss-publishing") {
             NebulaOssPublishingExtension ossPublishingExt = project.rootProject.extensions.findByType(NebulaOssPublishingExtension)

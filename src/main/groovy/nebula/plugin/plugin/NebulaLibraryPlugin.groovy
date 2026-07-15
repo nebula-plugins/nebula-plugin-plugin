@@ -37,7 +37,6 @@ import javax.inject.Inject
 @NullMarked
 class NebulaLibraryPlugin implements Plugin<Project> {
     static final NEBULA_PLUGIN_IDS = ['com.netflix.nebula.contacts',
-                                      'com.netflix.nebula.dependency-lock',
                                       'com.netflix.nebula.info',
                                       'com.netflix.nebula.javadoc-jar',
                                       'com.netflix.nebula.maven-apache-license',

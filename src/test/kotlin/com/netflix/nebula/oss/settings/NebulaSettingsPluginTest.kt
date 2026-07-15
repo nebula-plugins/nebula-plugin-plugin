@@ -135,4 +135,45 @@ class NebulaSettingsPluginTest {
         assertThat(result.task(":sub2:dependencies")).hasOutcome(TaskOutcome.SUCCESS)
         assertThat(result.task(":resolve")).hasOutcome(TaskOutcome.SUCCESS)
     }
+
+    @ParameterizedTest
+    @EnumSource(SupportedGradleVersion::class)
+    fun `test locking multiproject`(gradle: SupportedGradleVersion) {
+        val runner = testProject(projectDir) {
+            properties {
+                buildCache(true)
+                configurationCache(true)
+            }
+            settings {
+                plugins {
+                    id("com.netflix.nebula.oss.settings")
+                }
+            }
+            subProject("sub1"){
+                plugins {
+                    java()
+                }
+            }
+            subProject("sub2"){
+                plugins {
+                    java()
+                }
+            }
+        }
+        val result = runner.run("resolve", "--write-locks") {
+            withGradle(gradle.version)
+        }
+        assertThat(result)
+            .hasNoProblemsReport()
+            .hasNoMutableStateWarnings()
+            .hasNoDeprecationWarnings()
+        assertThat(projectDir.resolve("sub1/gradle.lockfile"))
+            .exists()
+            .content()
+            .contains("empty=annotationProcessor,compileClasspath,runtimeClasspath,testAnnotationProcessor,testCompileClasspath,testRuntimeClasspath")
+        assertThat(projectDir.resolve("sub2/gradle.lockfile"))
+            .exists()
+            .content()
+            .contains("empty=annotationProcessor,compileClasspath,runtimeClasspath,testAnnotationProcessor,testCompileClasspath,testRuntimeClasspath")
+    }
 }
