@@ -28,7 +28,9 @@ class NebulaSettingsPlugin : Plugin<Settings> {
         }
         settings.gradle.allprojects {
             pluginManager.apply("com.netflix.nebula.resolve")
-            pluginManager.apply("com.netflix.nebula.locks")
+            pluginManager.apply("com.netflix.nebula.dependency-lock")
+            // TODO discuss replacing OSS deplock plugin with internal convention plugin
+            // pluginManager.apply("com.netflix.nebula.locks")
         }
     }
 }
