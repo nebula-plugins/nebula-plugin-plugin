@@ -21,15 +21,12 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.problems.Problem
-import org.gradle.api.problems.ProblemId
 import org.gradle.api.problems.Problems
-import org.gradle.api.problems.Severity
 import org.gradle.api.provider.Provider
 import org.gradle.api.provider.ProviderFactory
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.api.tasks.testing.Test
-import org.gradle.internal.deprecation.DeprecationLogger
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
@@ -79,7 +76,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.group = 'com.netflix.nebula'
 
         project.afterEvaluate {
-            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks")){
+            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks") &&
+                    !project.pluginManager.hasPlugin("com.netflix.nebula.dependency-lock")){
                Problem problem = problems.reporter.create(NebulaProblems.OSS_SETTINGS) {
                     it.details("locking convention is not found. using com.netflix.nebula.plugin-plugin without the oss.settings plugin is deprecated")
                     it.solution("apply the 'com.netflix.nebula.oss.settings' plugin in settings.gradle.kts")

@@ -143,18 +143,21 @@ class NebulaSettingsPluginTest {
             properties {
                 buildCache(true)
                 configurationCache(true)
+
+                // will no longer be needed when we switch to internal convention plugin
+                property("systemProp.nebula.features.coreLockingSupport","true")
             }
             settings {
                 plugins {
                     id("com.netflix.nebula.oss.settings")
                 }
             }
-            subProject("sub1"){
+            subProject("sub1") {
                 plugins {
                     java()
                 }
             }
-            subProject("sub2"){
+            subProject("sub2") {
                 plugins {
                     java()
                 }
