@@ -86,7 +86,7 @@ class DependencyLockingPluginTest {
             .contains("org.slf4j:slf4j-api")
             .contains("mainArchRulesRuntime")
             .contains("testArchRulesRuntime")
-            .contains("com.netflix.nebula:archrules-deprecation:1.0.2=archRules,mainArchRulesRuntime,testArchRulesRuntime")
+            .contains("com.netflix.nebula:archrules-deprecation:1.0.2=mainArchRulesRuntime,testArchRulesRuntime")
             .contains("empty=annotationProcessor,testAnnotationProcessor")
     }
 }
