@@ -143,9 +143,6 @@ class NebulaSettingsPluginTest {
             properties {
                 buildCache(true)
                 configurationCache(true)
-
-                // will no longer be needed when we switch to internal convention plugin
-                property("systemProp.nebula.features.coreLockingSupport","true")
             }
             settings {
                 plugins {

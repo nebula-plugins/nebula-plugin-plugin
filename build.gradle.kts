@@ -107,7 +107,7 @@ gradlePlugin {
         create("com.netflix.nebula.resolve") {
             id = "com.netflix.nebula.resolve"
             displayName = "Nebula Dependency Resolve Plugin"
-            description = "Used to trigger dependency resolution on all configurations of all projects"
+            description = "Nebula OSS Internal use ONLY"
             implementationClass = "com.netflix.nebula.convention.ResolvePlugin"
             tags.set(listOf("nebula"))
             compatibility {
@@ -119,7 +119,7 @@ gradlePlugin {
         create("com.netflix.nebula.locks") {
             id = "com.netflix.nebula.locks"
             displayName = "Nebula Dependency Locks Plugin"
-            description = "opinionated dependency locking for nebula projects"
+            description = "Nebula OSS Internal use ONLY"
             implementationClass = "com.netflix.nebula.convention.DependencyLockingPlugin"
             tags.set(listOf("nebula"))
             compatibility {
