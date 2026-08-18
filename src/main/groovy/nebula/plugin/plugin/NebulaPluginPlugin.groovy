@@ -76,8 +76,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.group = 'com.netflix.nebula'
 
         project.afterEvaluate {
-            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks") &&
-                    !project.pluginManager.hasPlugin("com.netflix.nebula.dependency-lock")){
+            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks")) {
                Problem problem = problems.reporter.create(NebulaProblems.OSS_SETTINGS) {
                     it.details("locking convention is not found. using com.netflix.nebula.plugin-plugin without the oss.settings plugin is deprecated")
                     it.solution("apply the 'com.netflix.nebula.oss.settings' plugin in settings.gradle.kts")
