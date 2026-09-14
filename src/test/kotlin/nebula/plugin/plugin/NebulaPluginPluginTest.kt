@@ -1,5 +1,6 @@
 package nebula.plugin.plugin
 
+import com.netflix.nebula.SupportedGradleVersion
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
 import org.gradle.testkit.runner.TaskOutcome
@@ -7,6 +8,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.mockserver.configuration.ConfigurationProperties
 import org.mockserver.integration.ClientAndServer
 import java.io.File
@@ -39,13 +42,15 @@ internal class NebulaPluginPluginTest {
         artifactory.stop()
     }
 
-    private fun TestProjectBuilder.sampleSinglePluginSetup(config: ProjectBuilder.() -> Unit = {
-        src {
-            main {
-                java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
+    private fun TestProjectBuilder.sampleSinglePluginSetup(
+        config: ProjectBuilder.() -> Unit = {
+            src {
+                main {
+                    java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN)
+                }
             }
         }
-    }) {
+    ) {
         properties {
             configurationCache(true)
             buildCache(true)
@@ -107,7 +112,7 @@ gradlePlugin {
     @Test
     fun `test archrules integration`() {
         val runner = testProject(projectDir) {
-            sampleSinglePluginSetup{
+            sampleSinglePluginSetup {
                 src {
                     main {
                         java("example/MyPlugin.java", SAMPLE_JAVA_PLUGIN_WITH_ARCHRULES_FAILURE)
@@ -135,7 +140,7 @@ gradlePlugin {
     @Test
     fun `test setup with settings plugin`() {
         val runner = testProject(projectDir) {
-            settings{
+            settings {
                 plugins {
                     id("com.netflix.nebula.oss.settings")
                 }
@@ -144,8 +149,8 @@ gradlePlugin {
         }
 
         val result = runner.run("check", "--stacktrace")
-assertThat(result)
-    .hasNoProblemsReport()
+        assertThat(result)
+            .hasNoProblemsReport()
             .hasNoDeprecationWarnings()
             .hasNoMutableStateWarnings()
     }
@@ -323,5 +328,28 @@ assertThat(result)
             .exists()
             .content()
             .contains("""<groupId>override</groupId>""")
+    }
+
+    @ParameterizedTest
+    @EnumSource(SupportedGradleVersion::class)
+    fun `test kotlin setup`(gradle : SupportedGradleVersion) {
+        val runner = testProject(projectDir) {
+            sampleSinglePluginSetup {
+                plugins {
+                    id("org.jetbrains.kotlin.jvm")
+                }
+                src {
+                    main {
+                        kotlin("example/MyPlugin.kt", SAMPLE_KOTLIN_PLUGIN)
+                    }
+                }
+            }
+        }
+        val result = runner.run("build", "--stacktrace"){
+            withGradle(gradle.version)
+        }
+
+        assertThat(result.task(":compileKotlin"))
+            .hasOutcome(TaskOutcome.SUCCESS)
     }
 }

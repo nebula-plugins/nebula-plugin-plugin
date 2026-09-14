@@ -2,10 +2,12 @@ package nebula.plugin.plugin;
 
 import org.gradle.api.problems.ProblemGroup;
 import org.gradle.api.problems.ProblemId;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Constants for Problem reporting
  */
+@NullMarked
 public class NebulaProblems {
 
     public static final ProblemGroup NEBULA_GROUP =

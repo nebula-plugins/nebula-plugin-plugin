@@ -4,6 +4,14 @@ import org.mockserver.integration.ClientAndServer
 import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse.response
 
+fun expectPublication(mockServer: ClientAndServer, path: String): (ClientAndServer) -> Unit {
+        val request = request(path).withMethod("PUT")
+        mockServer
+            .`when`(request)
+            .respond { response().withStatusCode(200) }
+     return   {it.verify(request) }
+}
+
 fun expectPublicationWithChecksums(mockServer: ClientAndServer, path: String): List<(ClientAndServer) -> Unit> {
     val verifications = mutableListOf<(ClientAndServer) -> Unit>()
     val paths = listOf(
@@ -14,18 +22,13 @@ fun expectPublicationWithChecksums(mockServer: ClientAndServer, path: String): L
         "$path.sha512"
     )
     paths.forEach {
-        val request = request(it).withMethod("PUT")
-        mockServer
-            .`when`(request)
-            .respond { response().withStatusCode(200) }
-        verifications.add { it.verify(request) }
+        verifications.add(expectPublication(mockServer, it))
     }
     return verifications
 }
 
 fun expectSignedPublicationWithChecksums(mockServer: ClientAndServer, path: String): List<(ClientAndServer) -> Unit> {
-    return expectPublicationWithChecksums(mockServer, path) +
-            expectPublicationWithChecksums(mockServer, "$path.asc")
+    return expectPublicationWithChecksums(mockServer, path) + expectPublication(mockServer, "$path.asc")
 }
 
 class Publication(

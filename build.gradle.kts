@@ -41,14 +41,13 @@ dependencies {
     implementation("com.netflix.nebula:nebula-project-plugin:latest.release")
     implementation("com.netflix.nebula:nebula-release-plugin:latest.release")
     implementation("com.netflix.nebula:nebula-gradle-interop:latest.release")
-    implementation("com.netflix.nebula:gradle-info-plugin:latest.release")
     implementation("org.gradle.toolchains.foojay-resolver-convention:org.gradle.toolchains.foojay-resolver-convention.gradle.plugin:1.0.0")
-    implementation(platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
-
+    implementation("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:2.4.20")
     implementation("com.gradle.publish:plugin-publish-plugin:2.+")
     implementation("org.gradle.plugin:compatibility-plugin:1.+")
     implementation("com.gradle.develocity:com.gradle.develocity.gradle.plugin:4.+")
 
+    testImplementation(platform("com.fasterxml.jackson:jackson-bom:2.14.+"))
     testImplementation("com.netflix.nebula:nebula-test:latest.release")
     testImplementation("org.eclipse.jgit:org.eclipse.jgit:7.7.0.202606012155-r")
     testImplementation("org.mock-server:mockserver-netty:5.15.0")
@@ -156,6 +155,10 @@ kotlin {
 }
 tasks.wrapper {
     distributionType = Wrapper.DistributionType.ALL
-    gradleVersion = "9.6.1"
-    distributionSha256Sum = "61ba77b3ff7167e60962763eb4bae79db7120c189b9544358d0ade3c1e712a83"
+    gradleVersion = "9.7.1"
+    distributionSha256Sum = "92c1a136d76b5017732a66d2e0a648ebff00dd3687d8bff0d0047a1bd904fdf2"
+}
+archRules {
+    failureThreshold("MEDIUM")
+    consoleDetailsThreshold("LOW")
 }
