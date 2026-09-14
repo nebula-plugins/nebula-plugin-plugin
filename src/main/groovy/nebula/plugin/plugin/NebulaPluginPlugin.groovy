@@ -32,6 +32,8 @@ import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.jvm.toolchain.JavaToolchainSpec
 import org.gradle.plugin.devel.tasks.ValidatePlugins
 import org.gradle.plugins.signing.Sign
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jspecify.annotations.NullMarked
 
 import javax.inject.Inject
@@ -66,7 +68,7 @@ class NebulaPluginPlugin implements Plugin<Project> {
     private boolean isPluginPublishingValidation
 
     @Inject
-    NebulaPluginPlugin(ProviderFactory providerFactory,Problems problems) {
+    NebulaPluginPlugin(ProviderFactory providerFactory, Problems problems) {
         this.providers = providerFactory
         this.problems = problems
     }
@@ -76,8 +78,8 @@ class NebulaPluginPlugin implements Plugin<Project> {
         project.group = 'com.netflix.nebula'
 
         project.afterEvaluate {
-            if(!project.pluginManager.hasPlugin("com.netflix.nebula.locks")) {
-               Problem problem = problems.reporter.create(NebulaProblems.OSS_SETTINGS) {
+            if (!project.pluginManager.hasPlugin("com.netflix.nebula.locks")) {
+                Problem problem = problems.reporter.create(NebulaProblems.OSS_SETTINGS) {
                     it.details("locking convention is not found. using com.netflix.nebula.plugin-plugin without the oss.settings plugin is deprecated")
                     it.solution("apply the 'com.netflix.nebula.oss.settings' plugin in settings.gradle.kts")
                 }
@@ -200,6 +202,12 @@ class NebulaPluginPlugin implements Plugin<Project> {
                     }
                 }
             }
+        }
+
+        project.pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+            KotlinJvmExtension kotlin = project.extensions.findByType(KotlinJvmExtension)
+            kotlin.compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_2_1)
+            kotlin.compilerOptions.apiVersion.set(KotlinVersion.KOTLIN_2_1)
         }
 
         project.afterEvaluate {

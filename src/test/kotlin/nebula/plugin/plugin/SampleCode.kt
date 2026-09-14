@@ -37,6 +37,23 @@ public class MyPlugin implements Plugin<Project> {
 }
 """
 
+//language=kotlin
+const val SAMPLE_KOTLIN_PLUGIN: String = """
+package example
+
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+
+/**
+* 
+*/
+class MyPlugin : Plugin<Project> {
+    @Override
+    override fun apply(project: Project) {
+    }
+}
+"""
+
 //language=java
 const val SAMPLE_JAVA_MAIN_CLASS: String = """
 package example;

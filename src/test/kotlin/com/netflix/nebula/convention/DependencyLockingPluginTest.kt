@@ -3,7 +3,6 @@ package com.netflix.nebula.convention
 import com.netflix.nebula.SupportedGradleVersion
 import nebula.test.dsl.*
 import nebula.test.dsl.TestKitAssertions.assertThat
-import org.gradle.testkit.runner.TaskOutcome
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import org.junit.jupiter.params.ParameterizedTest
@@ -27,13 +26,15 @@ class DependencyLockingPluginTest {
                     java()
                     id("com.netflix.nebula.locks")
                 }
-                repositories{
+                repositories {
                     mavenCentral()
                 }
-                dependencies("""implementation("org.slf4j:slf4j-api:2.0.18")""")
+                dependencies {
+                    implementation("org.slf4j:slf4j-api:2.0.18")
+                }
             }
         }
-        val result = runner.run(":sub1:dependencies", "--write-locks"){
+        val result = runner.run(":sub1:dependencies", "--write-locks") {
             withGradle(gradle.version)
         }
         assertThat(result)
@@ -65,13 +66,13 @@ class DependencyLockingPluginTest {
                     id("com.netflix.nebula.archrules.runner")
                     id("com.netflix.nebula.locks")
                 }
-                repositories{
+                repositories {
                     mavenCentral()
                 }
-                dependencies(
-                    """implementation("org.slf4j:slf4j-api:2.0.18")""",
-                    """archRules("com.netflix.nebula:archrules-deprecation:1.0.2")"""
-                )
+                dependencies {
+                    implementation("org.slf4j:slf4j-api:2.0.18")
+                    add("archRules", "com.netflix.nebula:archrules-deprecation:latest.release")
+                }
             }
         }
         val result = runner.run(":sub1:dependencies", "--write-locks")
@@ -86,7 +87,8 @@ class DependencyLockingPluginTest {
             .contains("org.slf4j:slf4j-api")
             .contains("mainArchRulesRuntime")
             .contains("testArchRulesRuntime")
-            .contains("com.netflix.nebula:archrules-deprecation:1.0.2=mainArchRulesRuntime,testArchRulesRuntime")
+            .contains("com.netflix.nebula:archrules-deprecation:")
+            .contains("=mainArchRulesRuntime,testArchRulesRuntime")
             .contains("empty=annotationProcessor,testAnnotationProcessor")
     }
 }
